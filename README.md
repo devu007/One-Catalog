@@ -10,13 +10,13 @@ Gen Vision is a revolutionary startup that empowers e-commerce businesses & agen
 - Magic eraser - Clipdrop
 
 ## Tech Stack
-- React.js/TypeScript
+- React.js / TypeScript
 - Design System - Shadcn
-- Authentication
+- Authentication - Clerk api
 - Image AI - Clipdrop api
 - Text AI - Chat GPT
 - Analytics - Hotjar
-- 
+
 ## Figma design 
 https://www.figma.com/file/zGxLXIypJ2yGLGXeZ274aw/Gen-Vision---Product?type=design&node-id=0%3A1&mode=design&t=2TKLl8nNIXwCRXuo-1
 
