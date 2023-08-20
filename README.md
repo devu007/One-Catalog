@@ -1,2 +1,2 @@
 # Gen-Vision
-Gen Vision is a revolutionary startup that empowers e-commerce businesses to elevate their online presence through cutting-edge AI-powered solutions. With a singular focus on simplifying the complex world of product listing and marketing visuals, Gen vision offers a comprehensive suite of tools that streamline the creation of captivating content.
+Gen Vision is a revolutionary startup that empowers e-commerce businesses & agencies to elevate their online presence through AI-powered solutions. It offers a comprehensive one-stop solution for enhancing, editing, and creating visual content for e-commerce listings and marketing campaigns.
