@@ -1,10 +1,23 @@
-import { ThemeProvider } from '@/components/theme-provider';
-import { ReactNode } from 'react';
+import { ModeToggle } from './components/mode-toggle';
+import NavBar from './components/navbar';
+import Pricing from './components/plans-page';
+// import { BrowserRouter, Routes, Route } from 'react-router-dom';
+// import EditImage from './components/editimage';
+import UploadImage from './components/uploadimage';
 
-export default function Home({ children }: { children: ReactNode }) {
+export default function Home() {
   return (
-    <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
-      {children}
-    </ThemeProvider>
+    <>
+      <div className="flex">
+        <div className="flex-grow">
+          <div className="p-4">
+            <NavBar />
+            <UploadImage />
+            <ModeToggle />
+            <Pricing />
+          </div>
+        </div>
+      </div>
+    </>
   );
 }
