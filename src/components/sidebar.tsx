@@ -1,4 +1,5 @@
 import { frame, logo, logout } from '../assets/logo';
+import { ModeToggle } from './mode-toggle';
 
 function Sidebar() {
   return (
@@ -10,13 +11,10 @@ function Sidebar() {
         <img src={frame} alt="Another Image" className="w-9 h-9 " />
       </div>
       <nav className="flex-grow"></nav>
-      <div className="py-8 ">
-        <img
-          src={logout}
-          alt="Logout"
-          className="w-6 h-6 mx-auto  cursor-pointer"
-        />
-      </div>
+      <ModeToggle />
+      <button className="w-12 h-12 p-3 mb-2 mx-auto rounded-full hover:bg-slate-100 dark:hover:bg-red-400">
+        <img src={logout} alt="Logout" className="h-full w-full" />
+      </button>
     </div>
   );
 }
