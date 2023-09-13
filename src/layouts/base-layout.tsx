@@ -5,7 +5,7 @@ export default function BaseLayout() {
   return (
     <div className="flex">
       <Sidebar />
-      <div className="flex-1">
+      <div className="flex-1 border-l-[1px]">
         <Outlet />
       </div>
     </div>
