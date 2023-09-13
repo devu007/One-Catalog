@@ -1,8 +1,6 @@
 import { ModeToggle } from './components/mode-toggle';
 import NavBar from './components/navbar';
 import Pricing from './components/plans-page';
-// import { BrowserRouter, Routes, Route } from 'react-router-dom';
-// import EditImage from './components/editimage';
 import UploadImage from './components/uploadimage';
 
 export default function Home() {

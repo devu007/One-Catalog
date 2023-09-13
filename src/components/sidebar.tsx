@@ -1,4 +1,4 @@
-import { logo, logout, frame } from '../assets/logo';
+import { frame, logo, logout } from '../assets/logo';
 
 function Sidebar() {
   return (

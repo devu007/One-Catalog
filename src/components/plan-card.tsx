@@ -5,15 +5,14 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
+import { Outlet } from 'react-router-dom';
 import { check } from '../assets/logo';
-// import { Link } from 'react-router-dom';
 interface IPlanCardProps {
   title: string;
   tag?: string;
   onSelect?: () => void;
   notes: string[];
 }
-import { Outlet } from 'react-router-dom';
 
 export function PlanBox({ title, tag, onSelect, notes }: IPlanCardProps) {
   return (

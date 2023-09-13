@@ -1,4 +1,3 @@
-// import Sidebar from './sidebar';
 export default function EditImage() {
   return (
     <div className="flex flex-col ">

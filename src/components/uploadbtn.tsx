@@ -1,7 +1,5 @@
-import React from 'react';
-
 const UploadButton = () => {
-  const handleFileChange = (e: { target: { files: any[1] } }) => {
+  const handleFileChange = (e: { target: { files: any } }) => {
     const selectedFile = e.target.files[0];
     if (selectedFile) {
       console.log('Selected file:', selectedFile);
