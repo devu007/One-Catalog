@@ -1,12 +1,10 @@
 // import React from 'react';
-import Sidebar from './sidebar';
-import UploadButton from './uploadbtn';
-import { Switch } from '@/components/ui/switch';
 import { amazon, flipkart } from '@/assets/logo';
+import { Switch } from '@/components/ui/switch';
+import UploadButton from './uploadbtn';
 export default function UploadImage() {
   return (
     <div className="flex flex-row mt-0 h-screen bg-[#E2E8F0]">
-      <Sidebar />
       <div className="flex-grow flex">
         <div className="flex w-full mx-5">
           <div className="w-1/3 bg-white  border-[#D4D4D4]">
