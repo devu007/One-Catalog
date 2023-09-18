@@ -7,10 +7,10 @@ const UploadButton = () => {
   };
 
   return (
-    <label className="mt-5  tracking-wide font-semibold bg-[#623FC4] text-gray-100 w-80 py-2 rounded-lg transition-all duration-300 ease-in-out flex items-center justify-center focus:shadow-outline focus:outline-none cursor-pointer">
+    <label className="mt-5  tracking-wide font-semibold bg-[#623FC4] text-gray-100 w-full py-2  rounded-lg transition-all duration-300 ease-in-out flex items-center justify-center focus:shadow-outline focus:outline-none cursor-pointer">
       <input type="file" className="hidden" onChange={handleFileChange} />
       <UploadIcon />
-      <span className="ml-4">Upload product images</span>
+      <span className="ml-4 whitespace-nowrap">Upload product images</span>
     </label>
   );
 };

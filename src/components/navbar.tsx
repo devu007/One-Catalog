@@ -1,34 +1,34 @@
 const NavBar = () => {
   return (
-    <div className="bg-[#FFFFFF] py-2 px-4 flex justify-between items-center">
+    <div className="bg-[#FFFFFF] py-1 px-2 flex justify-between items-center">
       <div className="flex items-center space-x-4">
         <a
           href="#"
-          className="text-Black font-semibold tracking-wide px-2 py-2 hover:text-[#623FC4] hover:bg-[#F1EEFA] hover:rounded-md"
+          className="text-Black font-semibold tracking-wide px-2 py-1 hover:text-[#623FC4] hover:bg-[#F1EEFA] hover:rounded-md"
         >
           Edit Image
         </a>
         <a
           href="#"
-          className="text-Black font-semibold tracking-wide px-2 py-2 hover:text-[#623FC4] hover:bg-[#F1EEFA] hover:rounded-md"
+          className="text-Black font-semibold tracking-wide px-2 py-1 hover:text-[#623FC4] hover:bg-[#F1EEFA] hover:rounded-md"
         >
           Mockup
         </a>
         <a
           href="#"
-          className="text-Black font-semibold tracking-wide px-2 py-2 hover:text-[#623FC4] hover:bg-[#F1EEFA] hover:rounded-md"
+          className="text-Black font-semibold tracking-wide px-2 py-1 hover:text-[#623FC4] hover:bg-[#F1EEFA] hover:rounded-md"
         >
           Text
         </a>
         <a
           href="#"
-          className="text-Black font-semibold tracking-wide px-2 py-2 hover:text-[#623FC4] hover:bg-[#F1EEFA] hover:rounded-md"
+          className="text-Black font-semibold tracking-wide px-2 py-1 hover:text-[#623FC4] hover:bg-[#F1EEFA] hover:rounded-md"
         >
           Social Media
         </a>
         <a
           href="#"
-          className="text-Black font-semibold tracking-wide px-2 py-2 hover:text-[#623FC4] hover:bg-[#F1EEFA] hover:rounded-md"
+          className="text-Black font-semibold tracking-wide px-2 py-1 hover:text-[#623FC4] hover:bg-[#F1EEFA] hover:rounded-md"
         >
           3D Model
         </a>

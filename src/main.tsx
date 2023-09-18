@@ -10,6 +10,7 @@ import { ThemeProvider } from './components/theme-provider.tsx';
 import UploadImage from './components/uploadimage.tsx';
 import './index.css';
 import { BaseLayout } from './layouts';
+import EditImage from './components/editimage.tsx';
 
 const router = createBrowserRouter([
   {
@@ -22,7 +23,7 @@ const router = createBrowserRouter([
         element: <MeraElement />,
       },
       { path: 'upload', element: <UploadImage /> },
-      { path: 'edit', element: <NavBar /> },
+      { path: 'edit', element: <EditImage /> },
     ],
   },
 ]);

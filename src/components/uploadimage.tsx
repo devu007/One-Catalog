@@ -2,10 +2,24 @@
 import { amazon, flipkart } from '@/assets/logo';
 import { Switch } from '@/components/ui/switch';
 import UploadButton from './uploadbtn';
+import { FormEvent } from 'react';
 export default function UploadImage() {
+  function handleSubmit(e: FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+
+    const formElement = e.target as HTMLFormElement;
+
+    const formData = new FormData(formElement);
+
+    const data = Object.fromEntries(formData.entries());
+    console.log(data);
+
+    formElement.reset();
+  }
+
   return (
     <div className="flex flex-row mt-0 h-screen bg-[#E2E8F0]">
-      <div className="flex-1 flex">
+      <div className="flex-1  bg-black mx-7 my-7 flex">
         <div className="w-1/3 bg-white  border-[#D4D4D4]">
           <div className="h-[350px] bg-white p-4 rounded-b-lg">
             <h1 className="font-bold text-[#000000] mx-2 text-xl">
@@ -15,7 +29,7 @@ export default function UploadImage() {
               <div className="mx-0">
                 <UploadButton />
               </div>
-              <form className="mt-4" action="">
+              <form className="mt-4" action="" onSubmit={handleSubmit}>
                 <div className="mb-4">
                   <label
                     htmlFor="productId"
@@ -54,7 +68,7 @@ export default function UploadImage() {
                       alt="Toggle 1"
                       className="w-6 h-6 mr-2 border rounded-xl"
                     />
-                    <Switch />
+                    <Switch name="amazon" />
                   </div>
                   <div className="flex items-center">
                     <img
@@ -62,19 +76,19 @@ export default function UploadImage() {
                       alt="Toggle 2"
                       className="w-6 h-6 mr-2 border rounded-xl"
                     />
-                    <Switch />
+                    <Switch name="flipkart" />
                   </div>
                 </div>
 
-                <div className="flex gap-4">
+                <div className="flex gap-4 mt-4">
                   <button
-                    className="bg-[#FEFBFF] font-medium px-4 py-2 rounded-md cursor-pointer border border-violet-600"
+                    className="bg-[#FEFBFF] w-1/2 items-center justify-center px-2 py-2 font-medium  rounded-md cursor-pointer border border-violet-600"
                     disabled
                   >
                     Cancel
                   </button>
 
-                  <button className="bg-[#623FC4] font-medium px-4 py-2 rounded-md cursor-pointer text-white">
+                  <button className="bg-[#623FC4] w-1/2 items-center justify-center font-medium  rounded-md cursor-pointer text-white">
                     Done
                   </button>
                 </div>
