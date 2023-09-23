@@ -1,8 +1,15 @@
-const UploadButton = () => {
-  const handleFileChange = (e: { target: { files: any } }) => {
-    const selectedFile = e.target.files[0];
+import React, { ChangeEvent } from 'react';
+
+interface UploadButtonProps {
+  onImageChange: (imageFile: File) => void;
+}
+
+function UploadButton({ onImageChange }: UploadButtonProps) {
+  const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const selectedFile = e.target.files?.[0];
     if (selectedFile) {
       console.log('Selected file:', selectedFile);
+      onImageChange(selectedFile); // Call the prop function to pass the selected image file
     }
   };
 
@@ -13,7 +20,7 @@ const UploadButton = () => {
       <span className="ml-4 whitespace-nowrap">Upload product images</span>
     </label>
   );
-};
+}
 
 export default UploadButton;
 

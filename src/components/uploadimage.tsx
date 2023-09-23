@@ -1,33 +1,52 @@
-// import React from 'react';
-import { amazon, flipkart } from '@/assets/logo';
-import { Switch } from '@/components/ui/switch';
+import { useState, FormEvent } from 'react';
 import UploadButton from './uploadbtn';
-import { FormEvent } from 'react';
-export default function UploadImage() {
-  function handleSubmit(e: FormEvent<HTMLFormElement>) {
+import { amazon, flipkart } from '@/assets/logo';
+import { Switch } from '@radix-ui/react-switch';
+
+const UploadImage = () => {
+  const [selectedImage, setSelectedImage] = useState<File | null>(null);
+  const [productId, setProductId] = useState('');
+  const [category, setCategory] = useState('');
+  const [uploadedImages, setUploadedImages] = useState<string[]>([]);
+
+  const handleImageChange = (imageFile: File) => {
+    setSelectedImage(imageFile);
+  };
+
+  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    const formElement = e.target as HTMLFormElement;
+    // Create an object with product id, category, and image URL
+    const productData = {
+      id: productId,
+      category,
+      imageUrl: selectedImage ? URL.createObjectURL(selectedImage) : '',
+    };
 
-    const formData = new FormData(formElement);
+    console.log('Product Data:', productData);
 
-    const data = Object.fromEntries(formData.entries());
-    console.log(data);
+    // Add the image URL to the uploadedImages state
+    if (productData.imageUrl) {
+      setUploadedImages([...uploadedImages, productData.imageUrl]);
+    }
 
-    formElement.reset();
-  }
+    // Reset form fields and the selected image
+    setProductId('');
+    setCategory('');
+    setSelectedImage(null);
+  };
 
   return (
     <div className="flex flex-row mt-0 h-screen bg-[#E2E8F0]">
-      <div className="flex-1  bg-black mx-7 my-7 flex">
-        <div className="w-1/3 bg-white  border-[#D4D4D4]">
+      <div className="flex-1 bg-black mx-7 my-7 flex">
+        <div className="w-1/3 bg-white border-[#D4D4D4]">
           <div className="h-[350px] bg-white p-4 rounded-b-lg">
             <h1 className="font-bold text-[#000000] mx-2 text-xl">
               Add New Product
             </h1>
             <div className="mt-4 mx-2">
               <div className="mx-0">
-                <UploadButton />
+                <UploadButton onImageChange={handleImageChange} />
               </div>
               <form className="mt-4" action="" onSubmit={handleSubmit}>
                 <div className="mb-4">
@@ -43,6 +62,8 @@ export default function UploadImage() {
                     name="productId"
                     placeholder="Product Id Required."
                     className="border border-gray-300 shadow p-1 w-full rounded"
+                    value={productId}
+                    onChange={e => setProductId(e.target.value)}
                   />
                 </div>
 
@@ -59,6 +80,8 @@ export default function UploadImage() {
                     name="category"
                     placeholder="Category Required."
                     className="border border-grey-300 shadow p-1 w-full rounded"
+                    value={category}
+                    onChange={e => setCategory(e.target.value)}
                   />
                 </div>
                 <div className="flex  gap-4 items-center mb-4">
@@ -94,9 +117,19 @@ export default function UploadImage() {
           </div>
         </div>
         <div className="w-2/3 bg-white p-8">
-          <div className="w-full border h-[350px] rounded-md border-[#623FC4]"></div>
+          <div className="grid grid-cols-4  gap-4 w-full border h-[350px] rounded-md border-[#623FC4]">
+            {uploadedImages.map((imageSrc, index) => (
+              <div key={index} className="flex w-[200px] h-[200px]">
+                <img src={imageSrc} alt={`Image ${index}`} />
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     </div>
   );
-}
+};
+
+export default UploadImage;
+
+// You can use the UploadButton component as you've defined it previously.
