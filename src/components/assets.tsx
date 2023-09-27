@@ -1,30 +1,11 @@
-import { NavLink } from 'react-router-dom';
 import { Separator } from './ui/separator';
 
-export default function Mockup() {
+export default function Assets() {
   return (
     <div className="flex flex-col">
       <div className="flex-1 flex mx-5">
         <div className="w-1/3 bg-white  border-[#D4D4D4]">
-          <div className="flex items-center ml-0 gap-x-16 mt-8 px-7">
-            {[
-              { to: '/mockup/assets', title: 'Assets' },
-              { to: '/mockup/prompt', title: 'Prompt' },
-            ].map(mockup => (
-              <NavLink
-                to={mockup.to}
-                className={({ isActive }) =>
-                  isActive
-                    ? 'text-[#623FC4] px-16 py-1  border-b-2 border-[#623FC4]'
-                    : 'px-16 py-1'
-                }
-              >
-                <div className="text-Black font-semibold tracking-wide px-2 py-1 ">
-                  {mockup.title}
-                </div>
-              </NavLink>
-            ))}
-          </div>
+          <div className="flex items-center ml-9 gap-x-16 mt-8 px-7"></div>
           <div className="h-[350px] bg-white my-5 rounded-b-lg flex flex-col">
             <h1 className="text-[#000000] mx-1 my-1 text-base font-semibold ">
               Select one image to create mockup
