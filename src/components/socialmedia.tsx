@@ -7,7 +7,6 @@ export default function SocialMedia() {
       <h1 className="text-[#623FC4] text-base font-semibold">
         coming soon.........!
       </h1>
-      <h1>working on it</h1>
     </div>
   );
 }

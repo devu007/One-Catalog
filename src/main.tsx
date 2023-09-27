@@ -30,7 +30,14 @@ const router = createBrowserRouter([
       },
       { path: 'upload', element: <UploadImage /> },
       { path: 'edit', element: <EditImage /> },
-      { path: 'mockup', element: <Mockup /> },
+      {
+        path: 'mockup',
+        element: <Mockup />,
+        children: [
+          { path: 'assets', element: <Assets /> },
+          { path: 'prompt', element: <Prompt /> },
+        ],
+      },
       { path: 'text', element: <Text /> },
       { path: 'social-media', element: <SocialMedia /> },
       { path: '3d-model', element: <Model /> },
