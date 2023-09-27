@@ -1,10 +1,7 @@
 import { Separator } from '@/components/ui/separator';
-import NavBar from './navbar';
 import InfoBox from './reusableInfobox';
 import Feature from './reusableFeatures';
-import Dropdown from './dropdown';
 import { useRef } from 'react';
-import Mockup from './mockup';
 export default function EditImage() {
   const containerRef = useRef<HTMLDivElement | null>(null);
 
@@ -36,7 +33,7 @@ export default function EditImage() {
                 title="Effects & Adjust"
                 description="Re-usable components built using Radix UI and Tailwind CSS"
               />
-              <div className="flex gap-4 my-16">
+              <div className="flex gap-4 mt-16">
                 <button
                   className="bg-[#FEFBFF] w-1/2 items-center justify-center px-2 py-2 font-semibold  rounded-md cursor-pointer border border-violet-600"
                   disabled

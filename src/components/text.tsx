@@ -1,6 +1,6 @@
 // import React from 'react'
 
-import Feature from './reusableFeatures';
+// import Feature from './reusableFeatures';
 import InfoBox from './reusableInfobox';
 import { Separator } from './ui/separator';
 
@@ -51,7 +51,7 @@ export default function Text() {
               />
               <div className="flex gap-4 my-16">
                 <button
-                  className="bg-[#FEFBFF] w-1/2 items-center justify-center px-2 py-2 font-semibold  rounded-md cursor-pointer border border-violet-600"
+                  className="bg-[#FEFBFF] w-1/2 items-center justify-center px-2 py-2 font-semibold  rounded-md cursor-pointer border border-[#623FC4]"
                   disabled
                 >
                   Next
