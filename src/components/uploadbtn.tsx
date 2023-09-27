@@ -1,4 +1,4 @@
-import React, { ChangeEvent } from 'react';
+import { ChangeEvent } from 'react';
 
 interface UploadButtonProps {
   onImageChange: (imageFile: File) => void;
@@ -9,7 +9,7 @@ function UploadButton({ onImageChange }: UploadButtonProps) {
     const selectedFile = e.target.files?.[0];
     if (selectedFile) {
       console.log('Selected file:', selectedFile);
-      onImageChange(selectedFile); // Call the prop function to pass the selected image file
+      onImageChange(selectedFile);
     }
   };
 

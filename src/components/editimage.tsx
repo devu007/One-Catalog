@@ -2,18 +2,18 @@ import { Separator } from '@/components/ui/separator';
 import NavBar from './navbar';
 import InfoBox from './reusableInfobox';
 import Feature from './reusableFeatures';
-
+import Dropdown from './dropdown';
+import { useRef } from 'react';
+import Mockup from './mockup';
 export default function EditImage() {
+  const containerRef = useRef<HTMLDivElement | null>(null);
+
   return (
-    <div className="flex flex-col ">
-      <div className="mx-4">
-        <NavBar />
-      </div>
-      <Separator className="" />
+    <div className="flex flex-col" ref={containerRef}>
       <div className="flex-1 flex mx-5">
         <div className="w-1/3 bg-white  border-[#D4D4D4]">
-          <div className="h-[350px] bg-white p-4 rounded-b-lg">
-            <h1 className=" text-[#000000] mx-1 my-1 text-base font-medium ">
+          <div className="h-[350px] bg-white py-4 rounded-b-lg">
+            <h1 className=" text-[#000000]  mb-5 text-base font-semibold">
               Select images to edit
             </h1>
             <Feature
@@ -38,13 +38,13 @@ export default function EditImage() {
               />
               <div className="flex gap-4 my-16">
                 <button
-                  className="bg-[#FEFBFF] w-1/2 items-center justify-center px-2 py-2 font-medium  rounded-md cursor-pointer border border-violet-600"
+                  className="bg-[#FEFBFF] w-1/2 items-center justify-center px-2 py-2 font-semibold  rounded-md cursor-pointer border border-violet-600"
                   disabled
                 >
                   Next
                 </button>
 
-                <button className="bg-[#623FC4] w-1/2 items-center justify-center font-medium  rounded-md cursor-pointer text-white">
+                <button className="bg-[#623FC4] w-1/2 items-center justify-center font-semibold  rounded-md cursor-pointer text-white">
                   Generate
                 </button>
               </div>

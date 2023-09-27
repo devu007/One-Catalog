@@ -11,6 +11,10 @@ import UploadImage from './components/uploadimage.tsx';
 import './index.css';
 import { BaseLayout } from './layouts';
 import EditImage from './components/editimage.tsx';
+import Mockup from './components/mockup.tsx';
+import Text from './components/text.tsx';
+import SocialMedia from './components/socialmedia.tsx';
+import Model from './components/3dmodel.tsx';
 
 const router = createBrowserRouter([
   {
@@ -24,6 +28,10 @@ const router = createBrowserRouter([
       },
       { path: 'upload', element: <UploadImage /> },
       { path: 'edit', element: <EditImage /> },
+      { path: 'mockup', element: <Mockup /> },
+      { path: 'text', element: <Text /> },
+      { path: 'social-media', element: <SocialMedia /> },
+      { path: '3d-model', element: <Model /> },
     ],
   },
 ]);

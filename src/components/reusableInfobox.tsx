@@ -15,7 +15,7 @@ export default function InfoBox({
 
   return (
     <div className={containerClassName}>
-      <h2 className="text-lg font-semibold mr-2">{title}</h2>
+      <h2 className="text-sm font-semibold mr-2">{title}</h2>
       <p className="text-[#64748B]">{description}</p>
     </div>
   );
