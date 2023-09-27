@@ -33,16 +33,7 @@ const router = createBrowserRouter([
       { path: 'mockup', element: <Mockup /> },
       { path: 'text', element: <Text /> },
       { path: 'social-media', element: <SocialMedia /> },
-      {
-        path: 'mockup',
-        element: <Mockup />,
-        children: [
-          { path: 'assets', element: <Assets /> },
-          { path: 'prompt', element: <Prompt /> },
-        ],
-      },
-
-      { path: 'assets', element: <Assets /> },
+      { path: '3d-model', element: <Model /> },
     ],
   },
 ]);
