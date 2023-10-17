@@ -5,7 +5,7 @@ import {
   createBrowserRouter,
   useNavigate,
 } from 'react-router-dom';
-// import NavBar from './components/navbar.tsx';
+
 import { ThemeProvider } from './components/theme-provider.tsx';
 import UploadImage from './components/uploadimage.tsx';
 import './index.css';
@@ -15,7 +15,7 @@ import Mockup from './components/mockup.tsx';
 import Text from './components/text.tsx';
 import SocialMedia from './components/socialmedia.tsx';
 import Model from './components/3dmodel.tsx';
-import Assets from './components/assets.tsx';
+// import Assets from './components/assets.tsx';
 import Prompt from './components/prompt.tsx';
 
 const router = createBrowserRouter([
@@ -31,12 +31,9 @@ const router = createBrowserRouter([
       { path: 'upload', element: <UploadImage /> },
       { path: 'edit', element: <EditImage /> },
       {
-        path: 'mockup',
+        path: 'mockup/assets',
         element: <Mockup />,
-        children: [
-          { path: 'assets', element: <Assets /> },
-          { path: 'prompt', element: <Prompt /> },
-        ],
+        children: [{ path: 'prompt', element: <Prompt /> }],
       },
       { path: 'text', element: <Text /> },
       { path: 'social-media', element: <SocialMedia /> },

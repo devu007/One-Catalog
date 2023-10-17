@@ -6,7 +6,7 @@ const NavBar = () => {
       <div className="flex items-center space-x-4">
         {[
           { to: '/edit', title: 'Edit Image' },
-          { to: '/mockup', title: 'Mockup' },
+          { to: '/mockup/assets', title: 'Mockup' },
           { to: '/text', title: 'Text' },
           { to: '/social-media', title: 'Social Media' },
           { to: '/3d-model', title: '3D Model' },

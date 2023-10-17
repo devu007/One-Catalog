@@ -1,7 +1,7 @@
 // import { logout } from '../assets/logo';
 import { ModeToggle } from './mode-toggle';
 
-function Sidebar() {
+export default function Sidebar() {
   return (
     <div className="flex flex-col  h-screen w-20 shadow-lg shadow-[#dbdbde] dark:shadow-slate-900">
       <div className="flex items-center justify-center h-16 ">
@@ -63,7 +63,7 @@ function Sidebar() {
   );
 }
 
-export default Sidebar;
+export { BrandLogo };
 
 function BrandLogo() {
   return (

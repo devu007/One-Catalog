@@ -16,6 +16,9 @@ module.exports = {
       },
     },
     extend: {
+      listStyleImage: {
+        checkmark: 'url("/img/checkmark.png")',
+      },
       colors: {
         border: 'hsl(var(--border))',
         input: 'hsl(var(--input))',
