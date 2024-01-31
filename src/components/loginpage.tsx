@@ -48,20 +48,20 @@ export default function Login({ isOauth }: login) {
           </h6>
         </div>
         {isOauth && (
-          <div>
-            <button className="border border-[#C2C8D0] my-1 p-1 w-full  flex flex-row items-center justify-around">
+          <div className="h-full">
+            <button className="border border-[#C2C8D0] my-2 p-1 w-full  flex flex-row items-center justify-around">
               <img src={linkedIn48} alt="" />
               <h6 className="">Continue with LinkedIn</h6>
             </button>
-            <button className="border border-[#C2C8D0] my-1 p-1 w-full  flex flex-row items-center justify-around">
+            <button className="border border-[#C2C8D0] my-2 p-1 w-full  flex flex-row items-center justify-around">
               <img src={microsoft48} alt="" />
               <h6>Continue with Microsoft</h6>
             </button>
-            <button className="border border-[#C2C8D0] my-1 p-1 w-full  flex flex-row items-center justify-around">
+            <button className="border border-[#C2C8D0] my-2 p-1 w-full  flex flex-row items-center justify-around">
               <img src={github48} alt="" />
               <h6>Continue with Github</h6>
             </button>
-            <button className="border border-[#C2C8D0] my-1 p-1 w-full  flex flex-row items-center justify-around">
+            <button className="border border-[#C2C8D0] my-2 p-1 w-full  flex flex-row items-center justify-around">
               <img src={google48} alt="" />
               <h6>Continue with Google</h6>
             </button>
