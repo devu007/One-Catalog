@@ -5,11 +5,11 @@ const NavBar = () => {
     <div className="bg-[#FFFFFF] py-1 px-2 flex justify-between items-center">
       <div className="flex items-center space-x-4">
         {[
-          { to: '/edit', title: 'Edit Image' },
-          { to: '/mockup/assets', title: 'Mockup' },
-          { to: '/text', title: 'Text' },
-          { to: '/social-media', title: 'Social Media' },
-          { to: '/3d-model', title: '3D Model' },
+          { to: '/genvision/edit', title: 'Edit Image' },
+          { to: '/genvision/mockup/assets', title: 'Mockup' },
+          { to: '/genvision/text', title: 'Text' },
+          { to: '/genvision/social-media', title: 'Social Media' },
+          { to: '/genvision/3d-model', title: '3D Model' },
         ].map(t => (
           <NavLink
             to={t.to}
