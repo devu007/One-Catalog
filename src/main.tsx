@@ -17,8 +17,13 @@ import SocialMedia from './components/socialmedia.tsx';
 import Model from './components/3dmodel.tsx';
 // import Assets from './components/assets.tsx';
 import Prompt from './components/prompt.tsx';
+import Login from './components/loginpage.tsx';
 
 const router = createBrowserRouter([
+  {
+    path: '/login',
+    element: <Login isOauth={true} />,
+  },
   {
     path: '/',
     element: <BaseLayout />,
