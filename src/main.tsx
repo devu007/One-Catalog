@@ -18,6 +18,7 @@ import Model from './components/3dmodel.tsx';
 // import Assets from './components/assets.tsx';
 import Prompt from './components/prompt.tsx';
 import Login from './components/loginpage.tsx';
+import Dashboard from './components/dashboard.tsx';
 
 const router = createBrowserRouter([
   {
@@ -33,6 +34,7 @@ const router = createBrowserRouter([
         index: true,
         element: <MeraElement />,
       },
+      { path: 'dashboard', element: <Dashboard /> },
       { path: 'upload', element: <UploadImage /> },
       { path: 'edit', element: <EditImage /> },
       {

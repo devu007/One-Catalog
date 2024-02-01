@@ -5,6 +5,7 @@ const NavBar = () => {
     <div className="bg-[#FFFFFF] py-1 px-2 flex justify-between items-center">
       <div className="flex items-center space-x-4">
         {[
+          { to: '/dashboard', title: 'Dashboard' },
           { to: '/edit', title: 'Edit Image' },
           { to: '/mockup/assets', title: 'Mockup' },
           { to: '/text', title: 'Text' },
