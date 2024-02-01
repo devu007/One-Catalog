@@ -37,7 +37,7 @@ export default function Pricing() {
             tag="Beta"
             onSelect={() => {
               console.log('this is ');
-              navigate;
+              navigate('/genvision');
             }}
             {...planData}
           />

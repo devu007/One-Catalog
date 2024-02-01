@@ -18,6 +18,7 @@ import Model from './components/3dmodel.tsx';
 // import Assets from './components/assets.tsx';
 import Prompt from './components/prompt.tsx';
 import Login from './components/loginpage.tsx';
+import Pricing from './components/plans-page.tsx';
 
 const router = createBrowserRouter([
   {
@@ -25,7 +26,11 @@ const router = createBrowserRouter([
     element: <Login isOauth={true} />,
   },
   {
-    path: '/',
+    path: '/plans',
+    element: <Pricing />,
+  },
+  {
+    path: '/genvision',
     element: <BaseLayout />,
     errorElement: <h1>error insight</h1>,
     children: [
