@@ -9,6 +9,7 @@ import {
   Input,
 } from "@material-tailwind/react";
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
  
 interface TableRow {
     no: number;
@@ -70,6 +71,8 @@ export default function Dashboard() {
 
     const [selectedRows, setSelectedRows] = useState<number[]>([]);;
     const [TABLE_ROWS, setTableRows] = useState<TableRow[]>([]);
+    const navigate = useNavigate();
+
 
     useEffect(() => {
         const fetchData = async () => {
@@ -86,6 +89,10 @@ export default function Dashboard() {
         fetchData();
       }, []);
 
+      const handleAddNewProductClick = () => {
+        navigate("/upload");
+      }
+
 
   return (
     <Card placeholder="a"  style={{marginTop:'50px'}}>
@@ -95,7 +102,7 @@ export default function Dashboard() {
         <div className="flex flex-col items-center justify-between gap-4 md:flex-row p-2">
         
         <div className="flex shrink-0 flex-col gap-2 sm:flex-row">    
-          <Button className="text-white bg-[#623FC4] fs-2" placeholder="a" variant='outlined'>
+          <Button className="text-white bg-[#623FC4] fs-2" placeholder="a" variant='outlined' onClick={handleAddNewProductClick}>
             <PlusIcon strokeWidth={2} className="h-5 w-5" /> Add new product
           </Button>
           <Button className="text-[#623FC4] border-[#623FC4]" placeholder='a' variant="outlined" size="sm">
