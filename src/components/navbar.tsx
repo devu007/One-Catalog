@@ -5,6 +5,7 @@ const NavBar = () => {
     <div className="bg-[#FFFFFF] py-1 px-2 flex justify-between items-center">
       <div className="flex items-center space-x-4">
         {[
+          { to: '/genvision/dashboard', title: 'Dashboard' },
           { to: '/genvision/edit', title: 'Edit Image' },
           { to: '/genvision/mockup/assets', title: 'Mockup' },
           { to: '/genvision/text', title: 'Text' },
