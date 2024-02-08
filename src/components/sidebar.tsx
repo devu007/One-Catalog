@@ -36,7 +36,7 @@ export default function Sidebar() {
         </svg>
       </div>
       <nav className="flex-grow"></nav>
-      <ModeToggle />
+      {/* <ModeToggle /> */}
       <button className="w-12 h-12 p-3 mb-2 mx-auto rounded-full bg-slate-200 hover:bg-slate-100 dark:hover:bg-slate-300">
         <svg
           width="25"

@@ -15,7 +15,7 @@ export default function Login({ isOauth }: login) {
   const navigate = useNavigate();
   const handleSubmit = () => {
     // logic
-    navigate('/');
+    navigate('/plans');
   };
   return (
     <div className="flex flex-col items-center justify-center p-7 box-content">
