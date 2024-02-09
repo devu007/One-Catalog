@@ -1,3 +1,4 @@
+import useSpeechReco from '@/hooks/useSpeechReco';
 import { useEffect, useState } from 'react';
 
 interface InputWithSpeech {
@@ -14,34 +15,8 @@ const InputWithSpeech = ({
   inputValue,
   setInput,
 }: InputWithSpeech) => {
-  const [isListening, setIsListening] = useState(false);
-  let recognition: any = null;
-  if ('webkitSpeechRecognition' in window) {
-    recognition = new webkitSpeechRecognition();
-    recognition.continous = true;
-    recognition.lang = 'en-US';
-  }
-  useEffect(() => {
-    if (!recognition) return;
-
-    recognition.onresult = (event: SpeechRecognitionEvent) => {
-      if (event === undefined || name === null) return;
-      console.log('onresult', event, isListening);
-      setInput(event.results[0][0].transcript);
-    };
-  }, []);
-  const startListening = () => {
-    console.log('started', isListening);
-
-    setInput('');
-    setIsListening(true);
-    recognition.start();
-  };
-  const stopListening = () => {
-    console.log('stoping', isListening);
-    setIsListening(false);
-    recognition.stop();
-  };
+  const { recognition, isListening, startListening, stopListening } =
+    useSpeechReco(setInput);
   return (
     <>
       <label htmlFor={name} className="block font-bold text-[#000000]">
