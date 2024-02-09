@@ -90,7 +90,7 @@ export default function Dashboard() {
       }, []);
 
       const handleAddNewProductClick = () => {
-        navigate("/upload");
+        navigate("/genvision/upload");
       }
 
 
