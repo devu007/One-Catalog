@@ -2,6 +2,7 @@ import { useState, FormEvent } from 'react';
 import UploadButton from './uploadbtn';
 import { amazon, flipkart } from '@/assets/logo';
 import { Switch } from './ui/switch';
+import InputWithSpeech from './ui/inputWithSpeech';
 
 interface ProductData {
   id: string;
@@ -27,7 +28,7 @@ const UploadImage = () => {
 
   const handleImageChange = (imageFile: File) => {
     // setSelectedImage(imageFile);
-    setUploadedImages([...uploadedImages,URL.createObjectURL(imageFile)]);
+    setUploadedImages([...uploadedImages, URL.createObjectURL(imageFile)]);
   };
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
@@ -47,20 +48,22 @@ const UploadImage = () => {
 
     console.log('Product Data:', productData);
 
-    const product: ProductData[] = JSON.parse(localStorage.getItem('product') || '[]');
+    const product: ProductData[] = JSON.parse(
+      localStorage.getItem('product') || '[]',
+    );
 
-      // Check if the product with the same id already exists
-      const existingProductIndex = product.findIndex((p) => p.id === productId);
+    // Check if the product with the same id already exists
+    const existingProductIndex = product.findIndex(p => p.id === productId);
 
-      // If exists, update the existing product, otherwise add a new one
-      if (existingProductIndex !== -1) {
-        product[existingProductIndex] = productData;
-      } else {
-        product.push(productData);
-      }
+    // If exists, update the existing product, otherwise add a new one
+    if (existingProductIndex !== -1) {
+      product[existingProductIndex] = productData;
+    } else {
+      product.push(productData);
+    }
 
-      // Save the updated product array to localStorage
-      localStorage.setItem('product', JSON.stringify(product));
+    // Save the updated product array to localStorage
+    localStorage.setItem('product', JSON.stringify(product));
 
     // Add the image URL to the uploadedImages state
     // if (productData.imageUrl) {
@@ -91,117 +94,82 @@ const UploadImage = () => {
               <UploadButton onImageChange={handleImageChange} />
             </div>
             <form className="mt-4" action="" onSubmit={handleSubmit}>
-              
-            <div className="mb-4">
-                <label
-                  htmlFor="brand"
-                  className="block font-bold text-[#000000]"
-                >
-                  Brand
-                </label>
-                <input
-                  type="text"
-                  id="brand"
+              <div className="mb-4">
+                <InputWithSpeech
+                  placeholder="Brand Name"
+                  label="Brand"
+                  inputValue={brand}
+                  setInput={setBrand}
                   name="brand"
-                  placeholder="Brand Required."
-                  className="border border-gray-300 shadow p-1 w-full rounded"
-                  value={brand}
-                  onChange={e => setBrand(e.target.value)}
                 />
               </div>
-
               <div className="mb-4">
-                <label
-                  htmlFor="productName"
-                  className="block font-bold text-[#000000]"
-                >
-                  Product Name
-                </label>
-                <input
-                  type="text"
-                  id="productName"
+                <InputWithSpeech
+                  placeholder="Product Name"
+                  label="Product"
+                  inputValue={productName}
+                  setInput={setProductName}
                   name="productName"
-                  placeholder="Product Name Required."
-                  className="border border-gray-300 shadow p-1 w-full rounded"
-                  value={productName}
-                  onChange={e => setProductName(e.target.value)}
-                />
-              </div>
-              
-              <div className="mb-4">
-                <label
-                  htmlFor="productId"
-                  className="block font-bold text-[#000000]"
-                >
-                  Product ID
-                </label>
-                <input
-                  type="text"
-                  id="productId"
-                  name="productId"
-                  placeholder="Product Id Required."
-                  className="border border-gray-300 shadow p-1 w-full rounded"
-                  value={productId}
-                  onChange={e => setProductId(e.target.value)}
                 />
               </div>
 
               <div className="mb-4">
-                <label
-                  htmlFor="category"
-                  className="block font-bold text-[#000000]"
-                >
-                  Category
-                </label>
-                <input
-                  type="text"
-                  id="category"
-                  name="category"
+                <InputWithSpeech
+                  placeholder="Product Id Required."
+                  label="Product ID"
+                  inputValue={productId}
+                  setInput={setProductId}
+                  name="productId"
+                />
+              </div>
+
+              <div className="mb-4">
+                <InputWithSpeech
                   placeholder="Category Required."
-                  className="border border-grey-300 shadow p-1 w-full rounded"
-                  value={category}
-                  onChange={e => setCategory(e.target.value)}
+                  label="Category"
+                  inputValue={category}
+                  setInput={setCategory}
+                  name="category"
                 />
               </div>
 
               <div className="mb-4 flex">
                 <div className="mr-2 flex-1">
-                <label
-                  htmlFor="quantity"
-                  className="block font-bold text-[#000000]"
-                >
-                  Quantity
-                </label>
-                <input
-                  type="number"
-                  id="quantity"
-                  name="quantity"
-                  placeholder="Quantity Required."
-                  className="border border-grey-300 shadow p-1 w-full rounded"
-                  value={quantity}
-                  onChange={e => setQuantity(parseInt(e.target.value))}
-                />
+                  <label
+                    htmlFor="quantity"
+                    className="block font-bold text-[#000000]"
+                  >
+                    Quantity
+                  </label>
+                  <input
+                    type="number"
+                    id="quantity"
+                    name="quantity"
+                    placeholder="Quantity Required."
+                    className="border border-grey-300 shadow p-1 w-full rounded"
+                    value={quantity}
+                    onChange={e => setQuantity(parseInt(e.target.value))}
+                  />
                 </div>
 
                 <div className="mr-2 flex-1">
-                <label
-                  htmlFor="price"
-                  className="block font-bold text-[#000000]"
-                >
-                  Price
-                </label>
-                <input
-                  type="number"
-                  id="price"
-                  name="price"
-                  placeholder="Price Required."
-                  className="border border-grey-300 shadow p-1 w-full rounded"
-                  value={price}
-                  onChange={e => setPrice(parseInt(e.target.value))}
-                />
+                  <label
+                    htmlFor="price"
+                    className="block font-bold text-[#000000]"
+                  >
+                    Price
+                  </label>
+                  <input
+                    type="number"
+                    id="price"
+                    name="price"
+                    placeholder="Price Required."
+                    className="border border-grey-300 shadow p-1 w-full rounded"
+                    value={price}
+                    onChange={e => setPrice(parseInt(e.target.value))}
+                  />
                 </div>
               </div>
-
 
               <div className="mb-4">
                 <label
