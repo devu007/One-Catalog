@@ -164,7 +164,6 @@ const UploadImage = () => {
               </div>
 
               <div className="mb-4 flex">
-                {/* First Input */}
                 <div className="mr-2 flex-1">
                 <label
                   htmlFor="quantity"
@@ -183,7 +182,6 @@ const UploadImage = () => {
                 />
                 </div>
 
-                {/* Second Input */}
                 <div className="mr-2 flex-1">
                 <label
                   htmlFor="price"
