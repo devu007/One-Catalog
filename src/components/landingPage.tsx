@@ -8,7 +8,7 @@ const LandingPage: React.FC = () => {
   const navigate = useNavigate();
 
   const handleNavigateToDashboard = () => {
-    navigate('/dashboard');
+    navigate('/genvision/dashboard');
   };
 
   return (
