@@ -42,6 +42,7 @@ const UploadImage = () => {
       productName,
       quantity,
       price,
+      expiryDate,
     };
 
     console.log('Product Data:', productData);
