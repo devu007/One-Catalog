@@ -23,7 +23,7 @@ export default function EditImage() {
   const [selectedFeatures, setSelectedFeatures] = useState<string[]>([]);
   const [generateButtonPressed, setGenerateButtonPressed] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
-  const [expectedWidht, setExpectedWidht] = useState<number>();
+  const [expectedWidth, setExpectedWidth] = useState<number>();
   const [expectedHeight, setExpectedHeight] = useState<number>();
 
   // Assume product is an array of ProductData objects
@@ -73,13 +73,24 @@ export default function EditImage() {
       } else {
         // Remove from selected features array
         if(feature==='Upscale'){
-          setExpectedWidht(0);
+          setExpectedWidth(0);
           setExpectedHeight(0);
         }
         return prevSelectedFeatures.filter((item) => item !== feature);
       }
       
     });
+  };
+
+  
+  const handleModalSubmit = () => {
+    // Process the expected width and height
+    // For now, just log them to the console
+    console.log('Expected Width:', expectedWidth);
+    console.log('Expected Height:', expectedHeight);
+
+    // Close the modal
+    setModalOpen(false);
   };
 
   return (
@@ -98,6 +109,36 @@ export default function EditImage() {
           description="Upscale image up to 4X"
           onSelect={(selected) => handleFeatureSelect('Upscale', selected)}
           />
+
+          
+      {/* Modal */}
+      {modalOpen && (
+        <div className="modal">
+          <div className="modal-content">
+            <h2><b>Enter Expected Dimensions</b></h2>
+            <label>
+              Width:
+              <input
+                type="number"
+                className="border border-gray-300 shadow p-1 w-full rounded"
+                value={expectedWidth || ''}
+                onChange={(e) => setExpectedWidth(Number(e.target.value))}
+              />
+            </label>
+            <label>
+              Height:
+              <input
+                type="number"
+                className="border border-gray-300 shadow p-1 w-full rounded mb-2"
+                value={expectedHeight || ''}
+                onChange={(e) => setExpectedHeight(Number(e.target.value))}
+              />
+            </label>
+            <button  className="bg-[#623FC4] w-1/2 items-center justify-center font-semibold rounded-md cursor-pointer text-white" onClick={handleModalSubmit}>Submit</button>
+          </div>
+        </div>
+      )}
+
         <Feature 
           title="Auto Enhance" 
           description="Enhance image with AI" 
