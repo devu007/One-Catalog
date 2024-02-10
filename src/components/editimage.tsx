@@ -2,6 +2,7 @@ import { Separator } from '@/components/ui/separator';
 import InfoBox from './reusableInfobox';
 import Feature from './reusableFeatures';
 import { useEffect, useRef, useState } from 'react';
+import { convertStoredImageToFile } from '@/lib/utils';
 import removeBackground from '@/api/removeBackground';
 
 
@@ -19,14 +20,14 @@ interface ProductData {
 export default function EditImage() {
   const containerRef = useRef<HTMLDivElement | null>(null);
 
-  const [uploadedImages, setUploadedImages] = useState<string[]>([]);
+  let [uploadedImages, setUploadedImages] = useState<string[]>([]);
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const [selectedFeatures, setSelectedFeatures] = useState<string[]>([]);
   const [generateButtonPressed, setGenerateButtonPressed] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
   const [expectedWidth, setExpectedWidth] = useState<number>();
   const [expectedHeight, setExpectedHeight] = useState<number>();
-  const [editedImage, setEditedImage] = useState<string>('');
+  const [editedImage, setEditedImage] = useState<string>();
 
   // Assume product is an array of ProductData objects
   const product: ProductData[] = JSON.parse(localStorage.getItem('product') || '[]');
@@ -35,23 +36,14 @@ export default function EditImage() {
     useEffect(() => {
       if (generateButtonPressed) {
         // Call API and replace uploaded images
-        if(!selectedImage) alert("Please select a picture and generate again");
+        if(selectedImage===null) alert("Please select a picture and generate again");
         else{
           setEditedImage(selectedImage);
-          // if(selectedFeatures.includes("Remove Background")){
-            
-          //   // const res = removeBackground(editedImage).then((backgroundRemovedImage) => {
-          //     return backgroundRemovedImage;
-          //   }).catch((error) => {
-          //     console.error('Error removing background:', error);
-          //     // Handle the error appropriately
-          //     return editedImage; // or return something else based on your needs
-          //   });
-          //   // setEditedImage(res);
-          //   console.log(res);
-          //   console.log("Hello");
-            
-          // }
+          console.log(selectedImage);
+          removeBackground(selectedImage).then((data) => {uploadedImages = [URL.createObjectURL(data)];});
+          console.log(uploadedImages);
+          setUploadedImages(uploadedImages);
+          
         }
       }
       else{
@@ -64,11 +56,11 @@ export default function EditImage() {
 
   const handleImageClick = (imageSrc: string) => {
     // Toggle the selection state
-    console.log(imageSrc);
+    // console.log(imageSrc);
     
     if(selectedImage===imageSrc) setSelectedImage(null);
     else setSelectedImage(imageSrc);
-    console.log(selectedImage);
+    // console.log(selectedImage);
     
   };
 
