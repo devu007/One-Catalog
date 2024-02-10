@@ -66,7 +66,7 @@ export default function Dashboard() {
       }));
 
       // Now, transformedRows contains the data in the TableRow format
-      console.log(transformedRows);
+      // console.log(transformedRows);
         
       //for future
       const fetchData = async () => {
