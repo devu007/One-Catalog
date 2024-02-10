@@ -20,7 +20,7 @@ const removeBackground = async (imageFilePath: string) => {
     };
 
     const response = await axios(config);
-    return response.data;
+    return response
   } catch (error) {
     console.error('Error in removeBackground API call:', error);
     throw error;

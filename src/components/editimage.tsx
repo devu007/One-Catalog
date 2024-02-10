@@ -2,6 +2,7 @@ import { Separator } from '@/components/ui/separator';
 import InfoBox from './reusableInfobox';
 import Feature from './reusableFeatures';
 import { useEffect, useRef, useState } from 'react';
+import removeBackground from '@/api/removeBackground';
 
 
 interface ProductData {
@@ -25,6 +26,7 @@ export default function EditImage() {
   const [modalOpen, setModalOpen] = useState(false);
   const [expectedWidth, setExpectedWidth] = useState<number>();
   const [expectedHeight, setExpectedHeight] = useState<number>();
+  const [editedImage, setEditedImage] = useState<string>('');
 
   // Assume product is an array of ProductData objects
   const product: ProductData[] = JSON.parse(localStorage.getItem('product') || '[]');
@@ -33,7 +35,23 @@ export default function EditImage() {
     useEffect(() => {
       if (generateButtonPressed) {
         // Call API and replace uploaded images
-        setUploadedImages([]);
+        if(!selectedImage) alert("Please select a picture and generate again");
+        else{
+          setEditedImage(selectedImage);
+          if(selectedFeatures.includes("Remove Background")){
+            const res = removeBackground(editedImage).then((backgroundRemovedImage) => {
+              return backgroundRemovedImage;
+            }).catch((error) => {
+              console.error('Error removing background:', error);
+              // Handle the error appropriately
+              return editedImage; // or return something else based on your needs
+            });
+            // setEditedImage(res);
+            console.log(res);
+            console.log("Hello");
+            
+          }
+        }
       }
       else{
       const allImages = product.reduce<string[]>((images, productItem) => {
