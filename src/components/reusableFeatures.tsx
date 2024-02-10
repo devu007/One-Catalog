@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { Checkbox } from './ui/checkbox';
 
 interface FeatureProps {
   title: string;

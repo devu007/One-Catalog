@@ -38,19 +38,20 @@ export default function EditImage() {
         if(!selectedImage) alert("Please select a picture and generate again");
         else{
           setEditedImage(selectedImage);
-          if(selectedFeatures.includes("Remove Background")){
-            const res = removeBackground(editedImage).then((backgroundRemovedImage) => {
-              return backgroundRemovedImage;
-            }).catch((error) => {
-              console.error('Error removing background:', error);
-              // Handle the error appropriately
-              return editedImage; // or return something else based on your needs
-            });
-            // setEditedImage(res);
-            console.log(res);
-            console.log("Hello");
+          // if(selectedFeatures.includes("Remove Background")){
             
-          }
+          //   // const res = removeBackground(editedImage).then((backgroundRemovedImage) => {
+          //     return backgroundRemovedImage;
+          //   }).catch((error) => {
+          //     console.error('Error removing background:', error);
+          //     // Handle the error appropriately
+          //     return editedImage; // or return something else based on your needs
+          //   });
+          //   // setEditedImage(res);
+          //   console.log(res);
+          //   console.log("Hello");
+            
+          // }
         }
       }
       else{

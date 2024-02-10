@@ -6,7 +6,7 @@ import { Switch } from './ui/switch';
 interface ProductData {
   id: string;
   category: string;
-  uploadedImages: string[];
+  uploadedImages: File[];
   brand?: string | undefined;
   productName?: string | undefined;
   quantity?: number | undefined;
@@ -18,16 +18,20 @@ const UploadImage = () => {
   // const [selectedImage, setSelectedImage] = useState<File | null>(null);
   const [productId, setProductId] = useState<string>('');
   const [category, setCategory] = useState<string>('');
-  const [uploadedImages, setUploadedImages] = useState<string[]>([]);
+  const [uploadedImages, setUploadedImages] = useState<File[]>([]);
   const [brand, setBrand] = useState<string | undefined>(undefined);
   const [productName, setProductName] = useState<string | undefined>(undefined);
   const [quantity, setQuantity] = useState<number | undefined>(undefined);
   const [price, setPrice] = useState<number | undefined>(undefined);
   const [expiryDate, setExpiryDate] = useState<string | undefined>(undefined);
 
-  const handleImageChange = (imageFile: File) => {
-    // setSelectedImage(imageFile);
-    setUploadedImages([...uploadedImages,URL.createObjectURL(imageFile)]);
+  const handleImageChange = (imageFiles: File) => {
+    if (imageFiles) {
+      console.log(uploadedImages);
+      
+      setUploadedImages(prevImages => [...prevImages, imageFiles]);
+    }
+    
   };
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
@@ -257,7 +261,7 @@ const UploadImage = () => {
         <div className="grid grid-cols-4  gap-4 w-full border h-[350px] rounded-md border-[#623FC4]">
           {uploadedImages.map((imageSrc, index) => (
             <div key={index} className="flex w-[200px] h-[200px]">
-              <img src={imageSrc} alt={`Image ${index}`} />
+              <img src={URL.createObjectURL(imageSrc)} alt={`Image ${index}`} />
             </div>
           ))}
         </div>

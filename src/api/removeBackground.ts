@@ -1,12 +1,13 @@
 // api/removeBackground.ts
 import axios, { AxiosRequestConfig } from 'axios';
 import FormData from 'form-data';
-import { createReadStream } from 'fs';
+// import { createReadStream } from 'fs';
 
-const removeBackground = async (imageFilePath: string) => {
+const removeBackground = async (imageFile: File) => {
   try {
     const data = new FormData();
-    data.append('image_file', createReadStream(imageFilePath));
+    
+    data.append('image_file', imageFile);
     const apiKey = process.env.REACT_APP_CLIP_DROP_API_KEY;
 
     const config: AxiosRequestConfig = {
