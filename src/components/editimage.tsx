@@ -4,6 +4,8 @@ import Feature from './reusableFeatures';
 import { useEffect, useRef, useState } from 'react';
 import { convertStoredImageToFile } from '@/lib/utils';
 import removeBackground from '@/api/removeBackground';
+// import response from "./src/assets/images/response.png"
+import responseImage from '../assets/images/response.png';
 
 interface ProductData {
   id: string;
@@ -43,8 +45,16 @@ export default function EditImage() {
         setEditedImage(selectedImage);
         console.log(selectedImage);
         removeBackground(selectedImage).then(data => {
-          let op = URL.createObjectURL(new Blob([data], { type: 'image/jpg' }));
-          setUploadedImages(prev => [...prev, op]);
+          // let op = URL.createObjectURL(new Blob([data], { type: 'image/PNG' }));
+          // const op = URL.createObjectURL(data);
+          // console.log(typeof(data));
+          
+          // console.log(typeof(op));
+          // console.log(op);
+          // const op = "public\response.png";
+          // const op = "src/assets/images/response.png";
+          
+          setUploadedImages([responseImage]);
         });
       }
     } else {
