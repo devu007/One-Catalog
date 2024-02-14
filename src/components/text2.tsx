@@ -18,9 +18,8 @@ export default function Text2() {
   try {
     console.log("clicked2");
     setDescription("Please wait..Loading!!!!!!")
-    setPrompt(`Provide detailed information about the features of the product, including specifications, functionalities, unique selling points, and any notable advantages. Please list at least four key features that distinguish this product. Since I need to integrate it with my website give it as json with heading and description. Thank you!" The priduct is ${prompt}`);
-    console.log(prompt);
-    const response = await getChatGPTResponse(prompt);
+    const p2 = `Provide detailed information about the features of the product, including specifications, functionalities, unique selling points, and any notable advantages. Please list at least four key features that distinguish this product. Since I need to integrate it with my website give it as json with heading and description. Thank you!" The priduct is ${prompt}`;
+    const response = await getChatGPTResponse(p2);
     // console.log('Generated Response:', response);
     setDescription(response);
 
