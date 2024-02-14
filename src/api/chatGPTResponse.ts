@@ -5,7 +5,7 @@ type ChatGPTResponse = {
 };
 
 const getChatGPTResponse = async (prompt: string): Promise<string> => {
-  const apiKey = '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'; // Replace with your actual OpenAI API key
+  const apiKey = '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'; // Replace with your actual OpenAI API key
 
   const data = {
     model: 'gpt-3.5-turbo',
@@ -17,8 +17,6 @@ const getChatGPTResponse = async (prompt: string): Promise<string> => {
     ],
     temperature: 0.7,
   };
-
-  prompt = `Generate a digital catalog for my shop that includes detailed information about each item, such as product names, descriptions, prices, and any special offers. The catalog should be visually appealing and easy to share with customers. Ensure that the information is accurate and up-to-date. Thank you! in 400 words  ${prompt}`
 
   const config: AxiosRequestConfig = {
     method: 'post',

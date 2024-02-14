@@ -10,6 +10,7 @@ import {
 } from "@material-tailwind/react";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import BulkUpload from "./bulk-upload";
  
 interface TableRow {
     no: number;
@@ -42,6 +43,7 @@ export default function Dashboard() {
 
     const [selectedRows, setSelectedRows] = useState<number[]>([]);;
     const [TABLE_ROWS, setTableRows] = useState<TableRow[]>([]);
+    const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
     const navigate = useNavigate();
 
 
@@ -87,6 +89,13 @@ export default function Dashboard() {
         navigate("/genvision/upload");
       }
 
+      const changeModalState = () => {
+        setIsModalOpen(!isModalOpen);
+        // After processing, trigger a page refresh
+        if(isModalOpen) 
+        window.location.reload();
+      };
+
 
   return (
     <Card placeholder="a"  style={{marginTop:'50px'}}>
@@ -99,10 +108,12 @@ export default function Dashboard() {
           <Button className="text-white bg-[#623FC4] fs-2" placeholder="a" variant='outlined' onClick={handleAddNewProductClick}>
             <PlusIcon strokeWidth={2} className="h-5 w-5" /> Add new product
           </Button>
-          <Button className="text-[#623FC4] border-[#623FC4]" placeholder='a' variant="outlined" size="sm">
+          <Button className="text-[#623FC4] border-[#623FC4]" placeholder='a' variant="outlined" size="sm" onClick={changeModalState}>
               Bulk upload
               <ArrowUpOnSquareStackIcon strokeWidth={2} className="h-10 w-10" />
             </Button>
+            
+      <BulkUpload isOpen={isModalOpen} onRequestClose={changeModalState} />
           </div>
 
           <div className="flex items-center space-x-2">

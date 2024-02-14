@@ -12,7 +12,6 @@ import './index.css';
 import { BaseLayout } from './layouts';
 import EditImage from './components/editimage.tsx';
 import Mockup from './components/mockup.tsx';
-import Text from './components/text.tsx';
 import SocialMedia from './components/socialmedia.tsx';
 import Model from './components/3dmodel.tsx';
 // import Assets from './components/assets.tsx';
@@ -21,6 +20,7 @@ import Login from './components/loginpage.tsx';
 import Dashboard from './components/dashboard.tsx';
 import LandingPage from './components/landingPage.tsx';
 import Pricing from './components/plans-page.tsx';
+import Text from './components/text.tsx';
 
 const router = createBrowserRouter([
   {
