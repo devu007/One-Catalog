@@ -1,8 +1,8 @@
 import { useState, FormEvent } from 'react';
 import UploadButton from './uploadbtn';
-import { amazon, flipkart } from '@/assets/logo';
-import { Switch } from './ui/switch';
 import InputWithSpeech from './ui/inputWithSpeech';
+// import { amazon, flipkart } from '@/assets/logo';
+// import { Switch } from './ui/switch';
 
 interface ProductData {
   id: string;
