@@ -6,7 +6,8 @@ import {
 } from '@/components/ui/sheet';
 import UploadImage from './uploadimage';
 
-const Dropdown = ({ container }: { container: HTMLElement }) => {
+// const Dropdown = ({ container }: { container: HTMLElement }) => {
+  const Dropdown = () => {
   return (
     <>
       <Sheet modal={true} onOpenChange={props => props}>

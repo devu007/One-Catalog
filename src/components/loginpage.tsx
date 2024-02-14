@@ -1,5 +1,4 @@
 import { BrandLogo } from './sidebar';
-import { Separator } from './ui/separator';
 import linkedIn48 from '../assets/icons/linkedIn48.png';
 import microsoft48 from '../assets/icons/microsoft48.png';
 import google48 from '../assets/icons/google48.png';

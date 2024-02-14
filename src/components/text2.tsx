@@ -2,7 +2,6 @@
 
 // import Feature from './reusableFeatures';
 import getChatGPTResponse from '@/api/chatGPTResponse';
-import InfoBox from './reusableInfobox';
 import { Separator } from './ui/separator';
 import { useState } from 'react';
 

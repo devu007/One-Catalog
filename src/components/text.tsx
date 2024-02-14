@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import Text1 from './text1';
 import Text2 from './text2';
-import { Button } from '@material-tailwind/react';
 
 const App: React.FC = () => {
     const [selectedButton, setSelectedButton] = useState<string>('text1');

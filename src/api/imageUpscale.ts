@@ -1,12 +1,12 @@
 // api/imageUpscale.ts
 import axios, { AxiosRequestConfig } from 'axios';
 import FormData from 'form-data';
-import { createReadStream } from 'fs';
+// import { createReadStream } from 'fs';
 
-const imageUpscale = async (imageFilePath: string, targetWidth: number, targetHeight: number) => {
+const imageUpscale = async (imageFileUrl: string, targetWidth: number, targetHeight: number) => {
   try {
     const data = new FormData();
-    data.append('image_file', createReadStream(imageFilePath));
+    data.append('image_file', await fetch(imageFileUrl).then((res) => res.blob()));
     data.append('target_width', targetWidth.toString());
     data.append('target_height', targetHeight.toString());
 
