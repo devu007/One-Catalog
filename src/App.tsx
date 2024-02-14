@@ -6,7 +6,7 @@ import UploadImage from './components/uploadimage';
 export default function Home() {
   return (
     <>
-      <div className="flex">
+      <div className="flex overflow-auto">
         <div className="flex-grow">
           <div className="p-4">
             <NavBar />
