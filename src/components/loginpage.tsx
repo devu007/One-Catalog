@@ -14,10 +14,10 @@ export default function Login({ isOauth }: login) {
   const navigate = useNavigate();
   const handleSubmit = () => {
     // logic
-    navigate('/plans');
+    navigate('/genvision');
   };
   return (
-    <div className="flex flex-col items-center justify-center p-7 box-content">
+    <div className="flex flex- min-h-screen items-center justify-center p-7 box-content">
       <div className="flex flex-col flex-grow-1 items-center justify-start shadow-md  p-3">
         <div className="flex flex-col flex-grow-1 items-center justify-start  p-3">
           <BrandLogo></BrandLogo>

@@ -30,7 +30,11 @@
     "react-router-dom": "^6.15.0",
     "tailwind-merge": "^1.14.0",
     "tailwindcss-animate": "^1.0.6",
-    "url-to-image": "^1.0.0"
+    "url-to-image": "^1.0.0",
+    "react-landing-page": "2.0.2",
+    "react-scripts": "3.0.1",
+    "styled-components": "4.3.2",
+    "tachyons": "latest"
   },
   "devDependencies": {
     "@types/node": "^20.5.4",

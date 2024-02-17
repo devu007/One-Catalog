@@ -19,20 +19,23 @@ import Prompt from './components/prompt.tsx';
 import Login from './components/loginpage.tsx';
 import Dashboard from './components/dashboard.tsx';
 import LandingPage from './components/landingPage.tsx';
-import Pricing from './components/plans-page.tsx';
 import Text from './components/text.tsx';
 
 const router = createBrowserRouter([
   {
-    path: '/login',
+    path: '/',
+    element: <LandingPage />
+  },
+  {
+    path: '/genvision/login',
     element: <Login isOauth={true} />,
   },
   {
-    path: '/plans',
-    element: <Pricing />,
+    path: '/genvision/:userId',
+    element: <Dashboard />
   },
   {
-    path: '/genvision',
+    path: '/genvision/:userId/:productId',
     element: <BaseLayout />,
     errorElement: <h1>error insight</h1>,
     children: [
@@ -40,7 +43,6 @@ const router = createBrowserRouter([
         index: true,
         element: <LandingPage />,
       },
-      { path: 'dashboard', element: <Dashboard /> },
       { path: 'upload', element: <UploadImage /> },
       { path: 'edit', element: <EditImage /> },
       {
