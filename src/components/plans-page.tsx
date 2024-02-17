@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom';
-import { logo } from '../assets/logo';
+// import { logo } from '../assets/logo';
 import { PlanBox } from './plan-card';
 
 export default function Pricing() {
