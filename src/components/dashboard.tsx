@@ -3,6 +3,7 @@ import { TrashIcon, BarsArrowUpIcon, ArrowUpOnSquareStackIcon, PlusIcon } from "
 import { Card, CardHeader, Typography, CardBody, Avatar, Button, Input } from "@material-tailwind/react";
 import { useNavigate } from "react-router-dom";
 import BulkUpload from "./bulk-upload";
+import {logo2, dlogout, mllanguage} from "../assets/logo"
 
 interface TableRow {
   no: number;
@@ -98,200 +99,237 @@ export default function Dashboard() {
     if (isModalOpen) window.location.reload();
   };
 
+  const handleLogOut = () => {
+    navigate("/");
+  }
+
   return (
-    <Card placeholder="a" style={{ marginTop: '50px' }}>
-      <CardHeader placeholder="a" floated={true} shadow={false} className="rounded-none">
-        <div className="mb-8 flex items-center justify-between gap-8">
-        </div>
-        <div className="flex flex-col items-center justify-between gap-4 md:flex-row p-2">
-
-          <div className="flex shrink-0 flex-col gap-2 sm:flex-row">
-            <Button className="text-white bg-[#623FC4] fs-2" placeholder="a" variant='outlined' onClick={handleAddNewProductClick}>
-              <PlusIcon strokeWidth={2} className="h-5 w-5" /> Add new product
-            </Button>
-            <Button className="text-[#623FC4] border-[#623FC4]" placeholder='a' variant="outlined" size="sm" onClick={changeModalState}>
-              Bulk upload
-              <ArrowUpOnSquareStackIcon strokeWidth={2} className="h-10 w-10" />
-            </Button>
-            <BulkUpload isOpen={isModalOpen} onRequestClose={changeModalState} />
-          </div>
-
-          <div className="flex items-center space-x-2">
-            <Button placeholder='a' className="text-gray">
-              <BarsArrowUpIcon strokeWidth={2} className="h-8 w-8" /> Scan
-            </Button>
-            <Input
-              crossOrigin='a'
-              type="text"
-              placeholder="Search"
-              // size='sm'
-              className="outline-none border-gray-500 rounded-md focus:outline-none focus:border-blue-500"
+    <>
+    <nav className='mt-2 navbar-hover-glow' style={{ borderBottom: '1px solid #ccc',paddingTop:'10px', paddingBottom:'20',marginRight: '10px' }}>
+      <div style={{marginLeft:'40px'}}>
+      <img
+          className="inline-block align-middle pb-8"
+          src={logo2}
+          alt="Gen_Vision"
+        />
+        <div className='float-right'>
+          <button
+            
+          >
+          <img
+              className="inline-block align-middle pr-8 pb-8"
+              src={mllanguage}
+              alt="Gen_Vision"
             />
-            <Button className=" border-[gray]" placeholder='a' variant="outlined" size="sm">
-              Export as ZIP
-            </Button>
-            <Button placeholder='a' className="text-gray">
-              <TrashIcon strokeWidth={2} className="h-10 w-10" />
-            </Button>
+            </button>
+            <button
+              onClick={handleLogOut}
+            >
+            <img
+                className="inline-block align-middle pr-4 pb-8"
+                src={dlogout}
+                alt="Gen_Vision"
+              />
+              </button>
+        </div>
+      </div>
+    </nav>
+
+
+      <Card placeholder="a" style={{ marginTop: '50px' }}>
+        <CardHeader placeholder="a" floated={true} shadow={false} className="rounded-none">
+          <div className="mb-8 flex items-center justify-between gap-8">
+          </div>
+          <div className="flex flex-col items-center justify-between gap-4 md:flex-row p-2">
+
+            <div className="flex shrink-0 flex-col gap-2 sm:flex-row">
+              <Button className="text-white bg-[#623FC4] fs-2 flex items-center gap-2" placeholder="a" variant='outlined' onClick={handleAddNewProductClick}>
+                <PlusIcon strokeWidth={2} className="h-5 w-5" /> Add new product
+              </Button>
+              <Button className="text-[#623FC4] border-[#623FC4] fs-2 flex items-center gap-2" placeholder='a' variant="outlined" size="sm" onClick={changeModalState}>
+                Bulk upload
+                <ArrowUpOnSquareStackIcon strokeWidth={2} className="h-10 w-10" />
+              </Button>
+              <BulkUpload isOpen={isModalOpen} onRequestClose={changeModalState} />
+            </div>
+
+            <div className="flex items-center space-x-2">
+              <Button placeholder='a' className="text-gray  flex items-center gap-2 border shadow-[none]">
+                <BarsArrowUpIcon strokeWidth={2} className="h-8 w-8" /> Scan
+              </Button>
+              <Input
+                crossOrigin='a'
+                type="text"
+                placeholder="Search"
+                // size='sm'
+                className="outline-none border-gray-500 rounded-md focus:outline-none focus:border-blue-500"
+              />
+              <Button className=" border-[gray]" placeholder='a' variant="outlined" size="sm">
+                Export as ZIP
+              </Button>
+              <Button placeholder='a' className="text-gray border shadow-[none]">
+                <TrashIcon strokeWidth={2} className="h-8 w-8" />
+              </Button>
+            </div>
+
+          </div>
+        </CardHeader>
+        <CardBody placeholder="a" className="overflow-scroll px-0">
+        {/* <div className="max-w-screen-md mx-auto"> */}
+          <table className="mt-4 w-full min-w-max table-auto text-left">
+            <thead>
+              <tr>
+                {TABLE_HEAD.map((head) => (
+                  <th
+                    key={head}
+                    // style={{ width:'10vw'}} 
+                    className="border-y border-blue-gray-100 bg-blue-gray-50/50 p-4"
+                  >
+                    <Typography
+                      placeholder="a"
+                      variant="small"
+                      color="blue-gray"
+                      className="font-normal leading-none opacity-70"
+                    >
+                      {head}
+                    </Typography>
+                  </th>
+                ))}
+              </tr>
+            </thead>
+            <tbody>
+              {visibleRows.map(
+                ({ no, img, product_id, brand, product_name, product_category, price, stock_units, expiry_date }, index) => {
+                  const isLast = index === visibleRows.length - 1;
+                  const classes = isLast
+                    ? "p-4"
+                    : "p-4 border-b border-blue-gray-50";
+
+                  return (
+                    <tr key={no}>
+                      <td className={classes}>
+                        <input
+                          type="checkbox"
+                          checked={selectedRows.includes(no)}
+                          onChange={() => {
+                            const newSelectedRows = selectedRows.includes(no)
+                              ? selectedRows.filter((row) => row !== no)
+                              : [...selectedRows, no];
+                            setSelectedRows(newSelectedRows);
+                          }}
+                        />
+                      </td>
+                      <td className={classes}>
+                        <Typography
+                          placeholder="a"
+                          variant="small"
+                          color="blue-gray"
+                          className="font-normal"
+                        >
+                          {no}
+                        </Typography>
+                      </td>
+                      <td className={classes}>
+                        <Avatar src={img} alt={brand} size="sm" placeholder="avatar" />
+                      </td>
+                      <td className={classes}>
+                        <Typography
+                          placeholder="a"
+                          variant="small"
+                          color="blue-gray"
+                          className="font-normal"
+                        >
+                          {product_id}
+                        </Typography>
+                      </td>
+                      <td className={classes}>
+                        <Typography
+                          placeholder="a"
+                          variant="small"
+                          color="blue-gray"
+                          className="font-normal"
+                        >
+                          {brand}
+                        </Typography>
+                      </td>
+                      <td className={classes}>
+                        <Typography
+                          placeholder="a"
+                          variant="small"
+                          color="blue-gray"
+                          className="font-normal opacity-70"
+                        >
+                          {product_name}
+                        </Typography>
+                      </td>
+                      <td className={classes}>
+                        <Typography
+                          placeholder="a"
+                          variant="small"
+                          color="blue-gray"
+                          className="font-normal"
+                        >
+                          {product_category}
+                        </Typography>
+                      </td>
+                      <td className={classes}>
+                        <Typography
+                          placeholder="a"
+                          variant="small"
+                          color="blue-gray"
+                          className="font-normal opacity-70"
+                        >
+                          {price}
+                        </Typography>
+                      </td>
+                      <td className={classes}>
+                        <Typography
+                          placeholder="a"
+                          variant="small"
+                          color="blue-gray"
+                          className="font-normal opacity-70"
+                        >
+                          {stock_units}
+                        </Typography>
+                      </td>
+                      <td className={classes}>
+                        <Typography
+                          placeholder="a"
+                          variant="small"
+                          color="blue-gray"
+                          className="font-normal"
+                        >
+                          {expiry_date}
+                        </Typography>
+                      </td>
+                    </tr>
+                  );
+                },
+              )}
+            </tbody>
+          </table>
+          {/* </div> */}
+
+          {/* Pagination controls */}
+          <div className="flex justify-center mt-4">
+            <button
+              onClick={() => handlePageChange(currentPage - 1)}
+              disabled={currentPage === 1}
+              className="mr-2 px-4 py-2 bg-blue-500 text-white rounded"
+            >
+              Previous
+            </button>
+            <button
+              onClick={() => handlePageChange(currentPage + 1)}
+              disabled={currentPage === totalPages}
+              className="px-4 py-2 bg-blue-500 text-white rounded"
+            >
+              Next
+            </button>
           </div>
 
-        </div>
-      </CardHeader>
-      <CardBody placeholder="a" className="overflow-scroll px-0">
-      {/* <div className="max-w-screen-md mx-auto"> */}
-        <table className="mt-4 w-full min-w-max table-auto text-left">
-          <thead>
-            <tr>
-              {TABLE_HEAD.map((head) => (
-                <th
-                  key={head}
-                  // style={{ width:'10vw'}} 
-                  className="border-y border-blue-gray-100 bg-blue-gray-50/50 p-4"
-                >
-                  <Typography
-                    placeholder="a"
-                    variant="small"
-                    color="blue-gray"
-                    className="font-normal leading-none opacity-70"
-                  >
-                    {head}
-                  </Typography>
-                </th>
-              ))}
-            </tr>
-          </thead>
-          <tbody>
-            {visibleRows.map(
-              ({ no, img, product_id, brand, product_name, product_category, price, stock_units, expiry_date }, index) => {
-                const isLast = index === visibleRows.length - 1;
-                const classes = isLast
-                  ? "p-4"
-                  : "p-4 border-b border-blue-gray-50";
-
-                return (
-                  <tr key={no}>
-                    <td className={classes}>
-                      <input
-                        type="checkbox"
-                        checked={selectedRows.includes(no)}
-                        onChange={() => {
-                          const newSelectedRows = selectedRows.includes(no)
-                            ? selectedRows.filter((row) => row !== no)
-                            : [...selectedRows, no];
-                          setSelectedRows(newSelectedRows);
-                        }}
-                      />
-                    </td>
-                    <td className={classes}>
-                      <Typography
-                        placeholder="a"
-                        variant="small"
-                        color="blue-gray"
-                        className="font-normal"
-                      >
-                        {no}
-                      </Typography>
-                    </td>
-                    <td className={classes}>
-                      <Avatar src={img} alt={brand} size="sm" placeholder="avatar" />
-                    </td>
-                    <td className={classes}>
-                      <Typography
-                        placeholder="a"
-                        variant="small"
-                        color="blue-gray"
-                        className="font-normal"
-                      >
-                        {product_id}
-                      </Typography>
-                    </td>
-                    <td className={classes}>
-                      <Typography
-                        placeholder="a"
-                        variant="small"
-                        color="blue-gray"
-                        className="font-normal"
-                      >
-                        {brand}
-                      </Typography>
-                    </td>
-                    <td className={classes}>
-                      <Typography
-                        placeholder="a"
-                        variant="small"
-                        color="blue-gray"
-                        className="font-normal opacity-70"
-                      >
-                        {product_name}
-                      </Typography>
-                    </td>
-                    <td className={classes}>
-                      <Typography
-                        placeholder="a"
-                        variant="small"
-                        color="blue-gray"
-                        className="font-normal"
-                      >
-                        {product_category}
-                      </Typography>
-                    </td>
-                    <td className={classes}>
-                      <Typography
-                        placeholder="a"
-                        variant="small"
-                        color="blue-gray"
-                        className="font-normal opacity-70"
-                      >
-                        {price}
-                      </Typography>
-                    </td>
-                    <td className={classes}>
-                      <Typography
-                        placeholder="a"
-                        variant="small"
-                        color="blue-gray"
-                        className="font-normal opacity-70"
-                      >
-                        {stock_units}
-                      </Typography>
-                    </td>
-                    <td className={classes}>
-                      <Typography
-                        placeholder="a"
-                        variant="small"
-                        color="blue-gray"
-                        className="font-normal"
-                      >
-                        {expiry_date}
-                      </Typography>
-                    </td>
-                  </tr>
-                );
-              },
-            )}
-          </tbody>
-        </table>
-        {/* </div> */}
-
-        {/* Pagination controls */}
-        <div className="flex justify-center mt-4">
-          <button
-            onClick={() => handlePageChange(currentPage - 1)}
-            disabled={currentPage === 1}
-            className="mr-2 px-4 py-2 bg-blue-500 text-white rounded"
-          >
-            Previous
-          </button>
-          <button
-            onClick={() => handlePageChange(currentPage + 1)}
-            disabled={currentPage === totalPages}
-            className="px-4 py-2 bg-blue-500 text-white rounded"
-          >
-            Next
-          </button>
-        </div>
-
-      </CardBody>
+        </CardBody>
     </Card>
+    </>
   );
 }

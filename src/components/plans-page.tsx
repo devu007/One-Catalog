@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom';
-import { logo } from '../assets/logo';
+// import { logo } from '../assets/logo';
 import { PlanBox } from './plan-card';
 
 export default function Pricing() {
@@ -16,7 +16,7 @@ export default function Pricing() {
 
   return (
     <div className="container">
-      <div className="flex justify-center items-center bg-[#FFF] dark:bg-blue-500">
+      {/* <div className="flex justify-center items-center bg-[#FFF] dark:bg-blue-500">
         <img
           className="inline-block align-middle p-4 pb-8"
           src={logo}
@@ -25,8 +25,8 @@ export default function Pricing() {
         <h1 className="mb-2 text-2xl font-bold text-[#170F49]">
           Welcome to Gen Vision
         </h1>
-      </div>
-      <h3 className="mb-8 text-center text-[#170F49]">
+      </div> */}
+      <h3 className="m-8 text-center text-[#170F49]">
         Select an industry to continue
       </h3>
       <div className="flex flex-row items-center justify-center w-full flex-wrap">
