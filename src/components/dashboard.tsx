@@ -1,9 +1,10 @@
 import { useEffect, useState } from 'react';
 import { TrashIcon, BarsArrowUpIcon, ArrowUpOnSquareStackIcon, PlusIcon } from "@heroicons/react/24/outline";
 import { Card, CardHeader, Typography, CardBody, Avatar, Button, Input } from "@material-tailwind/react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import BulkUpload from "./bulk-upload";
 import {logo2, dlogout, mllanguage} from "../assets/logo"
+import { useTranslation } from 'react-i18next';
 
 interface TableRow {
   no: number;
@@ -37,6 +38,7 @@ export default function Dashboard() {
   const [TABLE_ROWS, setTableRows] = useState<TableRow[]>([]);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const navigate = useNavigate();
+  const {userId} = useParams();
 
   const [currentPage, setCurrentPage] = useState(1);
   const totalItems = TABLE_ROWS.length;
@@ -90,7 +92,7 @@ export default function Dashboard() {
   }, []);
 
   const handleAddNewProductClick = () => {
-    navigate("/genvision/upload");
+    navigate(`/genvision/${userId}/upload`);
   };
 
   const changeModalState = () => {
@@ -103,6 +105,15 @@ export default function Dashboard() {
     navigate("/");
   }
 
+  //language change
+  const {i18n} = useTranslation();
+  const [isOpen, setIsOpen] = useState(false);
+  const languages = ['en', 'fr', 'hi', 'bn']; 
+  const changeLanguage = (lng: string) => {
+    i18n.changeLanguage(lng);
+    setIsOpen(false);
+  };
+
   return (
     <>
     <nav className='mt-2 navbar-hover-glow' style={{ borderBottom: '1px solid #ccc',paddingTop:'10px', paddingBottom:'20',marginRight: '10px' }}>
@@ -114,21 +125,38 @@ export default function Dashboard() {
         />
         <div className='float-right'>
           <button
-            
+            onClick={() => setIsOpen(!isOpen)}
           >
           <img
               className="inline-block align-middle pr-8 pb-8"
               src={mllanguage}
-              alt="Gen_Vision"
+              alt="multi language"
             />
             </button>
+
+             {/* language option        */}
+              {isOpen && (
+                <div className="absolute right-0 top-0 mt-2 w-40 bg-white border border-gray-200 rounded-md shadow-lg z-2">
+                  {languages.map((lng) => (
+                    <button
+                      key={lng}
+                      className="w-full px-4 py-2 text-left hover:bg-gray-100"
+                      onClick={() => changeLanguage(lng)}
+                    >
+                      {lng}
+                    </button>
+                  ))}
+                </div>
+              )}
+
+
             <button
               onClick={handleLogOut}
             >
             <img
                 className="inline-block align-middle pr-4 pb-8"
                 src={dlogout}
-                alt="Gen_Vision"
+                alt="logout"
               />
               </button>
         </div>
@@ -136,7 +164,7 @@ export default function Dashboard() {
     </nav>
 
 
-      <Card placeholder="a" style={{ marginTop: '50px' }}>
+      <Card placeholder="a" style={{ marginTop: '50px', zIndex:'1'}}>
         <CardHeader placeholder="a" floated={true} shadow={false} className="rounded-none">
           <div className="mb-8 flex items-center justify-between gap-8">
           </div>
@@ -206,18 +234,23 @@ export default function Dashboard() {
                     : "p-4 border-b border-blue-gray-50";
 
                   return (
-                    <tr key={no}>
+                    <tr key={no} onClick={() => navigate(`/genvision/userId/${product_id}`)} style={{ cursor: 'pointer' }}>
                       <td className={classes}>
+                      <div
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          const newSelectedRows = selectedRows.includes(no)
+                            ? selectedRows.filter((row) => row !== no)
+                            : [...selectedRows, no];
+                          setSelectedRows(newSelectedRows);
+                        }}
+                      >
                         <input
                           type="checkbox"
                           checked={selectedRows.includes(no)}
-                          onChange={() => {
-                            const newSelectedRows = selectedRows.includes(no)
-                              ? selectedRows.filter((row) => row !== no)
-                              : [...selectedRows, no];
-                            setSelectedRows(newSelectedRows);
-                          }}
+                          onChange={() => {}}
                         />
+                      </div>
                       </td>
                       <td className={classes}>
                         <Typography

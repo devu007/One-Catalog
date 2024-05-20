@@ -12,7 +12,13 @@ export default function Text1() {
 
   const [prompt, setPrompt] = useState<string>("");
   const [description,setDescription] = useState<string>("");
-  
+  const [selectedOption, setSelectedOption] = useState<string>('');
+
+  const handleSelect = (title: string) => {
+    setSelectedOption(title);
+    console.log(title);
+    
+  };
   
   const handleGenerateClick = async () => {
   try {
@@ -57,22 +63,30 @@ export default function Text1() {
         <Separator />
 
         <div>
-          <h1 className="text-[#000000] mt-9 text-base font-semibold">
-            Templates
-          </h1>
-          <InfoBox
-            title="E-commerce"
-            description="Create heading, key points & descriptions"
-          />
-          <InfoBox
-            title="Social Media"
-            description="Create content for social media post"
-          />
-          <InfoBox
-            title="Advertisement"
-            description="Create content optimized for Ad campaigns"
-          />
-        </div>
+      <h1 className="text-[#000000] mt-9 text-base font-semibold">Templates</h1>
+      <br />
+      <InfoBox
+        title="E-commerce"
+        description="Create heading, key points & descriptions"
+        isSelected={selectedOption === 'E-commerce'}
+        handleSelect={handleSelect}
+      />
+      <br />
+      <InfoBox
+        title="Social Media"
+        description="Create content for social media post"
+        isSelected={selectedOption === 'Social Media'}
+        handleSelect={handleSelect}
+      />
+      <br />
+      <InfoBox
+        title="Advertisement"
+        description="Create content optimized for Ad campaigns"
+        isSelected={selectedOption === 'Advertisement'}
+        handleSelect={handleSelect}
+      />
+      <br />
+    </div>
         <div className="flex gap-4 mt-1 bottom-0">
           <button
             className="bg-[#FEFBFF] w-1/2 items-center justify-center px-2 py-2 font-semibold rounded-md cursor-pointer border border-[#623FC4]"

@@ -1,6 +1,7 @@
 import { useState, FormEvent } from 'react';
 import UploadButton from './uploadbtn';
 import InputWithSpeech from './ui/inputWithSpeech';
+import { useNavigate, useParams } from 'react-router-dom';
 // import { amazon, flipkart } from '@/assets/logo';
 // import { Switch } from './ui/switch';
 
@@ -25,6 +26,8 @@ const UploadImage = () => {
   const [quantity, setQuantity] = useState<number | undefined>(undefined);
   const [price, setPrice] = useState<number | undefined>(undefined);
   const [expiryDate, setExpiryDate] = useState<string | undefined>(undefined);
+  const navigate = useNavigate();
+  const {userId} = useParams();
 
   const handleImageChange = (imageFile: File) => {
     // setSelectedImage(imageFile);
@@ -80,6 +83,7 @@ const UploadImage = () => {
     setQuantity(undefined);
     setExpiryDate('');
     setUploadedImages([]);
+    navigate(`/genvision/${userId}`);
   };
 
   return (

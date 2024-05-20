@@ -1,22 +1,22 @@
+import React from 'react';
+
 interface InfoBoxProps {
   title: string;
-  description: any;
-  className?: string;
+  description: string;
+  isSelected: boolean;
+  handleSelect: (title: string) => void;
 }
 
-export default function InfoBox({
-  title,
-  description,
-  className,
-}: InfoBoxProps) {
-  const containerClassName = `flex flex-col border rounded border-[#623FC4] px-4 py-2 my-4 ${
-    className || ''
-  }`;
-
+const InfoBox: React.FC<InfoBoxProps> = ({ title, description, isSelected, handleSelect }) => {
   return (
-    <div className={containerClassName}>
-      <h2 className="text-sm font-semibold mr-2">{title}</h2>
-      <p className="text-[#64748B]">{description}</p>
+    <div
+    onClick={() => handleSelect(title)}
+    className={`p-4 border ${isSelected ? 'border-purple-500 bg-blue-100' : 'border-gray-300'} rounded-md cursor-pointer`}
+  >
+      <h2 className="text-lg font-bold">{title}</h2>
+      <p>{description}</p>
     </div>
   );
-}
+};
+
+export default InfoBox;

@@ -4,13 +4,21 @@
 import getChatGPTResponse from '@/api/chatGPTResponse';
 import { Separator } from './ui/separator';
 import { useState } from 'react';
-
+import template1  from '../assets/images/template1.png';
+import template2 from '../assets/images/template2.png';
 
 
 export default function Text2() {
 
   const [prompt, setPrompt] = useState<string>("");
   const [description,setDescription] = useState<string>("");
+  const [selectedTemplate, setSelectedTemplate] = useState<string | null>(null);
+
+  const handleTemplateClick = (template: string) => {
+    setSelectedTemplate(template);
+    console.log(template);
+    
+  };
   
   
   const handleGenerateClick = async () => {
@@ -59,8 +67,22 @@ export default function Text2() {
           <h1 className="text-[#000000] mt-9 text-base font-semibold">
             Templates
           </h1>
-
-
+            <br />
+            <div className="flex">
+              <img
+                src={template1}
+                alt="Template 1"
+                className={`w-48 h-48 mr-10 ${selectedTemplate === 'template1' ? 'border-2 bg-purple-500' : ''}`}
+                onClick={() => handleTemplateClick('template1')}
+              />
+              <img
+                src={template2}
+                alt="Template 2"
+                className={`w-48 h-48 ${selectedTemplate === 'template2' ? 'border-2 bg-purple-500' : ''}`}
+                onClick={() => handleTemplateClick('template2')}
+              />
+           </div>
+            <br />
         </div>
         <div className="flex gap-4 mt-1 bottom-0">
           <button

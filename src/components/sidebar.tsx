@@ -1,12 +1,11 @@
-// import { logout } from '../assets/logo';
 import { ModeToggle } from './mode-toggle';
 
 export default function Sidebar() {
   return (
-    <div className="flex flex-col  h-screen w-20 shadow-lg shadow-[#dbdbde] dark:shadow-slate-900">
-      <div className="flex items-center justify-center h-16 ">
+    <div className="flex flex-col h-screen w-20 shadow-lg shadow-[#dbdbde] dark:shadow-slate-900">
+      <div className="flex items-center justify-center h-16">
         {/* <img src={logo} alt="Logo" className="w-9 h-8" /> */}
-        <a href='/'><BrandLogo /></a>
+        <a href="/"><BrandLogo /></a>
       </div>
       <div className="flex items-center justify-center m-3 rounded-lg py-2 px-3 bg-[#F1EEFA99]">
         <svg
@@ -16,7 +15,7 @@ export default function Sidebar() {
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
         >
-          <g id="Frame" clip-path="url(#clip0_683_390)">
+          <g id="Frame" clipPath="url(#clip0_683_390)">
             <path
               id="Vector"
               d="M3.75 15.1458H13.75V3.6875H3.75V15.1458ZM3.75 24.3125H13.75V17.4375H3.75V24.3125ZM16.25 24.3125H26.25V12.8542H16.25V24.3125ZM16.25 3.6875V10.5625H26.25V3.6875H16.25Z"
@@ -35,30 +34,34 @@ export default function Sidebar() {
           </defs>
         </svg>
       </div>
-      <nav className="flex-grow"></nav>
-      <ModeToggle />
-      <button className="w-12 h-12 p-3 mb-2 mx-auto rounded-full bg-slate-200 hover:bg-slate-100 dark:hover:bg-slate-300">
-        <svg
-          width="25"
-          height="28"
-          viewBox="0 0 30 30"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <g id="Frame" clip-path="url(#clip0_683_361)">
-            <path
-              id="Vector"
-              d="M5 22.5H7.5V25H22.5V5H7.5V7.5H5V3.75C5 3.41848 5.1317 3.10054 5.36612 2.86612C5.60054 2.6317 5.91848 2.5 6.25 2.5H23.75C24.0815 2.5 24.3995 2.6317 24.6339 2.86612C24.8683 3.10054 25 3.41848 25 3.75V26.25C25 26.5815 24.8683 26.8995 24.6339 27.1339C24.3995 27.3683 24.0815 27.5 23.75 27.5H6.25C5.91848 27.5 5.60054 27.3683 5.36612 27.1339C5.1317 26.8995 5 26.5815 5 26.25V22.5ZM7.5 13.75H16.25V16.25H7.5V20L1.25 15L7.5 10V13.75Z"
-              fill="#241A3F"
-            />
-          </g>
-          <defs>
-            <clipPath id="clip0_683_361">
-              <rect width="30" height="30" fill="white" />
-            </clipPath>
-          </defs>
-        </svg>
-      </button>
+      <nav className="flex-grow">
+        {/* Your dropdown menu will go here */}
+      </nav>
+      {/* <ModeToggle /> */}
+      <div className="flex flex-col items-center" style={{position:'absolute',bottom:'0px'}}>
+        <button className="w-12 h-12 p-3 mb-2 rounded-full bg-slate-200 hover:bg-slate-100 dark:hover:bg-slate-300">
+          <svg
+            width="25"
+            height="28"
+            viewBox="0 0 30 30"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <g id="Frame" clipPath="url(#clip0_683_361)">
+              <path
+                id="Vector"
+                d="M5 22.5H7.5V25H22.5V5H7.5V7.5H5V3.75C5 3.41848 5.1317 3.10054 5.36612 2.86612C5.60054 2.6317 5.91848 2.5 6.25 2.5H23.75C24.0815 2.5 24.3995 2.6317 24.6339 2.86612C24.8683 3.10054 25 3.41848 25 3.75V26.25C25 26.5815 24.8683 26.8995 24.6339 27.1339C24.3995 27.3683 24.0815 27.5 23.75 27.5H6.25C5.91848 27.5 5.60054 27.3683 5.36612 27.1339C5.1317 26.8995 5 26.5815 5 26.25V22.5ZM7.5 13.75H16.25V16.25H7.5V20L1.25 15L7.5 10V13.75Z"
+                fill="#241A3F"
+              />
+            </g>
+            <defs>
+              <clipPath id="clip0_683_361">
+                <rect width="30" height="30" fill="white" />
+              </clipPath>
+            </defs>
+          </svg>
+        </button>
+      </div>
     </div>
   );
 }

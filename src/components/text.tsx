@@ -17,7 +17,7 @@ const App: React.FC = () => {
         }`}
         onClick={() => handleButtonClick('text1')}
       >
-        Text 1
+        Description
       </button>
 
       <button
@@ -26,7 +26,7 @@ const App: React.FC = () => {
         }`}
         onClick={() => handleButtonClick('text2')}
       >
-        Text 2
+        Features
       </button>
         <div>
           {selectedButton === 'text1' && <Text1 />}
