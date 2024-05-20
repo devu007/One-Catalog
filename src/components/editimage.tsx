@@ -30,6 +30,12 @@ export default function EditImage() {
   const [expectedWidth, setExpectedWidth] = useState<number>(10);
   const [expectedHeight, setExpectedHeight] = useState<number>(10);
   const [editedImage, setEditedImage] = useState<string>();
+  const [selectedOption, setSelectedOption] = useState<string>('');
+
+  const handleSelect = (title: string) => {
+    setSelectedOption(title);
+    console.log(title);
+  }
 
   // Assume product is an array of ProductData objects
   const product: ProductData[] = JSON.parse(
@@ -196,18 +202,24 @@ export default function EditImage() {
           onSelect={selected => handleFeatureSelect('Auto Enhance', selected)}
         />
 
+        
+      <div>
+        <br />
         <InfoBox
           title="Magic Inpainting"
           description="Re-usable components built using Radix UI and Tailwind CSS"
+          isSelected={selectedOption === 'Magic Inpainting'}
+          handleSelect={handleSelect}
         />
-        <InfoBox
-          title="Magic Inpainting"
-          description="Re-usable components built using Radix UI and Tailwind CSS"
-        />
+        <br />
         <InfoBox
           title="Effects & Adjust"
           description="Re-usable components built using Radix UI and Tailwind CSS"
+          isSelected={selectedOption === 'Effects & Adjust'}
+          handleSelect={handleSelect}
         />
+        <br />
+      </div>
 
         <div className="flex gap-4 mt-1">
           <button
