@@ -17,7 +17,7 @@ const InputWithSpeech = ({
     error,
     interimResult,
     isRecording,
-    results,
+    // results,
     startSpeechToText,
     stopSpeechToText,
   } = useSpeechToText({

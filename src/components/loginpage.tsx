@@ -14,7 +14,7 @@ export default function Login({ isOauth }: login) {
   const navigate = useNavigate();
   const handleSubmit = () => {
     // logic
-    navigate('/genvision');
+    navigate('/genvision/:userId');
   };
   return (
     <div className="flex flex- min-h-screen items-center justify-center p-7 box-content">

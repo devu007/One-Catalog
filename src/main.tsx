@@ -5,7 +5,6 @@ import {
   createBrowserRouter,
   // useNavigate,
 } from 'react-router-dom';
-
 import { ThemeProvider } from './components/theme-provider.tsx';
 import UploadImage from './components/uploadimage.tsx';
 import './index.css';
@@ -20,7 +19,12 @@ import Login from './components/loginpage.tsx';
 import Dashboard from './components/dashboard.tsx';
 import LandingPage from './components/landingPage.tsx';
 import Text from './components/text.tsx';
+import {I18nextProvider} from "react-i18next";
+import i18next from "i18next";
 
+i18next.init({
+  interpolation: { escapeValue: false },  // React already does escaping
+});
 const router = createBrowserRouter([
   {
     path: '/',
@@ -35,33 +39,39 @@ const router = createBrowserRouter([
     element: <Dashboard />
   },
   {
+    path: '/genvision/:userId/upload',
+    element: <UploadImage />
+  },
+  {
     path: '/genvision/:userId/:productId',
     element: <BaseLayout />,
     errorElement: <h1>error insight</h1>,
     children: [
       {
-        index: true,
-        element: <LandingPage />,
+        index: true
       },
-      { path: 'upload', element: <UploadImage /> },
-      { path: 'edit', element: <EditImage /> },
+      { path: '/genvision/:userId/:productId/upload', element: <UploadImage /> },
+      { path: '/genvision/:userId/:productId/edit', element: <EditImage /> },
       {
-        path: 'mockup/assets',
+        path: '/genvision/:userId/:productId/mockup/assets',
         element: <Mockup />,
         children: [{ path: 'prompt', element: <Prompt /> }],
       },
-      { path: 'text', element: <Text /> },
-      { path: 'social-media', element: <SocialMedia /> },
-      { path: '3d-model', element: <Model /> },
+      { path: '/genvision/:userId/:productId/text', element: <Text /> },
+      { path: '/genvision/:userId/:productId/social-media', element: <SocialMedia /> },
+      { path: '/genvision/:userId/:productId/3d-model', element: <Model /> },
     ],
   },
 ]);
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
-    <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
-      <RouterProvider router={router} />
-    </ThemeProvider>
+    
+    <I18nextProvider i18n={i18next}>
+      <ThemeProvider defaultTheme="light" storageKey="vite-ui-theme">
+        <RouterProvider router={router} />
+      </ThemeProvider>
+    </I18nextProvider>
   </React.StrictMode>,
 );
 
