@@ -7,11 +7,16 @@ const server = createServer(app);
 
 const cors = require("cors");
 const userRouter = require("./routes/user.router");
-const { error } = require("console");
+const productRouter = require("./routes/product.router");
+const imageEditRouter = require("./routes/imageEdit.router");
+const imageUploadRouter = require("./routes/imageUpload.router");
 
 app.use(express.json());
 app.use(cors());
 app.use("/user", userRouter);
+app.use('/user',productRouter);
+app.use('/user',imageEditRouter);
+app.use('/user',imageUploadRouter)
 
 app.get("/", (req, res) => {
   res.json({ ans: "SERVER IS RUNNING" });
@@ -37,6 +42,7 @@ app.use((error, req, res, next) => {
   res.status(statusCode).json({
     message: message,
   });
+  console.log(error);
 });
 
 const PORT = process.env.PORT || 3002;

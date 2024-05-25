@@ -8,11 +8,13 @@ pnpm-debug.log*
 lerna-debug.log*
 
 node_modules
+node_modules.zip
 package-lock.json
 .env
 dist
 dist-ssr
 *.local
+Secrets
 
 # Editor directories and files
 .vscode/*
