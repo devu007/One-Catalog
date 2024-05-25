@@ -16,8 +16,13 @@ interface ProductData {
   expiryDate?: string;
   manufacturingDate?:string;
 }
+interface UploadAdditionalImageProps {
+  handleToggleModal: () => void;
+}
 
-const UploadAdditionalImage: React.FC = () => {
+const UploadAdditionalImage: React.FC<UploadAdditionalImageProps> = ({
+  handleToggleModal
+}) => {
   const [product, setProduct] = useState<ProductData | null>(null);
   const [uploadedImages, setUploadedImages] = useState<string[]>([]);
   const navigate = useNavigate();
@@ -71,9 +76,10 @@ const UploadAdditionalImage: React.FC = () => {
 
     productApi.updateProduct(
       productId!,
-      updatedProduct,
+      {updatedProduct,sendNew:false},
       (data: any) => {
         toast.success('Product updated successfully');
+        handleToggleModal();
         navigate(`/genvision/${userId}/${productId}`);
       },
       (error: any) => {
@@ -81,6 +87,7 @@ const UploadAdditionalImage: React.FC = () => {
         console.error('Error updating product:', error);
       }
     );
+
   };
 
   if (!product) {
@@ -88,7 +95,7 @@ const UploadAdditionalImage: React.FC = () => {
   }
 
   return (
-    <div className="flex-1 bg-black mx-7 my-7 flex">
+    <div className="flex-1 bg-black mx-7 my-7 flex rounded">
       <div className="w-1/3 bg-white border-[#D4D4D4]">
         <div className="h-[350px] bg-white p-4 rounded-b-lg">
           <h1 className="font-bold text-[#000000] mx-2 text-xl">
@@ -220,7 +227,7 @@ const UploadAdditionalImage: React.FC = () => {
                 <button
                   type="button"
                   className="bg-[#FEFBFF] w-1/2 items-center justify-center px-2 py-2 font-medium rounded-md cursor-pointer border border-violet-600"
-                  onClick={() => navigate(`/genvision/${userId}`)}
+                  onClick={() => handleToggleModal()}
                 >
                   Cancel
                 </button>
@@ -237,10 +244,12 @@ const UploadAdditionalImage: React.FC = () => {
         </div>
       </div>
       <div className="w-2/3 bg-white p-8">
-        <div className="grid grid-cols-3 gap-4 border p-5 rounded-md border-[#623FC4]">
+        <div className="flex flex-row flex-wrap overflow-y-auto h-2/3 border p-5 rounded-md border-[#623FC4]">
           {uploadedImages.map((imageSrc, index) => (
-            <div key={index} className="flex w-[200px] h-[200px]">
-              <img src={imageSrc} alt={`Image ${index}`} />
+            <div key={index} className="border-2 rounded m-2 p-2">
+              <div className='w-full h-full'> 
+                <img src={imageSrc} alt={`Image ${index}`} />
+              </div>
             </div>
           ))}
         </div>
