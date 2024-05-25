@@ -67,17 +67,18 @@ export default function Mockup() {
           </h1>
           <div className="flex-grow flex flex-col">
             <div
-              className="grid gap-4 w-full border p-5 rounded-md border-[#623FC4] flex-grow"
+              className="flex flex-row flex-wrap w-full border p-5 rounded-md border-[#623FC4] flex-grow"
               style={{
                 gridTemplateColumns: getGridTemplateColumns(3),
               }}
             >
               {uploadedImages.map((imageSrc, index) => (
-                <div
+                <div className={`border-2 rounded m-2 p-2 ${
+                  selectedImage === imageSrc ? 'border-4 border-blue-500' : ''
+                }`}>
+                  <div
                   key={index}
-                  className={`relative flex w-[200px] h-[200px] ${
-                    selectedImage === imageSrc ? 'border-4 border-blue-500' : ''
-                  }`}
+                  className={`relative flex w-[200px] h-[200px] `}
                 >
                   <img
                     src={imageSrc}
@@ -104,6 +105,7 @@ export default function Mockup() {
                     </div>
                   )}
                 </div>
+              </div>
               ))}
             </div>
             <div className="flex gap-4 my-4">

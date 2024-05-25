@@ -59,7 +59,7 @@ const Nav = () => {
                 }}
                 onClick={(e) => e.stopPropagation()} // Prevent closing when clicking inside content
               >
-                <UploadAdditionalImage />
+                <UploadAdditionalImage handleToggleModal={handleToggleModal}/>
               </div>
             </div>
           )

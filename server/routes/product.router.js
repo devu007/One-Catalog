@@ -69,12 +69,16 @@ router
   .put('/updateProduct/:productId', verifyToken, async (req, res, next) => {
     const { productId: id } = req.params;
     try {
-      let updatedProduct = req.body;
-
+      let {updatedProduct,sendNew} = req.body;
+      if(!sendNew) sendNew = false;
       if (updatedProduct.uploadedImages) {
         const existingProduct = await Product.findById(id);
         if (existingProduct) {
-          updatedProduct.uploadedImages = [
+          updatedProduct.uploadedImages = sendNew? [
+            ...new Set([
+                ...updatedProduct.uploadedImages
+            ])
+          ]: [
             ...new Set([
                 ...existingProduct.uploadedImages,
                 ...updatedProduct.uploadedImages

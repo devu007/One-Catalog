@@ -30,7 +30,7 @@ const ProfilePage: React.FC = () => {
         console.error('Error fetching product data:', error);
       }
     );
-  }, [productId]);
+  });
 
   if (!product) {
     return <div>Loading...</div>;
@@ -80,10 +80,12 @@ const ProfilePage: React.FC = () => {
         </div>
       </div>
       <div className="w-2/3 bg-white p-8">
-        <div className="grid grid-cols-3 gap-4 border p-5 rounded-md border-[#623FC4]">
+        <div className="flex flex-row flex-wrap overflow-y-auto h-2/3 border p-5 rounded-md border-[#623FC4]">
           {product.uploadedImages.map((imageSrc, index) => (
-            <div key={index} className="flex w-[200px] h-[200px]">
-              <img src={imageSrc} alt={`Image ${index}`} />
+            <div className='border-2 rounded m-2 p-2' key={index}>
+              <div key={index} className='w-[200px] h-[200px]'>
+                <img src={imageSrc} alt={`Image ${index}`} className="flex w-full h-full"/>
+              </div>
             </div>
           ))}
         </div>
