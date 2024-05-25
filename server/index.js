@@ -10,6 +10,7 @@ const userRouter = require("./routes/user.router");
 const productRouter = require("./routes/product.router");
 const imageEditRouter = require("./routes/imageEdit.router");
 const imageUploadRouter = require("./routes/imageUpload.router");
+const imageAnalysisRouter = require("./routes/imageAnalysis.router");
 
 app.use(express.json());
 app.use(cors());
@@ -17,6 +18,7 @@ app.use("/user", userRouter);
 app.use('/user',productRouter);
 app.use('/user',imageEditRouter);
 app.use('/user',imageUploadRouter)
+app.use('/user',imageAnalysisRouter)
 
 app.get("/", (req, res) => {
   res.json({ ans: "SERVER IS RUNNING" });
