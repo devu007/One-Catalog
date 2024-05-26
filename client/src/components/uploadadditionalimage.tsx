@@ -25,6 +25,7 @@ const UploadAdditionalImage: React.FC<UploadAdditionalImageProps> = ({
 }) => {
   const [product, setProduct] = useState<ProductData | null>(null);
   const [uploadedImages, setUploadedImages] = useState<string[]>([]);
+  const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const navigate = useNavigate();
   const { userId, productId } = useParams<{ userId: string; productId: string }>();
 
@@ -42,7 +43,10 @@ const UploadAdditionalImage: React.FC<UploadAdditionalImageProps> = ({
     );
   }, [productId]);
 
-
+  const handleImageClick = (imageSrc: string) => {
+    if (selectedImage === imageSrc) setSelectedImage(null);
+    else setSelectedImage(imageSrc);
+  };
   const handleImageChange = async (imageFile: File) => {
     const formData = new FormData();
     formData.append('image', imageFile);
@@ -92,6 +96,10 @@ const UploadAdditionalImage: React.FC<UploadAdditionalImageProps> = ({
 
   if (!product) {
     return <div>Loading...</div>;
+  }
+
+  function handleDeleteButton(imageSrc: string): void {
+    throw new Error('Function not implemented.');
   }
 
   return (
@@ -246,9 +254,9 @@ const UploadAdditionalImage: React.FC<UploadAdditionalImageProps> = ({
       <div className="w-2/3 bg-white p-8">
         <div className="flex flex-row flex-wrap overflow-y-auto h-2/3 border p-5 rounded-md border-[#623FC4]">
           {uploadedImages.map((imageSrc, index) => (
-            <div key={index} className="border-2 rounded m-2 p-2">
-              <div className='w-full h-full'> 
-                <img src={imageSrc} alt={`Image ${index}`} />
+            <div key={index} className= {`relative border-2 rounded m-2 p-2 ${selectedImage === imageSrc ? 'border-4 border-blue-500' : ''}`} onClick={() => handleImageClick(imageSrc)}>
+              <div className='w-[200px] h-[200px]'> 
+                <img src={imageSrc} alt={`Image ${index}`} className='w-full h-full'/>
               </div>
             </div>
           ))}
