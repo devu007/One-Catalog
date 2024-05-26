@@ -59,6 +59,10 @@ const ProfilePage: React.FC = () => {
               <label className="block font-bold text-[#000000]">Category</label>
               <p>{product.category}</p>
             </div>
+            <div className="mb-4">
+              <label className="block font-bold text-[#000000]">Description</label>
+              <p>{product.description}</p>
+            </div>
             <div className="mb-4 flex">
               <div className="mr-2 flex-1">
                 <label className="block font-bold text-[#000000]">Quantity</label>

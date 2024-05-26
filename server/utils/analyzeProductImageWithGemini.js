@@ -4,7 +4,7 @@ const searchWithPrompt = require('./searchWithPrompt');
 const projectId = 'prismatic-grail-412017';
 
 // Replace with your service account JSON key file path
-const serviceAccountPath = '../Secrets/prismatic-grail-412017-44848757bed4.json';
+const serviceAccountPath = process.env.PATH;
 
 async function analyzeProductImageWithGemini(imageUrl, prompt) {
   try {

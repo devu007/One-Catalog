@@ -22,10 +22,16 @@ interface ProductData {
   description: string;
 }
 
+interface Description{
+  heading: string;
+  description: string;
+  keywords: string[];
+}
+
 export default function Text1() {
 
   const [prompt, setPrompt] = useState<string>("");
-  const [description,setDescription] = useState<string>("");
+  const [description,setDescription] = useState<Description>();
   const [selectedOption, setSelectedOption] = useState<string>('');
 
   const [product, setProduct] = useState<ProductData | null>(null);
@@ -53,10 +59,9 @@ export default function Text1() {
   const handleGenerateClick = async () => {
   try {
     console.log("clicked");
-    setDescription("Loading!!!")
-    if(selectedOption === "E-commerce") setPrompt(`Given the following product description: ${product!.brand}, ${product!.description}. Create text content for E-commerce Listing. Export heading, description and key features as JSON format.`);
-    if(selectedOption === "Social Media") setPrompt(`Given the following product description: ${product!.brand}, ${product!.description}. Create text content for E-commerce Listing. Create text content for social media. Export caption, and hashtag as JSON format.`);
-    if(selectedOption === "Advertisement") setPrompt(`Given the following product description: ${product!.brand}, ${product!.description}.Create text content for Ad campaign. Export headline, body, and keywords as JSON format.`)
+    if(selectedOption === "E-commerce") setPrompt(`Given the following product description: ${product!.brand}, ${product!.description}. Create text content for E-commerce Listing. Export heading, description and key features as JSON format only`);
+    if(selectedOption === "Social Media") setPrompt(`Given the following product description: ${product!.brand}, ${product!.description}. Create text content for E-commerce Listing. Create text content for social media. Export caption, and hashtag as JSON format only`);
+    if(selectedOption === "Advertisement") setPrompt(`Given the following product description: ${product!.brand}, ${product!.description}.Create text content for Ad campaign. Export headline, body, and keywords as JSON format only`)
     
       try {
         const response = await axios.post('http://localhost:3002/user/get-text-description', {
@@ -64,7 +69,14 @@ export default function Text1() {
         });
   
         if (response.data && response.data.message) {
-          setDescription(response.data.message);
+          // const jsonString = response.data.message.match(/```([^`]*)```/)[1];
+          // const jsonObject = JSON.parse(response.data.message);
+          console.log(response.data.message.heading);
+          
+          // setDescription();
+          console.log(response.data.message);
+          console.log(JSON.parse(response.data.message));
+          
         } else {
           console.error('Unexpected response format:', response);
         }
@@ -144,7 +156,7 @@ export default function Text1() {
       </div>
       <Separator orientation="vertical" className="" />
       <div className="w-2/3 bg-white p-8">
-        <div className="w-full h-[350px] rounded-md border border-[#623FC4] p-4 overflow-auto">{description}</div>
+        <div className="w-full h-[350px] rounded-md border border-[#623FC4] p-4 overflow-auto">{}</div>
       </div>
     </div>
   );

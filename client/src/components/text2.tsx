@@ -1,9 +1,26 @@
 // import React from 'react'
 
 // import Feature from './reusableFeatures';
-import getChatGPTResponse from '@/api/chatGPTResponse';
 import { Separator } from './ui/separator';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { productApi } from '@/services/productApi';
+import { toast } from 'react-toastify';
+import { useParams } from 'react-router-dom';
+import axios from 'axios';
+
+interface ProductData {
+  _id: string;
+  category: string;
+  uploadedImages: string[];
+  brand?: string;
+  productName?: string;
+  quantity?: number;
+  price?: number;
+  expiryDate?: string;
+  manufacturingDate?: string;
+  description: string;
+}
+
 import template1  from '../assets/images/template1.png';
 import template2 from '../assets/images/template2.png';
 import Text2_Template1 from './text2_template1';
@@ -15,6 +32,22 @@ export default function Text2() {
   const [prompt, setPrompt] = useState<string>("");
   const [description,setDescription] = useState<string>("");
   const [selectedTemplate, setSelectedTemplate] = useState<string | null>(null);
+  
+  const [product, setProduct] = useState<ProductData | null>(null);
+  const { userId, productId } = useParams<{ userId: string; productId: string }>();
+
+  useEffect(() => {
+    productApi.getProduct(
+      productId!,
+      (data: any) => {
+        setProduct(data.product);
+      },
+      (error: any) => {
+        toast.error('Error fetching product data');
+        console.error('Error fetching product data:', error);
+      }
+    );
+  });
 
   const handleTemplateClick = (template: string) => {
     setSelectedTemplate(template);
@@ -24,22 +57,36 @@ export default function Text2() {
   
   
   const handleGenerateClick = async () => {
-  try {
-    console.log("clicked2");
-    setDescription("Please wait..Loading!!!!!!")
-    const p2 = `Provide detailed information about the features of the product, including specifications, functionalities, unique selling points, and any notable advantages. Please list at least four key features that distinguish this product. Since I need to integrate it with my website give it as json with heading and description. Thank you!" The priduct is ${prompt}`;
-    const response = await getChatGPTResponse(p2);
-    // console.log('Generated Response:', response);
-    setDescription(response);
-
-    // Handle the response as needed (e.g., update state in a React component)
-    // For example, using React state:
-    // setGeneratedResponse(response);
-  } catch (error) {
-    console.error('Error generating response:', error);
-    // Handle errors as needed
-  }
-};
+    try {
+      console.log("clicked");
+      // setDescription("Loading!!!")
+      setPrompt(`Given the following product description: ${product!.brand}, ${product!.description}. Create 4 points having heading and description. Export heading and description as JSON format.`);
+      
+        try {
+          const response = await axios.post('http://localhost:3002/user/get-text-description', {
+            prompt: prompt
+          });
+    
+          if (response.data && response.data.message) {
+            setDescription(response.data.message);
+            // console.log(response);
+            
+            console.log(description);
+          } else {
+            console.error('Unexpected response format:', response);
+          }
+        } catch (error) {
+          console.error('Error fetching description:', error);
+        }
+        
+      // Handle the response as needed (e.g., update state in a React component)
+      // For example, using React state:
+      // setGeneratedResponse(response);
+    } catch (error) {
+      console.error('Error generating response:', error);
+      // Handle errors as needed
+    }
+  };
 
   return (
     <div className="flex ">
