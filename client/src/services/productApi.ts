@@ -1,6 +1,5 @@
 // src/api.ts
-import axios, { AxiosInstance } from 'axios';
-import { toast } from 'react-toastify';
+import { api } from './api';
 
 // Declare localStorage interface if not provided by the environment
 declare global {
@@ -12,29 +11,6 @@ declare global {
 interface ApiResponse<T> {
   data: T;
 }
-
-const api: AxiosInstance = axios.create({
-  baseURL: 'http://localhost:3002/user', // Replace with your actual backend base URL
-});
-
-api.interceptors.request.use((config) => {
-  const token = localStorage.getItem('user-token');
-  if (token) {
-    config.headers.Authorization = token;
-  }
-  return config;
-});
-
-api.interceptors.response.use(
-  (response) => response,
-  (error) => {
-    if (error.response && error.response.status === 401) {
-      localStorage.removeItem('user-token');
-      toast.error('401 UnAuthorized');
-    }
-    return Promise.reject(error);
-  }
-);
 
 export const productApi = {
   createProduct: (productData: any, onSuccess: Function, onError: Function) => {

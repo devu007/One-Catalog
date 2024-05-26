@@ -1,5 +1,5 @@
-import axios, { AxiosInstance } from "axios";
-import {  toast } from 'react-toastify';
+
+import { api } from './api';
 interface ApiResponse<T> {
   data: T;
 }
@@ -19,29 +19,6 @@ declare global {
     localStorage: Storage;
   }
 }
-
-const api: AxiosInstance = axios.create({
-  baseURL: "http://localhost:3002",
-});
-
-api.interceptors.request.use((config) => {
-  const token = localStorage.getItem("user-token");
-  if (token) {
-    config.headers.Authorization = token;
-  }
-  return config;
-});
-
-api.interceptors.response.use(
-  (response) => response,
-  (error) => {
-    if (error.response && error.response.status === 401) {
-      localStorage.removeItem("user-token");
-      toast.error('401 UnAuthorized');
-    }
-    return Promise.reject(error);
-  }
-);
 
 export const userApi = {
   register: (payload: LoginPayload, onSuccess: Function,onError :Function) => {

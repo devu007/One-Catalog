@@ -30,8 +30,8 @@ db.on("connected", () => {
   console.log(`Mongoose connected`);
 });
 
-db.on("error", (err, next) => {
-  next(err);
+db.on("error", (err) => {
+  console.log(err);
 });
 
 db.on("disconnected", () => {
