@@ -1,58 +1,62 @@
 // import { ModeToggle } from './mode-toggle';
 
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from 'react-router-dom';
 
 export default function Sidebar() {
-
-  const {userId} = useParams();
+  const { userId } = useParams();
   const navigate = useNavigate();
 
   const handleLogout = () => {
     localStorage.removeItem('user-token');
     localStorage.removeItem('userId');
     navigate('/');
-  }
+  };
 
   return (
-    <div className="flex flex-col h-screen w-20 shadow-lg shadow-[#dbdbde] dark:shadow-slate-900">
-      <div className="flex items-center justify-center h-16">
-        {/* <img src={logo} alt="Logo" className="w-9 h-8" /> */}
-        <a href={`/genvision/${userId}`}><BrandLogo /></a>
-      </div>
-      <div className="flex items-center justify-center m-3 rounded-lg py-2 px-3 bg-[#F1EEFA99]">
-        <svg
-          width="33"
-          height="37"
-          viewBox="0 0 30 28"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
+    <div className="w-20 shadow-lg shadow-[#dbdbde] dark:shadow-slate-900 relative">
+      <div className='h-full flex flex-col justify-between'>
+        <div>
+          <div className="flex items-center justify-center h-16">
+            <a href={`/genvision/${userId}`}>
+              <BrandLogo />
+            </a>
+          </div>
+          <div className="flex items-center justify-center m-3 rounded-lg py-2 px-3 bg-[#F1EEFA99]">
+            <svg
+              width="33"
+              height="37"
+              viewBox="0 0 30 28"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <g id="Frame" clipPath="url(#clip0_683_390)">
+                <path
+                  id="Vector"
+                  d="M3.75 15.1458H13.75V3.6875H3.75V15.1458ZM3.75 24.3125H13.75V17.4375H3.75V24.3125ZM16.25 24.3125H26.25V12.8542H16.25V24.3125ZM16.25 3.6875V10.5625H26.25V3.6875H16.25Z"
+                  fill="#623FC4"
+                />
+              </g>
+              <defs>
+                <clipPath id="clip0_683_390">
+                  <rect
+                    width="30"
+                    height="27.5"
+                    fill="white"
+                    transform="translate(0 0.25)"
+                  />
+                </clipPath>
+              </defs>
+            </svg>
+          </div>
+        </div>
+        <div
+        className="flex flex-col items-center"
+        // style={{ position: 'absolute', bottom: '0px' }}
+      >
+        <button
+          className="w-12 h-12 p-3 mb-2 rounded-full bg-slate-200 hover:bg-slate-100 dark:hover:bg-slate-300"
+          onClick={handleLogout}
         >
-          <g id="Frame" clipPath="url(#clip0_683_390)">
-            <path
-              id="Vector"
-              d="M3.75 15.1458H13.75V3.6875H3.75V15.1458ZM3.75 24.3125H13.75V17.4375H3.75V24.3125ZM16.25 24.3125H26.25V12.8542H16.25V24.3125ZM16.25 3.6875V10.5625H26.25V3.6875H16.25Z"
-              fill="#623FC4"
-            />
-          </g>
-          <defs>
-            <clipPath id="clip0_683_390">
-              <rect
-                width="30"
-                height="27.5"
-                fill="white"
-                transform="translate(0 0.25)"
-              />
-            </clipPath>
-          </defs>
-        </svg>
-      </div>
-      <nav className="flex-grow">
-        {/* Your dropdown menu will go here */}
-      </nav>
-      {/* <ModeToggle /> */}
-      {/* Logout */}
-      <div className="flex flex-col items-center" style={{position:'absolute',bottom:'0px'}}>
-        <button className="w-12 h-12 p-3 mb-2 rounded-full bg-slate-200 hover:bg-slate-100 dark:hover:bg-slate-300" onClick={handleLogout}>
           <svg
             width="25"
             height="28"
@@ -74,6 +78,7 @@ export default function Sidebar() {
             </defs>
           </svg>
         </button>
+      </div>
       </div>
     </div>
   );
