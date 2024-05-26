@@ -22,16 +22,11 @@ interface ProductData {
   description: string;
 }
 
-interface Description{
-  heading: string;
-  description: string;
-  keywords: string[];
-}
 
 export default function Text1() {
 
   const [prompt, setPrompt] = useState<string>("");
-  const [description,setDescription] = useState<Description>();
+  const [description,setDescription] = useState<string>("");
   const [selectedOption, setSelectedOption] = useState<string>('');
 
   const [product, setProduct] = useState<ProductData | null>(null);
@@ -69,13 +64,10 @@ export default function Text1() {
         });
   
         if (response.data && response.data.message) {
-          // const jsonString = response.data.message.match(/```([^`]*)```/)[1];
-          // const jsonObject = JSON.parse(response.data.message);
-          console.log(response.data.message.heading);
           
-          // setDescription();
+          setDescription(response.data.message);
           console.log(response.data.message);
-          console.log(JSON.parse(response.data.message));
+          // console.log(JSON.parse(response.data.message));
           
         } else {
           console.error('Unexpected response format:', response);
@@ -156,7 +148,7 @@ export default function Text1() {
       </div>
       <Separator orientation="vertical" className="" />
       <div className="w-2/3 bg-white p-8">
-        <div className="w-full h-[350px] rounded-md border border-[#623FC4] p-4 overflow-auto">{}</div>
+        <div className="w-full h-[350px] rounded-md border border-[#623FC4] p-4 overflow-auto">{description}</div>
       </div>
     </div>
   );
