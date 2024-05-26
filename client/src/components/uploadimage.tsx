@@ -17,6 +17,7 @@ interface ProductData {
   price?: number | undefined;
   expiryDate?: string | undefined;
   manufacturingDate?: string | undefined;
+  description?: string | undefined;
 }
 
 const UploadImage = () => {
@@ -29,6 +30,7 @@ const UploadImage = () => {
   const [price, setPrice] = useState<number | undefined>(undefined);
   const [expiryDate, setExpiryDate] = useState<string | undefined>(undefined);
   const [manufacturingDate, setManufacturingDate] = useState<string | undefined>(undefined);
+  const [description, setDescription] = useState<string | undefined>(undefined);
   const navigate = useNavigate();
   const { userId } = useParams();
 
@@ -73,6 +75,7 @@ const UploadImage = () => {
       price,
       expiryDate,
       manufacturingDate,
+      description,
     };
 
     productApi.createProduct(
@@ -89,6 +92,7 @@ const UploadImage = () => {
         setExpiryDate('');
         setUploadedImages([]);
         setManufacturingDate('');
+        setDescription('');
         navigate(`/genvision/${userId}`);
       },
       (error:any) => {
@@ -180,6 +184,21 @@ const UploadImage = () => {
                     />
                   </div>
                 </div>
+
+                <div className='mb-4'>
+                <label htmlFor="description" className="block font-bold text-[#000000]">
+                    Description
+                  </label>
+                  <textarea
+                    id="description"
+                    name="description"
+                    placeholder="Description Required."
+                    className="border border-gray-300 shadow p-1 w-full rounded"
+                    value={description}
+                    onChange={(e) => setDescription(e.target.value)}
+                  />
+                  </div>
+
                 <div className="mb-4">
                   <label htmlFor="manufacturingDate" className="block font-bold text-[#000000]">
                     Manufacturing Date
