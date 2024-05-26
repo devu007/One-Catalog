@@ -6,6 +6,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import Navbar from './navbar2';
 import { productApi } from '../services/productApi';
 import { toast } from 'react-toastify';
+import axios from 'axios';
 
 interface ProductData {
   productId: string;
@@ -17,6 +18,7 @@ interface ProductData {
   price?: number | undefined;
   expiryDate?: string | undefined;
   manufacturingDate?: string | undefined;
+  description?: string | undefined;
 }
 
 const UploadImage = () => {
@@ -29,6 +31,7 @@ const UploadImage = () => {
   const [price, setPrice] = useState<number | undefined>(undefined);
   const [expiryDate, setExpiryDate] = useState<string | undefined>(undefined);
   const [manufacturingDate, setManufacturingDate] = useState<string | undefined>(undefined);
+  const [description, setDescription] = useState<string | undefined>(undefined);
   const navigate = useNavigate();
   const { userId } = useParams();
 
@@ -60,6 +63,25 @@ const UploadImage = () => {
     navigate(`/genvision/${userId}`);
   }
 
+  const handleGetDescription = async (imageSrc:string) => {
+    const prompt = 'Very short description about the product visually';
+
+    try {
+      const response = await axios.post('http://localhost:3002/user/get-description', {
+        imageUrl: imageSrc,
+        prompt: prompt
+      });
+
+      if (response.data && response.data.message) {
+        setDescription(response.data.message);
+      } else {
+        console.error('Unexpected response format:', response);
+      }
+    } catch (error) {
+      console.error('Error fetching description:', error);
+    }
+  };
+
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
@@ -73,6 +95,7 @@ const UploadImage = () => {
       price,
       expiryDate,
       manufacturingDate,
+      description,
     };
 
     productApi.createProduct(
@@ -89,6 +112,7 @@ const UploadImage = () => {
         setExpiryDate('');
         setUploadedImages([]);
         setManufacturingDate('');
+        setDescription('');
         navigate(`/genvision/${userId}`);
       },
       (error:any) => {
@@ -193,6 +217,21 @@ const UploadImage = () => {
                     />
                   </div>
                 </div>
+
+                <div className='mb-4'>
+                <label htmlFor="description" className="block font-bold text-[#000000]">
+                    Description
+                  </label>
+                  <textarea
+                    id="description"
+                    name="description"
+                    placeholder="Description Required."
+                    className="border border-gray-300 shadow p-1 w-full rounded"
+                    value={description}
+                    onChange={(e) => setDescription(e.target.value)}
+                  />
+                  </div>
+
                 <div className="mb-4">
                   <label htmlFor="manufacturingDate" className="block font-bold text-[#000000]">
                     Manufacturing Date
@@ -258,7 +297,7 @@ const UploadImage = () => {
 <path d="M 21 3 C 11.621094 3 4 10.621094 4 20 C 4 29.378906 11.621094 37 21 37 C 24.710938 37 28.140625 35.804688 30.9375 33.78125 L 44.09375 46.90625 L 46.90625 44.09375 L 33.90625 31.0625 C 36.460938 28.085938 38 24.222656 38 20 C 38 10.621094 30.378906 3 21 3 Z M 21 5 C 29.296875 5 36 11.703125 36 20 C 36 28.296875 29.296875 35 21 35 C 12.703125 35 6 28.296875 6 20 C 6 11.703125 12.703125 5 21 5 Z"></path>
 </svg>
                   </button>
-                  <button className='p-1 mx-1 rounded' onClick={() => {}} style={{background:'white',border:"1px solid black"}}>
+                  <button className='my-auto' onClick={ () => handleGetDescription(imageSrc)} style={{background:'white',border:"1px solid black"}}>
                   <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="25" height="25" viewBox="0 0 50 50">
 <path d="M 7 2 L 7 48 L 43 48 L 43 14.59375 L 42.71875 14.28125 L 30.71875 2.28125 L 30.40625 2 Z M 9 4 L 29 4 L 29 16 L 41 16 L 41 46 L 9 46 Z M 31 5.4375 L 39.5625 14 L 31 14 Z"></path>
 </svg>
