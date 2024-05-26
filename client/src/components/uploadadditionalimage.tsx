@@ -52,7 +52,7 @@ const UploadAdditionalImage: React.FC<UploadAdditionalImageProps> = ({
     formData.append('image', imageFile);
 
     try {
-      const response = await fetch('http://localhost:3002/user/upload-image', {
+      const response = await fetch("https://one-catalog-server.onrender.com/user/upload-image", {
         method: 'POST',
         body: formData,
       });

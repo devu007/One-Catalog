@@ -1,7 +1,7 @@
 import axios, { AxiosInstance } from "axios";
 import { toast } from "react-toastify";
 export const api: AxiosInstance = axios.create({
-    baseURL: "http://localhost:3002" + "/user",
+    baseURL: "https://one-catalog-server.onrender.com/user",
   });
   
   api.interceptors.request.use((config) => {

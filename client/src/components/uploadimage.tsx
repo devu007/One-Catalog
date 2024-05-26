@@ -40,7 +40,7 @@ const UploadImage = () => {
     formData.append('image', imageFile);
 
     try {
-      const response = await fetch('http://localhost:3002/user/upload-image', {
+      const response = await fetch("https://one-catalog-server.onrender.com/user/upload-image", {
         method: 'POST',
         body: formData,
       });
@@ -67,7 +67,7 @@ const UploadImage = () => {
     const prompt = '`Use the following details to write a short description about the product. Details are `';
 
     try {
-      const response = await axios.post('http://localhost:3002/user/get-description', {
+      const response = await axios.post("one-catalog-server.onrender.com/user/get-description", {
         imageUrl: imageSrc,
         prompt: prompt
       });

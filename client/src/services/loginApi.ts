@@ -19,15 +19,14 @@ declare global {
     localStorage: Storage;
   }
 }
-
 export const userApi = {
   register: (payload: LoginPayload, onSuccess: Function,onError :Function) => {
-    api.post<ApiResponse<any>>("/user/register", payload).then((resp) => onSuccess && onSuccess(resp.data)).catch(err => onError && onError(err.response?.data));
+    api.post<ApiResponse<any>>("/register", payload).then((resp) => onSuccess && onSuccess(resp.data)).catch(err => onError && onError(err.response?.data));
   },
   login: (payload: LoginPayload, onSuccess: Function ,onError :Function) => {
-    api.post<ApiResponse<any>>("/user/login", payload).then((resp) => onSuccess && onSuccess(resp.data)).catch(err => onError && onError(err.response?.data));
+    api.post<ApiResponse<any>>("/login", payload).then((resp) => onSuccess && onSuccess(resp.data)).catch(err => onError && onError(err.response?.data));
   },
   refreshLogin :(onSuccess: Function,onError :Function) => {
-    api.get<ApiResponse<any>>("/user/refreshLogin").then((resp) => onSuccess && onSuccess(resp.data)).catch(err => onError && onError(err.response?.data));
+    api.get<ApiResponse<any>>("/refreshLogin").then((resp) => onSuccess && onSuccess(resp.data)).catch(err => onError && onError(err.response?.data));
   },
 };
