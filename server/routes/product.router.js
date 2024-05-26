@@ -1,10 +1,10 @@
 const express = require('express');
 const router = express.Router();
 const { verifyToken } = require('../utils/tokenUtils');
-
 const { handleError } = require('../utils/errorUtils.js');
 const Product = require('../model/product.Schema.js');
 const User = require('../model/user.Schema');
+const { v4: uuidv4 } = require("uuid");
 
 router
   .get('/getProducts', verifyToken, async (req, res, next) => {
@@ -52,6 +52,9 @@ router
     try {
       var userId = req.decoded.data;
       var user = await User.findById(userId);
+      if(!req.body.productId){
+        req.body.productId = uuidv4();
+      }
       const product = await Product.create(req.body);
       var productsIds = user.products;
       var newProductIds = [];

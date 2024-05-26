@@ -5,6 +5,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import BulkUpload from "./bulk-upload";
 import Navbar from './navbar2';
 import { productApi } from '../services/productApi';
+import { toast } from 'react-toastify';
 
 interface TableRow {
   no: number;
@@ -36,34 +37,36 @@ const TABLE_HEAD = ["", "No", "Image", "Product ID", "Brand", "Product Name", "P
 const PAGE_SIZE = 10;
 
 export default function Dashboard() {
-  const [selectedRows, setSelectedRows] = useState<number[]>([]);
+  const [selectedRows, setSelectedRows] = useState<string[]>([]);
   const [TABLE_ROWS, setTableRows] = useState<TableRow[]>([]);
+  const [filtered_data, setFilteredData] = useState<TableRow[]>([]);
+  const [mapUploadedData, setMapUploadedData] = useState<Map<string, string>>();
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
-  const [counter,setCounter] = useState<number>(0);
   const navigate = useNavigate();
   const {userId} = useParams();
 
   const [currentPage, setCurrentPage] = useState(1);
-  const totalItems = TABLE_ROWS.length;
+  const totalItems = filtered_data.length;
   const totalPages = Math.ceil(totalItems / PAGE_SIZE);
 
   const startIndex = (currentPage - 1) * PAGE_SIZE;
   const endIndex = Math.min(startIndex + PAGE_SIZE, totalItems);
 
-  const visibleRows = TABLE_ROWS.slice(startIndex, endIndex);
+  const visibleRows = filtered_data.slice(startIndex, endIndex);
 
   const handlePageChange = (newPage: number) => {
     setCurrentPage(newPage);
   };
 
   useEffect(() => {
-    // Retrieve product data from localStorage
-    // const storedProductData: ProductData[] = 
-    productApi.getProducts((data:any) => {
-        // Map the stored product data to TableRow format
-        console.log(data);
-        
-    const transformedRows: TableRow[] = data.products.map((product:ProductData, index:number) => ({
+    getData()
+  }, []);
+
+  const getData = () =>  {
+    productApi.getProducts((data:any) => {  
+    var transformedRows: TableRow[] = data.products.map((product:ProductData, index:number) => {
+      mapUploadedData?.set(product._id,product.uploadedImages);
+      return({
       no: index + 1,
       img: product.uploadedImages[0],
       product_id: product._id,
@@ -74,52 +77,17 @@ export default function Dashboard() {
       stock_units: product.quantity || 0,
       manufacturing_date: product.manufacturingDate || '',
       expiry_date: product.expiryDate || '',
-    }));
+    })});
 
-    
     setTableRows(transformedRows);
-
+    setFilteredData(transformedRows);
+    console.log("inside getData");
+    
     },(error:any) => {
         // Handle error (e.g., show error message)
         console.error('Error creating product:', error);
-    }
-  );
-
-    // Map the stored product data to TableRow format
-    // const transformedRows: TableRow[] = storedProductData.map((product, index) => ({
-    //   no: index + 1,
-    //   img: product.uploadedImages[0],
-    //   product_id: product.id,
-    //   brand: product.brand || '',
-    //   product_name: product.productName || '',
-    //   product_category: product.category || '',
-    //   price: product.price ? `Rs. ${product.price}` : '',
-    //   stock_units: product.quantity || 0,
-    //   manufacturing_date_date: product.manufacturingDate || '',
-    //   expiry_date: product.expiryDate || '',
-    // }));
-
-    // Now, transformedRows contains the data in the TableRow format
-    // console.log(transformedRows);
-
-    // For future use with API
-    // const fetchData = async () => {
-    //   try {
-    //     const response = await fetch('your-api-endpoint');
-    //     const data = await response.json();
-    //     setTableRows(data || transformedRows);
-    //   } catch (error) {
-    //     console.error('Error fetching data:', error);
-    //     setTableRows(transformedRows);
-    //   }
-    // };
-
-    // fetchData();
-
-    // Using transformedRows directly for now
-    // setTableRows(transformedRows);
-  }, [counter]);
-
+    });
+  }
   const handleAddNewProductClick = () => {
     navigate(`/genvision/${userId}/upload`);
   };
@@ -131,14 +99,28 @@ export default function Dashboard() {
   };
 
   const handleDeleteButton = () => {
-    console.log(selectedRows);
-    setCounter(counter+1);
+    selectedRows.forEach(id=>{
+      productApi.deleteProduct(id,(resp:any)=>{
+        toast.success(id +" "+resp.message);
+      },(err:any)=>toast.error(err.message))
+    })
+    getData();
   }
 
   const handleExportAsZip = () => {
+    if(selectedRows.length<=0) toast.warning("No Rows Selected");
     // Convert product data to CSV format
-    const storedProductData: ProductData[] = JSON.parse(localStorage.getItem('product') || '[]');
-    const csvData = convertToCSV(storedProductData);
+    let selectedRowData = filtered_data
+    .filter(data =>(selectedRows.indexOf(data.product_id) !== -1))
+    .map(data => {
+        let res : ProductData = {
+          _id: data.product_id,
+          category: data.product_category,
+          uploadedImages: mapUploadedData?.get(data.product_id)!
+        }
+        return res;
+      });
+    const csvData = convertToCSV(selectedRowData);
   
     // Create a Blob object with the CSV data
     const blob = new Blob([csvData], { type: 'text/csv' });
@@ -163,12 +145,21 @@ export default function Dashboard() {
   };
   
 
+  function handleSearch(event: ChangeEvent<HTMLInputElement>): void {
+    if (event.target.value) {
+      var data = TABLE_ROWS.filter((row: TableRow) => row.product_name.toLowerCase().includes((event.target.value).toLowerCase()));
+      setFilteredData(data);
+    } else {
+      setFilteredData(TABLE_ROWS);
+    }
+  }
+
   return (
     <>
     <Navbar />
 
 
-      <Card placeholder="a" style={{ marginTop: '50px', zIndex:'1'}}>
+      <Card placeholder="a" style={{ zIndex:'1'}}>
         <CardHeader placeholder="a" floated={true} shadow={false} className="rounded-none">
           <div className="mb-8 flex items-center justify-between gap-8">
           </div>
@@ -222,24 +213,25 @@ export default function Dashboard() {
             </div>
 
             <div className="flex items-center space-x-2">
-              <Button placeholder='a' className="text-gray  flex items-center gap-2 border shadow-[none]">
+              <Button placeholder='a' className="text-gray  flex items-center gap-2 border shadow-[none]" disabled>
                 <BarsArrowUpIcon strokeWidth={2} className="h-8 w-8" /> Scan
               </Button>
               <Input
                 crossOrigin='a'
                 type="text"
                 placeholder="Search"
-                // size='sm'
+                onChange={handleSearch}
                 className="outline-none border-gray-500 rounded-md focus:outline-none focus:border-blue-500"
               />
-              <Button className=" border-[gray]" placeholder='a' variant="outlined" size="sm" onClick={handleExportAsZip}>
-                Export as CSV
+              <Button className=" border-[gray] w-full" placeholder='a' variant="outlined" onClick={handleExportAsZip}>
+                <div className='text-nowrap'>Export as CSV</div>
               </Button>
-              <Button placeholder='a' className="text-gray border shadow-[none]" onClick={handleDeleteButton}>
-                <TrashIcon strokeWidth={2} className="h-8 w-8" />
-              </Button>
+              <div className=' border'>
+                <button  className="text-gray shadow-[none]" onClick={handleDeleteButton}>
+                  <TrashIcon strokeWidth={2} className="h-8 w-8" />
+                </button>
+              </div>
             </div>
-
           </div>
         </CardHeader>
         <CardBody placeholder="a" className="overflow-scroll px-0">
@@ -279,15 +271,15 @@ export default function Dashboard() {
                       <div
                         onClick={(e) => {
                           e.stopPropagation();
-                          const newSelectedRows = selectedRows.includes(no)
-                            ? selectedRows.filter((row) => row !== no)
-                            : [...selectedRows, no];
+                          const newSelectedRows = selectedRows.includes(product_id)
+                            ? selectedRows.filter((row) => row !== product_id)
+                            : [...selectedRows,product_id];
                           setSelectedRows(newSelectedRows);
                         }}
                       >
                         <input
                           type="checkbox"
-                          checked={selectedRows.includes(no)}
+                          checked={selectedRows.includes(product_id)}
                           onChange={() => {}}
                         />
                       </div>
