@@ -64,7 +64,7 @@ const UploadImage = () => {
   }
 
   const handleGetDescription = async (imageSrc:string) => {
-    const prompt = 'Very short description about the product visually';
+    const prompt = '`Use the following details to write a short description about the product. Details are `';
 
     try {
       const response = await axios.post('http://localhost:3002/user/get-description', {

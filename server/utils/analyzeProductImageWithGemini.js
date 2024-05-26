@@ -4,7 +4,7 @@ const searchWithPrompt = require('./searchWithPrompt');
 const projectId = 'prismatic-grail-412017';
 
 // Replace with your service account JSON key file path
-const serviceAccountPath = '../prismatic-grail-412017-44848757bed4.json';
+const serviceAccountPath = '../Secrets/prismatic-grail-412017-44848757bed4.json';
 
 async function analyzeProductImageWithGemini(imageUrl, prompt) {
   try {
@@ -21,7 +21,7 @@ async function analyzeProductImageWithGemini(imageUrl, prompt) {
       imageDescription = response.fullTextAnnotation.text.toLowerCase(); // Extract text from the image
     }
 
-    // const prompt = `Use the following details to write a short description about the product. Details are ` + imageDescription;
+    prompt += imageDescription;
 
     let responseText=searchWithPrompt(prompt);
 
