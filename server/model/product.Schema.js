@@ -42,7 +42,11 @@ const productSchema = new mongoose.Schema({
     },
     manufacturingDate: {
         type: String,
-    }
+    },
+    description:{
+        type: String,
+        required: true,
+    },
 },  {
     _id: false, // Disable the _id field
     versionKey: false, // Disable the __v field
