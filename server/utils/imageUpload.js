@@ -1,7 +1,7 @@
 const { Storage } = require('@google-cloud/storage');
 
 // Replace with your downloaded JSON key file path
-const serviceAccountPath = '../server/Secrets/prismatic-grail-412017-44848757bed4.json';
+const serviceAccountPath = '../prismatic-grail-412017-44848757bed4.json';
 
 async function uploadImage(imageFile) {
   try {

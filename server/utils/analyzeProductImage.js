@@ -4,7 +4,7 @@ const { ImageAnnotatorClient } = require('@google-cloud/vision'); // Replace wit
 const projectId = 'prismatic-grail-412017';
 
 // Replace with your service account JSON key file path
-const serviceAccountPath = '../Secrets/prismatic-grail-412017-44848757bed4.json';
+const serviceAccountPath = '../prismatic-grail-412017-44848757bed4.json';
 
 async function analyzeProductImage(imageUrl, prompt) {
   try {

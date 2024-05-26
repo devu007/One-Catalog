@@ -14,7 +14,7 @@ package-lock.json
 dist
 dist-ssr
 *.local
-Secrets
+prismatic-grail-412017-44848757bed4.json
 
 # Editor directories and files
 .vscode/*
