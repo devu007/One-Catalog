@@ -116,7 +116,11 @@ export default function Dashboard() {
         let res : ProductData = {
           _id: data.product_id,
           category: data.product_category,
-          uploadedImages: mapUploadedData?.get(data.product_id)!
+          uploadedImages: mapUploadedData?.get(data.product_id)!,
+          productName:data.product_name,
+          brand:data.brand,
+          quantity:data.stock_units,
+          manufacturingDate:data.manufacturing_date
         }
         return res;
       });
