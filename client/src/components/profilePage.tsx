@@ -13,6 +13,7 @@ interface ProductData {
   price?: number;
   expiryDate?: string;
   manufacturingDate?: string;
+  description: string;
 }
 
 const ProfilePage: React.FC = () => {
