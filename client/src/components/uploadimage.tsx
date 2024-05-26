@@ -283,7 +283,7 @@ const UploadImage = () => {
           <div className="flex flex-row flex-wrap overflow-y-auto gap-4 border p-5 rounded-md border-[#623FC4]">
             {uploadedImages.map((imageSrc, index) => (
               <div  className='relative image-container'>
-              <div key={index} className="flex w-[200px] h-[200px]">
+              <div key={index} className="flex w-[150px] h-[150px]">
                 <img src={imageSrc} alt={`Image ${index}`} />
               </div>
               <div className="hidden-on-load w-2/3 rounded absolute bottom-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2  gap-2 p-1 text-center flex flex-row" >

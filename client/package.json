@@ -4,7 +4,7 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
+    "start": "vite",
     "build": "tsc && vite build",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview"
@@ -32,7 +32,7 @@
     "react-landing-page": "2.0.2",
     "react-modal": "^3.16.1",
     "react-router-dom": "^6.15.0",
-    "react-scripts": "3.0.1",
+    "react-scripts": "^5.0.0",
     "react-toastify": "^10.0.5",
     "styled-components": "4.3.2",
     "tachyons": "latest",

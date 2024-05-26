@@ -26,12 +26,12 @@ const ProfilePage: React.FC = () => {
       (data: any) => {
         setProduct(data.product);
       },
-      (error: any) => {
+    (error: any) => {
         toast.error('Error fetching product data');
         console.error('Error fetching product data:', error);
       }
     );
-  });
+  },[productId,userId]);
 
   if (!product) {
     return <div>Loading...</div>;
@@ -39,13 +39,13 @@ const ProfilePage: React.FC = () => {
 
   return (
     <div className="flex-1 bg-black mx-7 my-7 flex">
-      <div className="w-1/3 bg-white border-[#D4D4D4]">
-        <div className="h-[350px] bg-white p-4 rounded-b-lg">
+      <div className="w-1/3 bg-white border-2 border-[#D4D4D4]">
+        <div className="bg-white p-4 rounded-b-lg">
           <h1 className="font-bold text-[#000000] mx-2 text-xl">Product Profile</h1>
           <div className="mt-4 mx-2">
             <div className="mb-4">
               <label className="block font-bold text-[#000000]">Product ID</label>
-              <p>{product._id}</p>
+              <p className='text-xs'>{product._id}</p>
             </div>
             <div className="mb-4">
               <label className="block font-bold text-[#000000]">Brand</label>
@@ -85,10 +85,10 @@ const ProfilePage: React.FC = () => {
         </div>
       </div>
       <div className="w-2/3 bg-white p-8">
-        <div className="flex flex-row flex-wrap overflow-y-auto h-2/3 border p-5 rounded-md border-[#623FC4]">
+        <div className="flex flex-row flex-wrap overflow-y-auto border p-5 rounded-md border-[#623FC4]">
           {product.uploadedImages.map((imageSrc, index) => (
             <div className='border-2 rounded m-2 p-2' key={index}>
-              <div key={index} className='w-[200px] h-[200px]'>
+              <div key={index} className='w-[150px] h-[150px]'>
                 <img src={imageSrc} alt={`Image ${index}`} className="flex w-full h-full"/>
               </div>
             </div>

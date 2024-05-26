@@ -78,7 +78,7 @@ export default function Mockup() {
                 }`}>
                   <div
                   key={index}
-                  className={`relative flex w-[200px] h-[200px] `}
+                  className={`relative flex w-[150px] h-[150px] `}
                 >
                   <img
                     src={imageSrc}

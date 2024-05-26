@@ -28,14 +28,14 @@ const Navbar: React.FC = () => {
     >
       <div style={{ marginLeft: '40px' }}>
         <img className="inline-block align-middle pb-8" src={logo2} alt="Gen_Vision" />
-        <div className="float-right">
+        <div className="float-right" onClick={(e) => {setIsOpen(!isOpen)}}>
           <button onClick={() => setIsOpen(!isOpen)}>
             <img className="inline-block align-middle pr-8 pb-8" src={mllanguage} alt="multi language" />
           </button>
 
           {/* Language option */}
           {isOpen && (
-            <div className="absolute right-0 top-0 mt-2 w-40 bg-white border border-gray-200 rounded-md shadow-lg z-2">
+            <div className="absolute right-0 top-0 mt-2 w-30 bg-white border border-gray-200 rounded-md shadow-lg z-5" >
               {languages.map((lng) => (
                 <button
                   key={lng}
