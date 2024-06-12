@@ -16,7 +16,6 @@
     "noUnusedLocals": false, // Allow unused local variables.
     "noUnusedParameters": false, // Allow unused parameters.
     "noFallthroughCasesInSwitch": false, // Allow fallthrough cases in switch statements.
-    "suppressImplicitAnyIndexErrors": true, // Suppress errors for missing index signatures.
     "skipDefaultLibCheck": true, // Skip checking .d.ts files that are included with TypeScript.
     "baseUrl": "./src",
     "paths": {
@@ -27,7 +26,8 @@
     "noStrictGenericChecks": true, // Disable strict checking of generic signatures.
     "allowSyntheticDefaultImports": true, // Allow default imports from modules with no default export.
     "esModuleInterop": true, // Enable interoperability between CommonJS and ES Modules.
-    "forceConsistentCasingInFileNames": false // Disable consistent casing check for file names.
+    "forceConsistentCasingInFileNames": false, // Disable consistent casing check for file names.
+    "ignoreDeprecations": "5.0" // Ignore deprecation warnings for TypeScript 5.0
   },
   "include": ["src"],
   "exclude": ["node_modules", "dist"], // Exclude unnecessary directories.
