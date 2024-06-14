@@ -6,12 +6,12 @@ interface AmazonLoginButtonProps {
 
 const AmazonLoginButton: React.FC<AmazonLoginButtonProps> = ({ onSuccess }) => {
   const handleAmazonLogin = () => {
-    const clientId = 'a04f5a87ea1c423586a89c7339c079db';
-    const redirectUri = 'http://localhost:3000/callback';
+    const clientId = process.env.KINDE_CLIENT_ID;
+    const redirectUri = process.env.KINDE_REDIRECT_URI;
     const responseType = 'token';
     const scope = 'profile';
 
-    const authUrl = `https://onecatalog.kinde.com/oauth2/authorize?client_id=${clientId}&scope=${scope}&response_type=${responseType}&redirect_uri=${redirectUri}`;
+    const authUrl = `${process.env.KINDE_DOMAIN}/oauth2/authorize?client_id=${clientId}&scope=${scope}&response_type=${responseType}&redirect_uri=${redirectUri}`;
     window.location.href = authUrl;
   };
 

@@ -9,6 +9,7 @@ import { useNavigate } from 'react-router-dom';
 import { userApi } from '@/services/loginApi';
 import { toast } from 'react-toastify';
 import { generateUserId } from '@/lib/utils';
+import AmazonLoginButton from './AmazonLoginButton';
 
 interface login {
   isOauth: boolean;
@@ -73,12 +74,8 @@ export default function Login({ isOauth }: login) {
     }
   };
 
-  const handleKindleLogin = () => {
-    window.location.href = `${process.env.KINDE_DOMAIN}/oauth2/authorize?response_type=code&client_id=${process.env.KINDE_CLIENT_ID}&redirect_uri=${process.env.KINDE_REDIRECT_URI}`;
-  };
-
   return (
-    <div className="flex flex- min-h-screen items-center justify-center p-7 box-content">
+    <div className="flex min-h-screen items-center justify-center p-7 box-content">
       <div className="flex flex-col flex-grow-1 items-center justify-start shadow-md p-3">
         <div className="flex flex-col flex-grow-1 items-center justify-start p-3">
           <BrandLogo />
@@ -151,13 +148,7 @@ export default function Login({ isOauth }: login) {
               <img src={google48} alt="Google" />
               <h6>Continue with Google</h6>
             </button>
-            <button
-              className="border border-[#C2C8D0] my-2 p-1 w-full flex flex-row items-center justify-around"
-              onClick={handleKindleLogin}
-            >
-              <img className="w-6 h-6" src={kindle48} alt="Kindle" />
-              <h6>Continue with Kindle</h6>
-            </button>
+            <AmazonLoginButton onSuccess={() => {}} />
           </div>
         )}
       </div>
