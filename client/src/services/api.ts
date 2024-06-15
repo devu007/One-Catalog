@@ -1,7 +1,7 @@
 import axios, { AxiosInstance } from "axios";
 import { toast } from "react-toastify";
 export const api: AxiosInstance = axios.create({
-    baseURL: "https://one-catalog-server.onrender.com/user",
+    baseURL: "http://localhost:3002/user",
   });
   
   api.interceptors.request.use((config) => {
@@ -22,3 +22,14 @@ export const api: AxiosInstance = axios.create({
       return Promise.reject(error);
     }
   );
+
+  export const userApi = {
+    amazonLogin: async (token: string, onSuccess: (resp: any) => void, onError: (err: any) => void) => {
+      try {
+        const response = await axios.post(`${api}/auth/amazon`, { token });
+        onSuccess(response.data);
+      } catch (error: any) {
+        onError(error.response.data);
+      }
+    },
+  };

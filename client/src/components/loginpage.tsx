@@ -3,7 +3,7 @@ import linkedIn48 from '../assets/icons/linkedIn48.png';
 import microsoft48 from '../assets/icons/microsoft48.png';
 import google48 from '../assets/icons/google48.png';
 import github48 from '../assets/icons/github48.png';
-import kindle48 from '../assets/icons/kindle48.png'; // Add Kindle icon
+
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { userApi } from '@/services/loginApi';

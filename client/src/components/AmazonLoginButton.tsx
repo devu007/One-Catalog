@@ -1,4 +1,5 @@
 import React from 'react';
+import kindle48 from '../assets/icons/kindle48.png'; // Add Kindle icon
 
 interface AmazonLoginButtonProps {
   onSuccess: (token: string) => void;
@@ -15,7 +16,15 @@ const AmazonLoginButton: React.FC<AmazonLoginButtonProps> = ({ onSuccess }) => {
     window.location.href = authUrl;
   };
 
-  return <button onClick={handleAmazonLogin}>Login with Kindle</button>;
+  return (
+    <button
+      className="border border-[#C2C8D0] my-2 p-1 w-full flex flex-row items-center justify-around disabled"
+      onClick={handleAmazonLogin}
+    >
+      <img className="w-8 h-8 mr-2" src={kindle48} alt="Kindle" />
+      <h6>Continue with Kindle</h6>
+    </button>
+  );
 };
 
 export default AmazonLoginButton;
