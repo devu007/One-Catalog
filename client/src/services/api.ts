@@ -4,13 +4,13 @@ export const api: AxiosInstance = axios.create({
     baseURL: "http://localhost:3002/user",
   });
   
-  api.interceptors.request.use((config) => {
-    const token = localStorage.getItem("user-token");
-    if (token) {
-      config.headers.Authorization = token;
-    }
-    return config;
-  });
+ api.interceptors.request.use((config) => {
+  const token = localStorage.getItem("user-token");
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`;
+  }
+  return config;
+});
   
   api.interceptors.response.use(
     (response) => response,

@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import { userApi } from '../services/api'; // Import userApi from api.ts
+import { userApi } from '../services/api';
 
 const AmazonCallback: React.FC = () => {
   const navigate = useNavigate();

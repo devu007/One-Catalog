@@ -1,9 +1,10 @@
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import NavBar from './components/navbar';
-import Pricing from './components/plans-page';
-import UploadImage from './components/uploadimage';
-import { ModeToggle } from './components/mode-toggle';
-import AmazonCallback from './components/AmazonCallback';
+import KindeCallback from './components/KindeCallback';
+import Login from './components/loginpage';
+import Home from './components/Home';
+import Dashboard from './components/dashboard';
+import PrivateRoute from './PrivateRoute';
 
 export default function App() {
   return (
@@ -14,21 +15,20 @@ export default function App() {
             <NavBar />
             <Routes>
               <Route path="/" element={<Home />} />
-              <Route path="/callback" element={<AmazonCallback />} />
+              <Route path="/callback" element={<KindeCallback />} />
+              <Route
+                path="/genvision/:userId"
+                element={
+                  <PrivateRoute>
+                    <Dashboard />
+                  </PrivateRoute>
+                }
+              />
+              <Route path="/login" element={<Login isKinde={true} />} />
             </Routes>
           </div>
         </div>
       </div>
     </Router>
-  );
-}
-
-function Home() {
-  return (
-    <>
-      <UploadImage />
-      <ModeToggle />
-      <Pricing />
-    </>
   );
 }
