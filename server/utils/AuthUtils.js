@@ -1,4 +1,4 @@
-const bcrypt = require("bcrypt");
+const bcrypt = require("bcryptjs");
 const SALT_ROUNDS = parseInt(process.env.SALT_ROUND) || 10;
 
 function isValidEmail(email) {
