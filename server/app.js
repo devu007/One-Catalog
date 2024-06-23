@@ -29,7 +29,7 @@ app.use("/product", productRouter);
 app.use("/image/edit", imageEditRouter);
 app.use("/image/upload", imageUploadRouter);
 app.use("/image/analysis", imageAnalysisRouter);
-app.use("/kinde", require("./routes/kinde.router")(kindeClient)); // Pass kindeClient to kinde.router
+app.use("/kinde", require("./routes/kinde.router")(kindeClient));
 
 app.get("/", (req, res) => {
   res.json({ ans: "SERVER IS RUNNING" });
