@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const multer = require("multer"); // For file uploads
-import { S3Client, PutObjectAclCommand } from "@aws-sdk/client-s3";
+import { S3Client, PutObjectCommand } from "@aws-sdk/client-s3";
 import crypto from "crypto";
 import dotenv from "dotenv";
 import Image from "../model/Image";
@@ -32,7 +32,7 @@ router.post("/upload-image", upload.single("image"), async (req, res) => {
       ContentType: req.file.mimetype,
     };
 
-    const command = new PutObjectAclCommand(params);
+    const command = new PutObjectCommand(params);
 
     await s3.send(command);
 
