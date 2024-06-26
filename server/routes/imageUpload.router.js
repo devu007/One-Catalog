@@ -1,10 +1,10 @@
+const { S3Client, PutObjectCommand } = require("@aws-sdk/client-s3");
+const crypto = require("crypto");
+const dotenv = require("dotenv");
+const Image = require("../model/Image");
 const express = require("express");
 const router = express.Router();
 const multer = require("multer"); // For file uploads
-import { S3Client, PutObjectCommand } from "@aws-sdk/client-s3";
-import crypto from "crypto";
-import dotenv from "dotenv";
-import Image from "../model/Image";
 
 dotenv.config();
 
