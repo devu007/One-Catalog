@@ -10,11 +10,11 @@ const imageAnalysisRouter = require("./routes/imageAnalysis.router");
 const { connectToMongoDB } = require("./utils/mongo");
 
 const options = {
-  domain: process.env.KINDE_DOMAIN,
-  clientId: process.env.KINDE_CLIENT_ID,
-  clientSecret: process.env.KINDE_CLIENT_SECRET,
-  redirectUri: process.env.KINDE_REDIRECT_URI,
-  logoutRedirectUri: process.env.KINDE_LOGOUT_REDIRECT_URI,
+  domain: "https://onecatalog.kinde.com",
+  clientId: "a04f5a87ea1c423586a89c7339c079db",
+  clientSecret: "dTVSfTre6GXfK18w6AuqlOTR2RhEI8FcMe3WZY1Exxigaok9F8L1G",
+  redirectUri: "http://localhost:5173/callback",
+  logoutRedirectUri: "http://localhost:5173",
   grantType: GrantType.PKCE,
 };
 

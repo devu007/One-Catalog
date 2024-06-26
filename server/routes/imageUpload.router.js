@@ -11,8 +11,8 @@ dotenv.config();
 const randomImageName = (bytes = 32) =>
   crypto.randomBytes(bytes).toString("hex");
 
-const buckeName = process.env.BUCKET_NAME;
-const bucketRegion = process.env.BUCKET_REGION;
+const buckeName = "mocko.ai";
+const bucketRegion = "us-east-1";
 
 const s3 = new S3Client({
   region: bucketRegion,
