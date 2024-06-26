@@ -42,7 +42,9 @@ app.listen(PORT, () => {
 
 const startServer = async () => {
   try {
-    await connectToMongoDB(process.env.DB_URI);
+    await connectToMongoDB(
+      "mongodb+srv://onecatalog:genvision007@cluster0.wygz8lg.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
+    );
     console.log("Connected to MongoDB");
   } catch (err) {
     console.error("Failed to connect to MongoDB", err.message);
