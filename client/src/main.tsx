@@ -19,7 +19,6 @@ import i18next from 'i18next';
 import Mockup2 from './components/mockup2.tsx';
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer } from 'react-toastify';
-import PrivateRoute from './PrivateRoute.tsx';
 import ProfilePage from './components/profilePage.tsx';
 import { KindeProvider } from '@kinde-oss/kinde-auth-react';
 import KindeCallback from './components/KindeCallback.tsx';
@@ -47,27 +46,15 @@ const router = createBrowserRouter([
   },
   {
     path: '/genvision/:userId',
-    element: (
-      <PrivateRoute>
-        <Dashboard />
-      </PrivateRoute>
-    ),
+    element: <Dashboard />,
   },
   {
-    path: '/genvision/:userId/upload',
-    element: (
-      <PrivateRoute>
-        <UploadImage />
-      </PrivateRoute>
-    ),
+    path: '/genvision/:userId/upload-image',
+    element: <UploadImage />,
   },
   {
     path: '/genvision/:userId/:productId',
-    element: (
-      <PrivateRoute>
-        <BaseLayout />
-      </PrivateRoute>
-    ),
+    element: <BaseLayout />,
     errorElement: <h1>error insight</h1>,
     children: [
       {
@@ -75,67 +62,35 @@ const router = createBrowserRouter([
       },
       {
         path: '/genvision/:userId/:productId/profile',
-        element: (
-          <PrivateRoute>
-            <ProfilePage />
-          </PrivateRoute>
-        ),
+        element: <ProfilePage />,
       },
       {
-        path: '/genvision/:userId/:productId/upload',
-        element: (
-          <PrivateRoute>
-            <UploadImage />
-          </PrivateRoute>
-        ),
+        path: '/genvision/:userId/:productId/upload-image',
+        element: <UploadImage />,
       },
       {
         path: '/genvision/:userId/:productId/edit',
-        element: (
-          <PrivateRoute>
-            <EditImage />
-          </PrivateRoute>
-        ),
+        element: <EditImage />,
       },
       {
         path: '/genvision/:userId/:productId/mockup/1',
-        element: (
-          <PrivateRoute>
-            <Mockup />
-          </PrivateRoute>
-        ),
+        element: <Mockup />,
       },
       {
         path: '/genvision/:userId/:productId/mockup/2',
-        element: (
-          <PrivateRoute>
-            <Mockup2 />
-          </PrivateRoute>
-        ),
+        element: <Mockup2 />,
       },
       {
         path: '/genvision/:userId/:productId/text',
-        element: (
-          <PrivateRoute>
-            <Text />
-          </PrivateRoute>
-        ),
+        element: <Text />,
       },
       {
         path: '/genvision/:userId/:productId/social-media',
-        element: (
-          <PrivateRoute>
-            <SocialMedia />
-          </PrivateRoute>
-        ),
+        element: <SocialMedia />,
       },
       {
         path: '/genvision/:userId/:productId/3d-model',
-        element: (
-          <PrivateRoute>
-            <Model />
-          </PrivateRoute>
-        ),
+        element: <Model />,
       },
     ],
   },

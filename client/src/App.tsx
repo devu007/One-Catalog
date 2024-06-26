@@ -16,14 +16,7 @@ export default function App() {
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/callback" element={<KindeCallback />} />
-              <Route
-                path="/genvision/:userId"
-                element={
-                  <PrivateRoute>
-                    <Dashboard />
-                  </PrivateRoute>
-                }
-              />
+              <Route path="/genvision/:userId" element={<Dashboard />} />
               <Route path="/login" element={<Login isKinde={true} />} />
             </Routes>
           </div>

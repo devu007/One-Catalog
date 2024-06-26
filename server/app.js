@@ -27,7 +27,7 @@ app.use(cors());
 app.use("/user", userRouter);
 app.use("/product", productRouter);
 app.use("/image/edit", imageEditRouter);
-app.use("/image/upload", imageUploadRouter);
+app.use("/image", imageUploadRouter);
 app.use("/image/analysis", imageAnalysisRouter);
 app.use("/kinde", require("./routes/kinde.router")(kindeClient));
 
