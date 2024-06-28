@@ -3,8 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import { logo2 } from '../assets/logo'; // Updated import statement for logo2
 import { useTranslation } from 'react-i18next';
 import { useKindeAuth } from '@kinde-oss/kinde-auth-react';
-import { DollarCircleOutlined, UserOutlined } from '@ant-design/icons'; // Ant Design icons
-import { Button, Dropdown, Menu } from 'antd'; // Ant Design components
+import { UserOutlined, DollarCircleOutlined } from '@ant-design/icons'; // Updated icon import
+import { Button, Dropdown, Menu, Tooltip } from 'antd'; // Ant Design components
 
 const Navbar: React.FC = () => {
   const navigate = useNavigate();
@@ -73,7 +73,24 @@ const Navbar: React.FC = () => {
               className="text-gray-500"
               style={{ fontSize: '24px' }}
             />
-            <span className="ml-2 text-gray-700">{creditScore} credit</span>
+            <span className="ml-2 text-gray-700 font-inter">
+              <span className="text-lg">{creditScore}</span>
+              <span className="text-sm ml-1">credit</span>
+            </span>
+            <Tooltip title="1 credit = 1 mockup generation">
+              <span
+                className="ml-1 flex items-center justify-center text-white bg-gray-500 rounded-full"
+                style={{
+                  width: '16px',
+                  height: '16px',
+                  fontSize: '12px',
+                  lineHeight: '16px',
+                  cursor: 'pointer',
+                }}
+              >
+                ?
+              </span>
+            </Tooltip>
           </div>
           <Button
             type="primary"

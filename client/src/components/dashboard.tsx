@@ -38,7 +38,7 @@ const Dashboard: React.FC = () => {
       reader.onload = (event: any) => {
         const newProductData: ProductData = {
           _id: Date.now().toString(),
-          category: 'New Category',
+          category: 'Architecture', // Default category name
           uploadedImages: event.target.result,
           productName: 'New Product',
         };
@@ -77,7 +77,7 @@ const Dashboard: React.FC = () => {
           <Typography.Title
             level={3}
             className="font-poppins"
-            style={{ margin: 0 }}
+            style={{ width: 160, height: 20, margin: 0, color: '#101828' }} // Updated text color
           >
             Your Projects
           </Typography.Title>
@@ -101,7 +101,7 @@ const Dashboard: React.FC = () => {
           </div>
         </div>
         <List
-          grid={{ gutter: 16, column: 4 }}
+          grid={{ gutter: 8, column: 5 }} // Reduced gutter and increased columns
           dataSource={filteredProducts}
           renderItem={item => (
             <List.Item>
@@ -111,27 +111,41 @@ const Dashboard: React.FC = () => {
                   <img
                     alt={item.productName}
                     src={item.uploadedImages}
-                    style={{ height: 200, objectFit: 'cover' }}
+                    style={{ height: 180, objectFit: 'cover' }} // Adjusted height of image
                   />
                 }
                 onClick={() =>
                   navigate(`/genvision/${userId}/${item._id}/profile`)
                 }
                 style={{
-                  width: 250,
-                  height: 300,
+                  width: 280,
+                  height: 267,
                   display: 'flex',
                   flexDirection: 'column',
                   justifyContent: 'space-between',
+                  padding: '8px', // Adjusted padding to reduce whitespace
                 }}
               >
-                <div className="flex justify-between items-center mt-auto">
-                  <Typography.Title level={5} style={{ margin: 0 }}>
-                    {item.productName}
-                  </Typography.Title>
+                <div
+                  className="flex justify-between items-center mt-auto"
+                  style={{ marginBottom: '4px' }}
+                >
+                  <div style={{ textAlign: 'left', width: '100%' }}>
+                    <Typography.Title
+                      level={5}
+                      style={{ margin: 0, fontSize: '14px', color: '#101828' }} // Updated text color and font size
+                    >
+                      {item.productName}
+                    </Typography.Title>
+                    <Typography.Text
+                      style={{ fontSize: '12px', color: '#6941C6' }}
+                    >
+                      {item.category}
+                    </Typography.Text>
+                  </div>
                   <Tooltip title="Delete">
                     <DeleteOutlined
-                      style={{ cursor: 'pointer' }}
+                      style={{ cursor: 'pointer', fontSize: '16px' }} // Adjusted font size
                       onClick={e => handleDeleteProduct(item._id, e)}
                     />
                   </Tooltip>
