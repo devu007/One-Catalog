@@ -9,7 +9,7 @@ interface LoginProps {
 }
 
 export default function Login({ isKinde }: LoginProps) {
-  const { login, register, isAuthenticated } = useKindeAuth();
+  const { login, register, isAuthenticated, user } = useKindeAuth();
   const navigate = useNavigate();
 
   const handleKindeLogin = async (type: 'login' | 'register') => {
@@ -25,15 +25,12 @@ export default function Login({ isKinde }: LoginProps) {
   };
 
   useEffect(() => {
-    if (isAuthenticated) {
-      const userId = localStorage.getItem('userId');
-      if (userId) {
-        navigate(`/genvision/${userId}`);
-      } else {
-        navigate('/'); // Redirect to home or dashboard if already authenticated
-      }
+    if (isAuthenticated && user) {
+      const userId = user.id;
+      localStorage.setItem('userId', userId);
+      navigate(`/genvision/${userId}`);
     }
-  }, [isAuthenticated, navigate]);
+  }, [isAuthenticated, user, navigate]);
 
   return (
     <div className="flex min-h-screen items-center justify-center p-7 box-content">

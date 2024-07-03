@@ -2,6 +2,7 @@ const {
   S3Client,
   PutObjectCommand,
   DeleteObjectCommand,
+  GetObjectCommand,
 } = require("@aws-sdk/client-s3");
 const crypto = require("crypto");
 const dotenv = require("dotenv");
@@ -9,6 +10,7 @@ const Image = require("../model/Image");
 const express = require("express");
 const router = express.Router();
 const multer = require("multer"); // For file uploads
+const { getSignedUrl } = require("@aws-sdk/s3-request-presigner");
 
 dotenv.config();
 
@@ -56,9 +58,9 @@ router.post("/upload-image", upload.single("image"), async (req, res) => {
   }
 });
 
-router.delete("image-upload/:id", async (req, res) => {
+router.delete("/image-upload/:id", async (req, res) => {
   try {
-    const id = +req.params.id;
+    const id = req.params.id;
 
     const post = await Image.findById(id);
     if (!post) {
@@ -77,6 +79,71 @@ router.delete("image-upload/:id", async (req, res) => {
   } catch (error) {
     console.error("Error deleting image:", error);
     res.status(500).json({ message: "Error deleting image" });
+  }
+});
+
+router.put("/update-image/:id", upload.single("image"), async (req, res) => {
+  try {
+    const id = req.params.id;
+    const post = await Image.findById(id);
+
+    if (!post) {
+      return res.status(404).json({ message: "Image not found" });
+    }
+
+    const newImageName = randomImageName();
+    const params = {
+      Bucket: bucketName,
+      Key: newImageName,
+      Body: req.file.buffer,
+      ContentType: req.file.mimetype,
+    };
+
+    const command = new PutObjectCommand(params);
+    await s3.send(command);
+
+    const deleteParams = {
+      Bucket: bucketName,
+      Key: post.name,
+    };
+
+    const deleteCommand = new DeleteObjectCommand(deleteParams);
+    await s3.send(deleteCommand);
+
+    post.name = newImageName;
+    post.contentType = req.file.mimetype;
+    await post.save();
+
+    res
+      .status(200)
+      .json({ message: "Image updated successfully", image: post });
+  } catch (error) {
+    console.error("Error updating image:", error);
+    res.status(500).json({ message: "Error updating image" });
+  }
+});
+
+router.get("/:id", async (req, res) => {
+  try {
+    const id = req.params.id;
+    const post = await Image.findById(id);
+
+    if (!post) {
+      return res.status(404).json({ message: "Image not found" });
+    }
+
+    const params = {
+      Bucket: bucketName,
+      Key: post.name,
+    };
+
+    const command = new GetObjectCommand(params);
+    const url = await getSignedUrl(s3, command, { expiresIn: 3600 });
+
+    res.status(200).json({ image: post, url: url });
+  } catch (error) {
+    console.error("Error getting image:", error);
+    res.status(500).json({ message: "Error getting image" });
   }
 });
 

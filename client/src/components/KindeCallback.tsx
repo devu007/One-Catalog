@@ -12,14 +12,12 @@ const KindeCallback: React.FC = () => {
       try {
         if (isAuthenticated) {
           const token = await getToken();
-          console.log('Token:', token);
           if (token && user) {
             const userId = user.id;
-            console.log('User:', user);
             localStorage.setItem('user-token', token);
             localStorage.setItem('userId', userId);
-            navigate(`/genvision/${userId}`);
             toast.success('Login successful');
+            navigate(`/genvision/${userId}`);
           } else {
             throw new Error('Token or user information is missing');
           }

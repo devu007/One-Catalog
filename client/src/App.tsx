@@ -4,6 +4,7 @@ import KindeCallback from './components/KindeCallback';
 import Login from './components/loginpage';
 import Home from './components/Home';
 import Dashboard from './components/dashboard';
+import UploadImage from './components/uploadimage';
 import PrivateRoute from './PrivateRoute';
 
 export default function App() {
@@ -16,8 +17,15 @@ export default function App() {
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/callback" element={<KindeCallback />} />
-              <Route path="/genvision/:userId" element={<Dashboard />} />
               <Route path="/login" element={<Login isKinde={true} />} />
+              <Route
+                path="/genvision/:userId"
+                element={
+                  <PrivateRoute>
+                    <Dashboard />
+                  </PrivateRoute>
+                }
+              />
             </Routes>
           </div>
         </div>

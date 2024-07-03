@@ -5,8 +5,9 @@ import {
   SearchOutlined,
 } from '@ant-design/icons';
 import { Button, Card, Input, List, Typography, Tooltip } from 'antd';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import Navbar from './navbar2';
+import { useKindeAuth } from '@kinde-oss/kinde-auth-react';
 
 interface ProductData {
   _id: string;
@@ -24,31 +25,17 @@ const Dashboard: React.FC = () => {
   const [products, setProducts] = useState<ProductData[]>([]);
   const [filteredProducts, setFilteredProducts] = useState<ProductData[]>([]);
   const [searchQuery, setSearchQuery] = useState('');
-  const [newProduct, setNewProduct] = useState<ProductData | null>(null);
   const navigate = useNavigate();
-  const { userId } = useParams();
+  const { user } = useKindeAuth();
 
   const handleAddNewProductClick = () => {
-    const fileInput = document.createElement('input');
-    fileInput.type = 'file';
-    fileInput.accept = 'image/*';
-    fileInput.onchange = (e: any) => {
-      const file = e.target.files[0];
-      const reader = new FileReader();
-      reader.onload = (event: any) => {
-        const newProductData: ProductData = {
-          _id: Date.now().toString(),
-          category: 'Architecture', // Default category name
-          uploadedImages: event.target.result,
-          productName: 'New Product',
-        };
-        setNewProduct(newProductData);
-        setProducts([...products, newProductData]);
-        setFilteredProducts([...products, newProductData]);
-      };
-      reader.readAsDataURL(file);
-    };
-    fileInput.click();
+    if (user) {
+      const userId = user.id;
+      console.log('Navigating to upload-image page for user:', userId); // Debug log
+      navigate(`/genvision/${userId}/upload-image`);
+    } else {
+      console.error('User is not authenticated'); // Error log
+    }
   };
 
   const handleSearch = (event: ChangeEvent<HTMLInputElement>): void => {
@@ -115,7 +102,7 @@ const Dashboard: React.FC = () => {
                   />
                 }
                 onClick={() =>
-                  navigate(`/genvision/${userId}/${item._id}/profile`)
+                  navigate(`/genvision/${user?.id}/${item._id}/profile`)
                 }
                 style={{
                   width: 280,

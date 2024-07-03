@@ -22,6 +22,7 @@ import { ToastContainer } from 'react-toastify';
 import ProfilePage from './components/profilePage.tsx';
 import { KindeProvider } from '@kinde-oss/kinde-auth-react';
 import KindeCallback from './components/KindeCallback.tsx';
+import PrivateRoute from './PrivateRoute.tsx'; // Import PrivateRoute
 
 i18next.init({
   interpolation: { escapeValue: false }, // React already does escaping
@@ -46,7 +47,11 @@ const router = createBrowserRouter([
   },
   {
     path: '/genvision/:userId',
-    element: <Dashboard />,
+    element: (
+      <PrivateRoute>
+        <Dashboard />
+      </PrivateRoute>
+    ),
   },
   {
     path: '/genvision/:userId/upload-image',
@@ -54,7 +59,11 @@ const router = createBrowserRouter([
   },
   {
     path: '/genvision/:userId/:productId',
-    element: <BaseLayout />,
+    element: (
+      <PrivateRoute>
+        <BaseLayout />
+      </PrivateRoute>
+    ),
     errorElement: <h1>error insight</h1>,
     children: [
       {
@@ -62,35 +71,67 @@ const router = createBrowserRouter([
       },
       {
         path: '/genvision/:userId/:productId/profile',
-        element: <ProfilePage />,
+        element: (
+          <PrivateRoute>
+            <ProfilePage />
+          </PrivateRoute>
+        ),
       },
       {
         path: '/genvision/:userId/:productId/upload-image',
-        element: <UploadImage />,
+        element: (
+          <PrivateRoute>
+            <UploadImage />
+          </PrivateRoute>
+        ),
       },
       {
         path: '/genvision/:userId/:productId/edit',
-        element: <EditImage />,
+        element: (
+          <PrivateRoute>
+            <EditImage />
+          </PrivateRoute>
+        ),
       },
       {
         path: '/genvision/:userId/:productId/mockup/1',
-        element: <Mockup />,
+        element: (
+          <PrivateRoute>
+            <Mockup />
+          </PrivateRoute>
+        ),
       },
       {
         path: '/genvision/:userId/:productId/mockup/2',
-        element: <Mockup2 />,
+        element: (
+          <PrivateRoute>
+            <Mockup2 />
+          </PrivateRoute>
+        ),
       },
       {
         path: '/genvision/:userId/:productId/text',
-        element: <Text />,
+        element: (
+          <PrivateRoute>
+            <Text />
+          </PrivateRoute>
+        ),
       },
       {
         path: '/genvision/:userId/:productId/social-media',
-        element: <SocialMedia />,
+        element: (
+          <PrivateRoute>
+            <SocialMedia />
+          </PrivateRoute>
+        ),
       },
       {
         path: '/genvision/:userId/:productId/3d-model',
-        element: <Model />,
+        element: (
+          <PrivateRoute>
+            <Model />
+          </PrivateRoute>
+        ),
       },
     ],
   },
@@ -101,8 +142,8 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
     <KindeProvider
       domain={import.meta.env.VITE_KINDE_DOMAIN}
       clientId={import.meta.env.VITE_KINDE_CLIENT_ID}
-      redirectUri={import.meta.env.VITE_KINDE_REDIRECT_URI}
-      logoutUri={import.meta.env.VITE_KINDE_LOGOUT_REDIRECT_URI}
+      redirectUri={import.meta.env.VITE_KINDE_REDIRECT_URL}
+      logoutUri={import.meta.env.VITE_KINDE_LOGOUT_URL}
     >
       <div>
         <ToastContainer

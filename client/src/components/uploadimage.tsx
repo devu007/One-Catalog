@@ -1,11 +1,20 @@
-import { useState, FormEvent } from 'react';
+import React, { useState, useEffect } from 'react';
+import { Form, Input, Select, Button } from 'antd';
+import { LeftOutlined, RightOutlined } from '@ant-design/icons';
 import UploadButton from './uploadbtn';
-import InputWithSpeech from './ui/inputWithSpeech';
 import { useNavigate, useParams } from 'react-router-dom';
 import Navbar from './navbar2';
 import { productApi } from '../services/productApi';
 import { toast } from 'react-toastify';
 import axios from 'axios';
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from '@/components/ui/carousel';
+import EmptyCard from './EmptyCard';
 
 interface ProductData {
   productId: string;
@@ -20,6 +29,8 @@ interface ProductData {
   description?: string | undefined;
 }
 
+const { Option } = Select;
+
 const UploadImage = () => {
   const [productId, setProductId] = useState<string>('');
   const [category, setCategory] = useState<string>('');
@@ -33,8 +44,36 @@ const UploadImage = () => {
     string | undefined
   >(undefined);
   const [description, setDescription] = useState<string | undefined>(undefined);
+  const [selectedSection, setSelectedSection] = useState<string>('upload'); // State to track selected section
+  const [selectedImage, setSelectedImage] = useState<string | null>(null); // State to track selected image
+  const [initialImages, setInitialImages] = useState<string[]>([]);
+  const [carouselSection, setCarouselSection] = useState<string>('uploaded'); // State to track carousel section
   const navigate = useNavigate();
-  const { userId } = useParams();
+  const { userId, id } = useParams();
+
+  useEffect(() => {
+    if (id) {
+      // Fetch existing product data if id is provided
+      productApi.getProduct(
+        id,
+        (data: ProductData) => {
+          setProductId(data.productId);
+          setCategory(data.category);
+          setUploadedImages(data.uploadedImages);
+          setBrand(data.brand);
+          setProductName(data.productName);
+          setQuantity(data.quantity);
+          setPrice(data.price);
+          setExpiryDate(data.expiryDate);
+          setManufacturingDate(data.manufacturingDate);
+          setDescription(data.description);
+        },
+        (error: any) => {
+          console.error('Error fetching product data:', error);
+        },
+      );
+    }
+  }, [id]);
 
   const handleImageChange = async (imageFile: File) => {
     const formData = new FormData();
@@ -48,10 +87,7 @@ const UploadImage = () => {
       const data = await response.json();
       if (response.ok) {
         console.log(data.data);
-        setUploadedImages(prevUploadedImages => [
-          ...prevUploadedImages,
-          data.data.imageUrl,
-        ]);
+        setInitialImages(prevImages => [...prevImages, data.data.imageUrl]);
         toast.success('Image uploaded successfully');
       } else {
         toast.error('Error uploading image');
@@ -63,13 +99,44 @@ const UploadImage = () => {
     }
   };
 
+  const handleImageUpdate = async (imageFile: File, imageUrl: string) => {
+    const formData = new FormData();
+    formData.append('image', imageFile);
+
+    try {
+      const response = await fetch(
+        `http://3.94.127.121/image/update-image/${imageUrl}`,
+        {
+          method: 'PUT',
+          body: formData,
+        },
+      );
+      const data = await response.json();
+      if (response.ok) {
+        console.log(data.data);
+        setUploadedImages(prevUploadedImages =>
+          prevUploadedImages.map(img =>
+            img === imageUrl ? data.data.imageUrl : img,
+          ),
+        );
+        toast.success('Image updated successfully');
+      } else {
+        toast.error('Error updating image');
+        console.error('Error updating image:', data.message);
+      }
+    } catch (error) {
+      toast.error('Error updating image');
+      console.error('Error updating image:', error);
+    }
+  };
+
   const handleCancelButton = () => {
     navigate(`/genvision/${userId}`);
   };
 
   const handleGetDescription = async (imageSrc: string) => {
     const prompt =
-      '`Use the following details to write a short description about the product. Details are `';
+      'Use the following details to write a short description about the product. Details are ';
 
     try {
       const response = await axios.post(
@@ -90,241 +157,240 @@ const UploadImage = () => {
     }
   };
 
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-
+  const handleSubmit = (values: any) => {
     const productData: ProductData = {
       productId,
       category,
       uploadedImages,
       brand,
-      productName,
-      quantity,
-      price,
-      expiryDate,
-      manufacturingDate,
+      productName: values.productName,
+      quantity: values.quantity,
+      price: values.price,
+      expiryDate: values.expiryDate,
+      manufacturingDate: values.manufacturingDate,
       description,
     };
 
-    productApi.createProduct(
-      productData,
-      (data: any) => {
-        // Handle success (e.g., show success message, navigate to another page)
-        console.log('Product created successfully:', data);
-        setProductId('');
-        setCategory('');
-        setBrand('');
-        setProductName('');
-        setPrice(undefined);
-        setQuantity(undefined);
-        setExpiryDate('');
-        setUploadedImages([]);
-        setManufacturingDate('');
-        setDescription('');
-        navigate(`/genvision/${userId}`);
-      },
-      (error: any) => {
-        // Handle error (e.g., show error message)
-        console.error('Error creating product:', error);
-      },
-    );
+    const onSuccess = (data: any) => {
+      console.log('Product created/updated successfully:', data);
+      setProductId('');
+      setCategory('');
+      setBrand('');
+      setProductName('');
+      setPrice(undefined);
+      setQuantity(undefined);
+      setExpiryDate('');
+      setUploadedImages([]);
+      setManufacturingDate('');
+      setDescription('');
+      navigate(`/genvision/${userId}`);
+    };
+
+    const onError = (error: any) => {
+      console.error('Error creating/updating product:', error);
+    };
+
+    if (id) {
+      productApi.updateProduct(id, productData, onSuccess, onError);
+    } else {
+      productApi.createProduct(productData, onSuccess, onError);
+    }
+  };
+
+  const handleImageClick = (image: string) => {
+    setUploadedImages(prevImages => [...prevImages, image]);
+    setInitialImages(prevImages => prevImages.filter(img => img !== image));
   };
 
   return (
-    <div>
-      <style>
-        {`
-      .image-container:hover .hidden-on-load {
-        display: block;
-      }
-      .hidden-on-load {
-        display: none;
-      }
-
-      .hidden-on-load:hover {
-        display: block;
-      }
-    `}
-      </style>
+    <div className="font-poppins">
       <Navbar />
-      <div className="flex-1 bg-black mx-7 my-7 flex">
-        <div className="w-1/3 bg-white border-[#D4D4D4]">
-          <div className="h-[350px] bg-white p-4 rounded-b-lg">
-            <h1 className="font-bold text-[#000000] mx-2 text-xl">
-              Add New Product
-            </h1>
-            <div className="mt-4 mx-2">
-              <div className="mx-0">
-                <UploadButton onImageChange={handleImageChange} />
-              </div>
-              <form className="mt-4" action="" onSubmit={handleSubmit}>
-                <div className="mb-4">
-                  <InputWithSpeech
-                    placeholder="Brand Name"
-                    label="Brand"
-                    inputValue={brand}
-                    setInput={setBrand}
-                    name="brand"
-                    disabled={false}
-                  />
-                </div>
-                <div className="mb-4">
-                  <InputWithSpeech
-                    placeholder="Product Name"
-                    label="Product"
-                    inputValue={productName}
-                    setInput={setProductName}
-                    name="productName"
-                    disabled={false}
-                  />
-                </div>
-                {/* <div className="mb-4">
-                  <InputWithSpeech
-                    placeholder="Product Id Required."
-                    label="Product ID"
-                    inputValue={productId}
-                    setInput={setProductId}
-                    name="productId"
-                    disabled={false}
-                  />
-                </div> */}
-                <div className="mb-4">
-                  <InputWithSpeech
-                    placeholder="Category Required."
-                    label="Category"
-                    inputValue={category}
-                    setInput={setCategory}
-                    name="category"
-                    disabled={false}
-                  />
-                </div>
-                <div className="mb-4 flex">
-                  <div className="mr-2 flex-1">
-                    <label
-                      htmlFor="quantity"
-                      className="block font-bold text-[#000000]"
-                    >
-                      Quantity
-                    </label>
-                    <input
-                      type="number"
-                      id="quantity"
-                      name="quantity"
-                      placeholder="Quantity Required."
-                      className="border border-grey-300 shadow p-1 w-full rounded"
-                      value={quantity}
-                      onChange={e => setQuantity(parseInt(e.target.value))}
-                    />
-                  </div>
-                  <div className="mr-2 flex-1">
-                    <label
-                      htmlFor="price"
-                      className="block font-bold text-[#000000]"
-                    >
-                      Price
-                    </label>
-                    <input
-                      type="number"
-                      id="price"
-                      name="price"
-                      placeholder="Price Required."
-                      className="border border-grey-300 shadow p-1 w-full rounded"
-                      value={price}
-                      onChange={e => setPrice(parseInt(e.target.value))}
-                    />
-                  </div>
-                </div>
-
-                <div className="mb-4">
-                  <label
-                    htmlFor="description"
-                    className="block font-bold text-[#000000]"
-                  >
-                    Description
-                  </label>
-                  <textarea
-                    id="description"
-                    name="description"
-                    placeholder="Description Required."
-                    className="border border-gray-300 shadow p-1 w-full rounded"
-                    value={description}
-                    onChange={e => setDescription(e.target.value)}
-                  />
-                </div>
-
-                <div className="mb-4">
-                  <label
-                    htmlFor="manufacturingDate"
-                    className="block font-bold text-[#000000]"
-                  >
-                    Manufacturing Date
-                  </label>
-                  <input
-                    type="date"
-                    id="manufacturingDate"
-                    name="manufacturingDate"
-                    placeholder="Manufacturing Date Required."
-                    className="border border-gray-300 shadow p-1 w-full rounded"
-                    value={manufacturingDate}
-                    onChange={e => setManufacturingDate(e.target.value)}
-                  />
-                </div>
-                <div className="mb-4">
-                  <label
-                    htmlFor="expiryDate"
-                    className="block font-bold text-[#000000]"
-                  >
-                    Expiry Date
-                  </label>
-                  <input
-                    type="date"
-                    id="expiryDate"
-                    name="expiryDate"
-                    placeholder="Expiry Date Required."
-                    className="border border-gray-300 shadow p-1 w-full rounded"
-                    value={expiryDate}
-                    onChange={e => setExpiryDate(e.target.value)}
-                  />
-                </div>
-                <div className="flex justify-end">
-                  <button
-                    type="button"
-                    className="bg-[#D4D4D4] text-black font-semibold py-2 px-4 rounded mr-2"
-                    onClick={handleCancelButton}
-                  >
-                    Cancel
-                  </button>
-                  <button
-                    type="submit"
-                    className="bg-[#5333ED] text-white font-semibold py-2 px-4 rounded"
-                  >
-                    Save
-                  </button>
-                </div>
-              </form>
-            </div>
-          </div>
+      <div className="bg-white mx-7 my-7">
+        <div className="bg-white p-4 flex space-x-1 items-center">
+          <button className="py-2 px-3 bg-white text-black font-normal rounded hover:bg-[#623FC4] hover:text-white transition-colors duration-300">
+            Edit Image
+          </button>
+          <button className="py-2 px-3 bg-white text-black font-normal rounded hover:bg-[#623FC4] hover:text-white transition-colors duration-300">
+            Mock up
+          </button>
+          <button className="py-2 px-3 bg-white text-black font-normal rounded hover:bg-[#623FC4] hover:text-white transition-colors duration-300">
+            Text
+          </button>
         </div>
-        <div className="w-2/3 bg-white border-[#D4D4D4] border-2 ml-4 p-4">
-          <h1 className="font-bold text-[#000000] mx-2 text-xl">
-            Upload Images
-          </h1>
-          <div className="grid grid-cols-3 gap-4 mt-4">
-            {uploadedImages.map((image, index) => (
-              <div key={index} className="relative image-container">
-                <img
-                  src={image}
-                  alt={`Uploaded ${index}`}
-                  className="w-full h-full object-cover"
-                />
+        <div className="h-px bg-gray-300 mt-1"></div>
+        <div className="bg-white p-4 flex space-x-1 items-center mt-4">
+          <button
+            className={`py-2 px-3 ${
+              selectedSection === 'upload'
+                ? 'underline text-[#623FC4]'
+                : 'bg-white text-black'
+            } font-normal rounded hover:underline hover:text-[#623FC4] duration-300`}
+            onClick={() => setSelectedSection('upload')}
+          >
+            Upload Image
+          </button>
+          <button
+            className={`py-2 px-3 ${
+              selectedSection === 'edit'
+                ? 'underline text-[#623FC4]'
+                : 'bg-white text-black'
+            } font-normal rounded hover:underline hover:text-[#623FC4] duration-300`}
+            onClick={() => setSelectedSection('edit')}
+          >
+            Edit Image
+          </button>
+        </div>
+        <div className="flex">
+          <div className="w-1/3 bg-white p-4">
+            {selectedSection === 'upload' ? (
+              <div className="h-[350px] bg-white p-4 rounded-b-lg">
+                <div className="mt-4 mx-2">
+                  <Form layout="vertical" onFinish={handleSubmit}>
+                    <Form.Item
+                      label="Name"
+                      name="productName"
+                      rules={[
+                        {
+                          required: true,
+                          message: 'Please enter the product name',
+                        },
+                      ]}
+                    >
+                      <Input placeholder="Product Name" />
+                    </Form.Item>
+                    <Form.Item
+                      label="Category"
+                      name="category"
+                      rules={[
+                        { required: true, message: 'Please select a category' },
+                      ]}
+                    >
+                      <Select placeholder="Select Category">
+                        <Option value="Architecture">Architecture</Option>
+                        <Option value="Nature">Nature</Option>
+                        <Option value="Technology">Technology</Option>
+                      </Select>
+                    </Form.Item>
+                    <UploadButton onImageChange={handleImageChange} />
+                    <Button
+                      className="w-full mt-2"
+                      type="default"
+                      onClick={() => setSelectedSection('edit')}
+                    >
+                      Edit Image
+                    </Button>
+                  </Form>
+                </div>
+              </div>
+            ) : (
+              <div className="h-[350px] bg-white p-4 rounded-b-lg">
+                <h1 className="font-bold text-[#000000] mx-2 text-xl">
+                  Edit Image
+                </h1>
+                <div className="mt-4 mx-2">
+                  {/* Add content for editing images */}
+                </div>
+              </div>
+            )}
+          </div>
+
+          <div className="w-2/3 ml-4">
+            <div className="bg-white border-2 p-4 " style={{ height: '370px' }}>
+              <div className="h-[200px]">
+                <Carousel>
+                  <CarouselContent>
+                    <CarouselPrevious>
+                      <LeftOutlined />
+                    </CarouselPrevious>
+                    {initialImages.length === 0 && (
+                      <CarouselItem>
+                        <EmptyCard />
+                      </CarouselItem>
+                    )}
+                    {initialImages.map((image, index) => (
+                      <CarouselItem key={index}>
+                        <img
+                          src={image}
+                          alt={`uploaded ${index}`}
+                          className="w-full h-full object-cover cursor-pointer"
+                          onClick={() => handleImageClick(image)}
+                        />
+                      </CarouselItem>
+                    ))}
+                    <CarouselNext>
+                      <RightOutlined />
+                    </CarouselNext>
+                  </CarouselContent>
+                </Carousel>
+              </div>
+            </div>
+            <div
+              className="bg-white border-2 mt-4 p-4"
+              style={{ height: '220px' }} // Adjusted height
+            >
+              <div className="bg-white p-4 flex space-x-1 items-center mb-2">
                 <button
-                  onClick={() => handleGetDescription(image)}
-                  className="absolute bottom-0 right-0 bg-[#5333ED] text-white px-4 py-2 rounded hidden-on-load"
+                  className={`py-2 px-3 ${
+                    carouselSection === 'uploaded'
+                      ? 'underline text-[#623FC4]'
+                      : 'bg-white text-black'
+                  } font-normal rounded hover:underline hover:text-[#623FC4] duration-300 `}
+                  onClick={() => setCarouselSection('uploaded')}
                 >
-                  Get Description
+                  Uploaded
+                </button>
+                <button
+                  className={`py-2 px-3 ${
+                    carouselSection === 'mockup'
+                      ? 'underline text-[#623FC4]'
+                      : 'bg-white text-black'
+                  } font-normal rounded hover:underline hover:text-[#623FC4] duration-300`}
+                  onClick={() => setCarouselSection('mockup')}
+                >
+                  Mockup
                 </button>
               </div>
-            ))}
+              <div className="h-[160px]">
+                {' '}
+                {/* Adjusted height */}
+                <Carousel>
+                  <CarouselContent>
+                    {carouselSection === 'uploaded' ? (
+                      uploadedImages.length > 0 ? (
+                        uploadedImages.map((image, index) => (
+                          <CarouselItem key={index} className="basis-1/3">
+                            <img
+                              src={image}
+                              alt={`Uploaded ${index}`}
+                              className="w-full h-auto"
+                            />
+                          </CarouselItem>
+                        ))
+                      ) : (
+                        <CarouselItem className="basis-1/3">
+                          <div className="flex justify-center items-center h-full">
+                            No image to be shown
+                          </div>
+                        </CarouselItem>
+                      )
+                    ) : (
+                      <CarouselItem className="basis-1/3">
+                        {/* Add mockup images here */}
+                        <div className="flex justify-center items-center h-full">
+                          No mockup images
+                        </div>
+                      </CarouselItem>
+                    )}
+                  </CarouselContent>
+                  <CarouselPrevious className="text-black">
+                    <LeftOutlined />
+                  </CarouselPrevious>
+                  <CarouselNext className="text-black">
+                    <RightOutlined />
+                  </CarouselNext>
+                </Carousel>
+              </div>
+            </div>
           </div>
         </div>
       </div>

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Navigate } from 'react-router-dom';
+import { Navigate, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { useKindeAuth } from '@kinde-oss/kinde-auth-react';
 
@@ -10,11 +10,11 @@ interface PrivateRouteProps {
 const PrivateRoute: React.FC<PrivateRouteProps> = ({ children }) => {
   const { isAuthenticated, getToken, user, login } = useKindeAuth();
   const [checkingAuth, setCheckingAuth] = useState(true);
-  const userToken = localStorage.getItem('user-token');
+  const navigate = useNavigate();
 
   useEffect(() => {
     const checkAuth = async () => {
-      if (!userToken) {
+      if (!localStorage.getItem('user-token')) {
         try {
           await login(); // Initiate Kinde login if not authenticated
         } catch (error: any) {
@@ -27,6 +27,7 @@ const PrivateRoute: React.FC<PrivateRouteProps> = ({ children }) => {
           const token = await getToken();
           if (token && user) {
             setCheckingAuth(false);
+            navigate(`/genvision/${user.id}`); // Redirect to user's dashboard
           } else {
             throw new Error('Token or user information is missing');
           }
@@ -38,7 +39,7 @@ const PrivateRoute: React.FC<PrivateRouteProps> = ({ children }) => {
     };
 
     checkAuth();
-  }, [getToken, userToken, user, login]);
+  }, [getToken, user, login, navigate]);
 
   if (checkingAuth) {
     return <div>Loading...</div>;
