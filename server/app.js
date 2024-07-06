@@ -1,24 +1,12 @@
 require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
-const { KindeClient, GrantType } = require("@kinde-oss/kinde-nodejs-sdk");
 const userRouter = require("./routes/user.router");
 const productRouter = require("./routes/product.router");
 const imageEditRouter = require("./routes/imageEdit.router");
 const imageUploadRouter = require("./routes/imageUpload.router");
 const imageAnalysisRouter = require("./routes/imageAnalysis.router");
 const { connectToMongoDB } = require("./utils/mongo");
-
-const options = {
-  domain: "https://onecatalog.kinde.com",
-  clientId: "a04f5a87ea1c423586a89c7339c079db",
-  clientSecret: "dTVSfTre6GXfK18w6AuqlOTR2RhEI8FcMe3WZY1Exxigaok9F8L1G",
-  redirectUri: "http://localhost:5173/callback",
-  logoutRedirectUri: "http://localhost:5173",
-  grantType: GrantType.PKCE,
-};
-
-const kindeClient = new KindeClient(options);
 
 const app = express();
 app.use(express.json());
@@ -29,7 +17,6 @@ app.use("/product", productRouter);
 app.use("/image/edit", imageEditRouter);
 app.use("/image", imageUploadRouter);
 app.use("/image/analysis", imageAnalysisRouter);
-app.use("/kinde", require("./routes/kinde.router")(kindeClient));
 
 app.get("/", (req, res) => {
   res.json({ ans: "SERVER IS RUNNING" });
