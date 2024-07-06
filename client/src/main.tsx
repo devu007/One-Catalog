@@ -59,11 +59,6 @@ const router = createBrowserRouter([
   },
   {
     path: '/genvision/:userId/:productId',
-    element: (
-      <PrivateRoute>
-        <BaseLayout />
-      </PrivateRoute>
-    ),
     errorElement: <h1>error insight</h1>,
     children: [
       {
@@ -71,43 +66,23 @@ const router = createBrowserRouter([
       },
       {
         path: '/genvision/:userId/:productId/profile',
-        element: (
-          <PrivateRoute>
-            <ProfilePage />
-          </PrivateRoute>
-        ),
+        element: <ProfilePage />,
       },
       {
         path: '/genvision/:userId/:productId/upload-image',
-        element: (
-          <PrivateRoute>
-            <UploadImage />
-          </PrivateRoute>
-        ),
+        element: <UploadImage />,
       },
       {
         path: '/genvision/:userId/:productId/edit',
-        element: (
-          <PrivateRoute>
-            <EditImage />
-          </PrivateRoute>
-        ),
+        element: <EditImage />,
       },
       {
         path: '/genvision/:userId/:productId/mockup/1',
-        element: (
-          <PrivateRoute>
-            <Mockup />
-          </PrivateRoute>
-        ),
+        element: <Mockup />,
       },
       {
         path: '/genvision/:userId/:productId/mockup/2',
-        element: (
-          <PrivateRoute>
-            <Mockup2 />
-          </PrivateRoute>
-        ),
+        element: <Mockup2 />,
       },
       {
         path: '/genvision/:userId/:productId/text',

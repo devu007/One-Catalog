@@ -5,9 +5,8 @@ import {
   SearchOutlined,
 } from '@ant-design/icons';
 import { Button, Card, Input, List, Typography, Tooltip } from 'antd';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import Navbar from './navbar2';
-import { useKindeAuth } from '@kinde-oss/kinde-auth-react';
 
 interface ProductData {
   _id: string;
@@ -25,17 +24,13 @@ const Dashboard: React.FC = () => {
   const [products, setProducts] = useState<ProductData[]>([]);
   const [filteredProducts, setFilteredProducts] = useState<ProductData[]>([]);
   const [searchQuery, setSearchQuery] = useState('');
+  const [newProduct, setNewProduct] = useState<ProductData | null>(null);
+  const [productName, setProductName] = useState<string | undefined>(undefined);
   const navigate = useNavigate();
-  const { user } = useKindeAuth();
+  const { userId } = useParams();
 
   const handleAddNewProductClick = () => {
-    if (user) {
-      const userId = user.id;
-      console.log('Navigating to upload-image page for user:', userId); // Debug log
-      navigate(`/genvision/${userId}/upload-image`);
-    } else {
-      console.error('User is not authenticated'); // Error log
-    }
+    navigate(`/genvision/${userId}/upload-image`);
   };
 
   const handleSearch = (event: ChangeEvent<HTMLInputElement>): void => {
@@ -58,7 +53,7 @@ const Dashboard: React.FC = () => {
 
   return (
     <>
-      <Navbar />
+      <Navbar productName={productName} />
       <div className="container mx-auto p-4 mt-4">
         <div className="flex items-center justify-between mb-4">
           <Typography.Title
@@ -102,7 +97,7 @@ const Dashboard: React.FC = () => {
                   />
                 }
                 onClick={() =>
-                  navigate(`/genvision/${user?.id}/${item._id}/profile`)
+                  navigate(`/genvision/${userId}/${item._id}/profile`)
                 }
                 style={{
                   width: 280,

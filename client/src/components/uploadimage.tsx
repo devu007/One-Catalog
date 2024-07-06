@@ -7,6 +7,7 @@ import Navbar from './navbar2';
 import { productApi } from '../services/productApi';
 import { toast } from 'react-toastify';
 import axios from 'axios';
+import { Card, CardContent } from '@/components/ui/card';
 import {
   Carousel,
   CarouselContent,
@@ -20,18 +21,18 @@ interface ProductData {
   productId: string;
   category: string;
   uploadedImages: string[];
-  brand?: string | undefined;
-  productName?: string | undefined;
-  quantity?: number | undefined;
-  price?: number | undefined;
-  expiryDate?: string | undefined;
-  manufacturingDate?: string | undefined;
-  description?: string | undefined;
+  brand?: string;
+  productName?: string;
+  quantity?: number;
+  price?: number;
+  expiryDate?: string;
+  manufacturingDate?: string;
+  description?: string;
 }
 
 const { Option } = Select;
 
-const UploadImage = () => {
+const UploadImage: React.FC = () => {
   const [productId, setProductId] = useState<string>('');
   const [category, setCategory] = useState<string>('');
   const [uploadedImages, setUploadedImages] = useState<string[]>([]);
@@ -44,10 +45,10 @@ const UploadImage = () => {
     string | undefined
   >(undefined);
   const [description, setDescription] = useState<string | undefined>(undefined);
-  const [selectedSection, setSelectedSection] = useState<string>('upload'); // State to track selected section
-  const [selectedImage, setSelectedImage] = useState<string | null>(null); // State to track selected image
+  const [selectedSection, setSelectedSection] = useState<string>('upload');
+  const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const [initialImages, setInitialImages] = useState<string[]>([]);
-  const [carouselSection, setCarouselSection] = useState<string>('uploaded'); // State to track carousel section
+  const [carouselSection, setCarouselSection] = useState<string>('uploaded');
   const navigate = useNavigate();
   const { userId, id } = useParams();
 
@@ -80,15 +81,38 @@ const UploadImage = () => {
     formData.append('image', imageFile);
 
     try {
-      const response = await fetch('http://3.94.127.121/image/upload-image', {
+      const response = await fetch('http://54.235.39.95/image/upload-image', {
         method: 'POST',
         body: formData,
       });
       const data = await response.json();
+      console.log('Upload Response:', data);
       if (response.ok) {
-        console.log(data.data);
-        setInitialImages(prevImages => [...prevImages, data.data.imageUrl]);
-        toast.success('Image uploaded successfully');
+        const imageId = data.image._id; // Extract image ID from the response
+        const detailsResponse = await fetch(
+          `http://54.235.39.95/image/${imageId}`,
+        );
+
+        if (detailsResponse.ok) {
+          const detailsData = await detailsResponse.json();
+          const imageUrl = detailsData.url; // Assuming the URL is in the "url" field
+          console.log('Image URL:', imageUrl);
+
+          const newProductId = `prod_${Date.now()}`;
+          setProductId(newProductId);
+          console.log('ProductId: ', newProductId);
+
+          // Update the state with the image URL
+          setInitialImages(prevImages => [...prevImages, imageUrl]);
+          setUploadedImages(prevImages => [...prevImages, imageUrl]);
+          toast.success('Image uploaded and fetched successfully');
+        } else {
+          toast.error('Error fetching image details');
+          console.error(
+            'Error fetching image details:',
+            detailsResponse.statusText,
+          );
+        }
       } else {
         toast.error('Error uploading image');
         console.error('Error uploading image:', data.message);
@@ -105,7 +129,7 @@ const UploadImage = () => {
 
     try {
       const response = await fetch(
-        `http://3.94.127.121/image/update-image/${imageUrl}`,
+        `http://54.235.39.95/image/update-image/${imageUrl}`,
         {
           method: 'PUT',
           body: formData,
@@ -113,7 +137,6 @@ const UploadImage = () => {
       );
       const data = await response.json();
       if (response.ok) {
-        console.log(data.data);
         setUploadedImages(prevUploadedImages =>
           prevUploadedImages.map(img =>
             img === imageUrl ? data.data.imageUrl : img,
@@ -198,19 +221,33 @@ const UploadImage = () => {
   };
 
   const handleImageClick = (image: string) => {
-    setUploadedImages(prevImages => [...prevImages, image]);
-    setInitialImages(prevImages => prevImages.filter(img => img !== image));
+    setSelectedImage(image);
+  };
+
+  const handleMockupButtonClick = () => {
+    console.log('User ID:', userId);
+    console.log('Product ID:', productId);
+    if (userId && productId) {
+      navigate(`/genvision/${userId}/${productId}/mockup/2`, {
+        state: { uploadedImages, productId }, // Pass uploadedImages and productId
+      });
+    } else {
+      toast.error('Please upload an image first');
+    }
   };
 
   return (
     <div className="font-poppins">
-      <Navbar />
+      <Navbar productName={productName} />
       <div className="bg-white mx-7 my-7">
         <div className="bg-white p-4 flex space-x-1 items-center">
           <button className="py-2 px-3 bg-white text-black font-normal rounded hover:bg-[#623FC4] hover:text-white transition-colors duration-300">
             Edit Image
           </button>
-          <button className="py-2 px-3 bg-white text-black font-normal rounded hover:bg-[#623FC4] hover:text-white transition-colors duration-300">
+          <button
+            className="py-2 px-3 bg-white text-black font-normal rounded hover:bg-[#623FC4] hover:text-white transition-colors duration-300 "
+            onClick={handleMockupButtonClick}
+          >
             Mock up
           </button>
           <button className="py-2 px-3 bg-white text-black font-normal rounded hover:bg-[#623FC4] hover:text-white transition-colors duration-300">
@@ -256,7 +293,11 @@ const UploadImage = () => {
                         },
                       ]}
                     >
-                      <Input placeholder="Product Name" />
+                      <Input
+                        placeholder="Product Name"
+                        value={productName}
+                        onChange={e => setProductName(e.target.value)}
+                      />
                     </Form.Item>
                     <Form.Item
                       label="Category"
@@ -265,7 +306,11 @@ const UploadImage = () => {
                         { required: true, message: 'Please select a category' },
                       ]}
                     >
-                      <Select placeholder="Select Category">
+                      <Select
+                        placeholder="Select Category"
+                        value={category}
+                        onChange={value => setCategory(value)}
+                      >
                         <Option value="Architecture">Architecture</Option>
                         <Option value="Nature">Nature</Option>
                         <Option value="Technology">Technology</Option>
@@ -302,21 +347,9 @@ const UploadImage = () => {
                     <CarouselPrevious>
                       <LeftOutlined />
                     </CarouselPrevious>
-                    {initialImages.length === 0 && (
-                      <CarouselItem>
-                        <EmptyCard />
-                      </CarouselItem>
-                    )}
-                    {initialImages.map((image, index) => (
-                      <CarouselItem key={index}>
-                        <img
-                          src={image}
-                          alt={`uploaded ${index}`}
-                          className="w-full h-full object-cover cursor-pointer"
-                          onClick={() => handleImageClick(image)}
-                        />
-                      </CarouselItem>
-                    ))}
+                    <CarouselItem>
+                      <EmptyCard imageUrl={selectedImage} />
+                    </CarouselItem>
                     <CarouselNext>
                       <RightOutlined />
                     </CarouselNext>
@@ -351,31 +384,46 @@ const UploadImage = () => {
                 </button>
               </div>
               <div className="h-[160px]">
-                {' '}
-                {/* Adjusted height */}
                 <Carousel>
-                  <CarouselContent>
+                  <CarouselContent className="flex space-x-2 ml-2">
                     {carouselSection === 'uploaded' ? (
                       uploadedImages.length > 0 ? (
-                        uploadedImages.map((image, index) => (
-                          <CarouselItem key={index} className="basis-1/3">
-                            <img
-                              src={image}
-                              alt={`Uploaded ${index}`}
-                              className="w-full h-auto"
-                            />
+                        uploadedImages.map((imageUrl, index) => (
+                          <CarouselItem
+                            key={index}
+                            className="flex-shrink-0 w-1/4 p-1"
+                            style={{ maxWidth: '110px' }}
+                          >
+                            <Card>
+                              <CardContent className="flex aspect-square items-center justify-center p-1">
+                                <img
+                                  src={imageUrl}
+                                  alt={`Uploaded image ${index + 1}`}
+                                  onClick={() => handleImageClick(imageUrl)}
+                                  className={`${
+                                    selectedImage === imageUrl
+                                      ? 'border-4 border-blue-500'
+                                      : ''
+                                  } cursor-pointer`}
+                                  style={{
+                                    width: '100%',
+                                    height: '100%',
+                                    objectFit: 'cover',
+                                  }}
+                                />
+                              </CardContent>
+                            </Card>
                           </CarouselItem>
                         ))
                       ) : (
-                        <CarouselItem className="basis-1/3">
+                        <CarouselItem>
                           <div className="flex justify-center items-center h-full">
                             No image to be shown
                           </div>
                         </CarouselItem>
                       )
                     ) : (
-                      <CarouselItem className="basis-1/3">
-                        {/* Add mockup images here */}
+                      <CarouselItem>
                         <div className="flex justify-center items-center h-full">
                           No mockup images
                         </div>

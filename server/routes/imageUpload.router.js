@@ -125,10 +125,11 @@ router.put("/update-image/:id", upload.single("image"), async (req, res) => {
 
 router.get("/:id", async (req, res) => {
   try {
-    const id = req.params.id;
-    const post = await Image.findById(id);
+    console.log("Request received for ID:", req.params.id); // Debugging line
+    const post = await Image.findById(req.params.id);
 
     if (!post) {
+      console.log("Image not found"); // Debugging line
       return res.status(404).json({ message: "Image not found" });
     }
 
@@ -137,13 +138,17 @@ router.get("/:id", async (req, res) => {
       Key: post.name,
     };
 
+    console.log("Params for S3 get object command:", params); // Debugging line
     const command = new GetObjectCommand(params);
     const url = await getSignedUrl(s3, command, { expiresIn: 3600 });
 
+    console.log("Generated signed URL:", url); // Debugging line
     res.status(200).json({ image: post, url: url });
   } catch (error) {
     console.error("Error getting image:", error);
-    res.status(500).json({ message: "Error getting image" });
+    res
+      .status(500)
+      .json({ message: "Error getting image", error: error.message });
   }
 });
 

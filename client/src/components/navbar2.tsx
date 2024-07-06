@@ -6,7 +6,11 @@ import { useKindeAuth } from '@kinde-oss/kinde-auth-react';
 import { UserOutlined, DollarCircleOutlined } from '@ant-design/icons'; // Updated icon import
 import { Button, Dropdown, Menu, Tooltip } from 'antd'; // Ant Design components
 
-const Navbar: React.FC = () => {
+interface NavbarProps {
+  productName: string | undefined;
+}
+
+const Navbar: React.FC<NavbarProps> = ({ productName }) => {
   const navigate = useNavigate();
   const { i18n } = useTranslation();
   const { logout } = useKindeAuth(); // Import the logout function
@@ -41,19 +45,9 @@ const Navbar: React.FC = () => {
     </Menu>
   );
 
-  const languageMenu = (
-    <Menu>
-      {languages.map(lng => (
-        <Menu.Item key={lng} onClick={() => changeLanguage(lng)}>
-          {lng}
-        </Menu.Item>
-      ))}
-    </Menu>
-  );
-
   return (
     <nav
-      className="mt-2 navbar-hover-glow"
+      className="mt-2 navbar-hover-glow relative"
       style={{
         borderBottom: '1px solid #ccc',
         paddingTop: '10px',
@@ -67,6 +61,10 @@ const Navbar: React.FC = () => {
           src={logo2}
           alt="Gen_Vision"
         />
+        {/* Center product name */}
+        <div className="absolute left-1/2 transform -translate-x-1/2 text-lg font-semibold">
+          {productName ? productName : ''}
+        </div>
         <div className="float-right flex items-center">
           <div className="flex items-center mr-4">
             <DollarCircleOutlined
